@@ -1,7 +1,5 @@
 #include <time.h>
 
-
-
 // define file
 #include "Define.h"
 
@@ -15,6 +13,25 @@
 #include "FileData.h"
 #include "Player.h"
 #include "Score.h"
+
+// Function: choiceNineFakeScanCard
+// Description: Fake scan card
+void choiceNineFakeScanCard()
+{
+    // variables
+    char *strMessage = "CURRENTLY LAMP IS:%s \n";
+    const char *LAMP_OFF = "Off";
+    const char *LAMP_STATUS_MESSAGES[] = {"Red", "Green"};
+    int cardNumber;
+
+    printf(strMessage, LAMP_OFF);
+    scanf("%d", &cardNumber);
+
+    bool status = getFakeCardStatus(cardNumber);
+    printf(strMessage, LAMP_STATUS_MESSAGES[status]);
+
+    pauseKeyboard();
+}
 
 // Function: choiceThreeAddRemoveAccess
 // Description: Add or remove access to card
@@ -87,7 +104,6 @@ void menu()
 
     do
     {
-        printf("Menu time!");
         // show the menu and get the user's choice
         userChoice = usePrompt(strMenu, MENU_MAX, 0);
 
@@ -107,7 +123,7 @@ void menu()
             exit(EXIT_SUCCESS);
             break;
         case OPTION_FAKE_SCAN_CARD:
-            printf("Option 9, Not implemented yet");
+            choiceNineFakeScanCard();
             break;
         default:
             fprintf(stderr, "%s\n", strError);

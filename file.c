@@ -152,8 +152,6 @@ int getUserInput()
     return input;
 }
 
-// Function: viewStatusCards
-// Description: View status of cards
 void viewStatusCards(int cardNumber)
 {
     const int MAX_ROW_LENGTH = 60;
@@ -188,3 +186,24 @@ void viewStatusCards(int cardNumber)
         modifyRow(row_line, new_row);
     }
 }
+
+bool getFakeCardStatus(int cardNumber)
+{
+    FileData fdata = useFile(FILE_DOOR, "r");
+
+    int number;
+    bool cardAccess = false;
+
+    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
+    {
+        if (sscanf(fdata.file_row, "%d", &number) == 1 && cardNumber == number)
+        {
+            if (strstr(fdata.file_row, "No") == NULL)
+                cardAccess = true;
+            break;
+        }
+    }
+
+    fclose(fdata.file_ptr);
+    return cardAccess;
+};

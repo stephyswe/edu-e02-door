@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // struct files
 #include "FileData.h"
@@ -27,5 +28,10 @@ void scoreToFile(int line_to_write, int tries);
 // Description: View status of cards
 // Parameters: int cardNumber
 void viewStatusCards(int cardNumber);
+
+// Function: getFakeCardStatus
+// Description: Get fake card status
+// Parameters: int cardNumber
+bool getFakeCardStatus(int cardNumber);
 
 #endif /* FILE_H */
