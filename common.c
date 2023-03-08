@@ -6,6 +6,17 @@
 // header files
 #include "Define.h"
 
+int getTimeoutPerSecond(int seconds)
+{
+    clock_t endwait;
+    endwait = clock() + seconds * CLOCKS_PER_SEC;
+    while (clock() < endwait)
+    {
+    }
+
+    return 1;
+}
+
 int getRandomNumber()
 {
     // Initialize random number generator

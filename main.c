@@ -32,17 +32,8 @@ void viewLowScoreboard()
     fclose(fdata.file_ptr);
 };
 
-int timeout(int seconds)
-{
-    clock_t endwait;
-    endwait = clock() + seconds * CLOCKS_PER_SEC;
-    while (clock() < endwait)
-    {
-    }
-
-    return 1;
-}
-
+// Function: choiceOneRemoteOpenDoor
+// Description: Opens door for 3 seconds
 void choiceOneRemoteOpenDoor()
 {
     // strings
@@ -52,7 +43,7 @@ void choiceOneRemoteOpenDoor()
     printf(strMessage);
 
     // if timeout passes 3 seconds, print timeout message
-    if (timeout(3) == 1)
+    if (getTimeoutPerSecond(3) == 1)
     {
         // printf("Time Out\n");
         return;
