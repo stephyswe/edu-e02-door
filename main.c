@@ -1,5 +1,3 @@
-#include <time.h>
-
 // define file
 #include "Define.h"
 
@@ -18,17 +16,16 @@
 // Description: Fake scan card
 void choiceNineFakeScanCard()
 {
-    // variables
-    char *strMessage = "CURRENTLY LAMP IS:%s \n";
     const char *LAMP_OFF = "Off";
+    const char *LAMP_MESSAGE = "CURRENTLY LAMP IS:%s \n";
     const char *LAMP_STATUS_MESSAGES[] = {"Red", "Green"};
-    int cardNumber;
 
-    printf(strMessage, LAMP_OFF);
+    int cardNumber;
+    printf(LAMP_MESSAGE, LAMP_OFF);
     scanf("%d", &cardNumber);
 
     bool status = getFakeCardStatus(cardNumber);
-    printf(strMessage, LAMP_STATUS_MESSAGES[status]);
+    printf(LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
 
     pauseKeyboard();
 }
@@ -37,35 +34,21 @@ void choiceNineFakeScanCard()
 // Description: Add or remove access to card
 void choiceThreeAddRemoveAccess()
 {
-    // strings
-    char *strMessage = "Enter cardnumber>";
-
-    // variables
     int cardNumber;
-
-    printf(strMessage);
+    printf("Enter cardnumber>");
     scanf("%d", &cardNumber);
 
-    // check if card entered has access or not
     viewStatusCards(cardNumber);
-
-    // return to menu
 }
 
 // Function: choiceTwoListAllCards
 // Description: List all cards in system
 void choiceTwoListAllCards()
 {
-    // strings
-    char *strMessage = "All cards in system\n";
+    printf("All cards in system\n");
 
-    // print message
-    printf(strMessage);
-
-    // view all cards
     viewAllCards();
 
-    // prompt user to press any key to continue
     pauseKeyboard();
 }
 
@@ -73,10 +56,8 @@ void choiceTwoListAllCards()
 // Description: Opens door for 3 seconds
 void choiceOneRemoteOpenDoor()
 {
-    // print message
     printf("CURRENTLY LAMP IS:Green\n");
 
-    // wait for 3 seconds
     getTimeoutPerSecond(3);
 }
 
