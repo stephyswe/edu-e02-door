@@ -8,6 +8,10 @@
 #ifndef FILE_H
 #define FILE_H
 
+// Function: viewAllCards
+// Description: View all cards
+void viewAllCards();
+
 // Function: useFile
 // Description: use the file and returns the data
 // Parameters: char filename, char mode

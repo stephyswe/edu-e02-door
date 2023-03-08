@@ -1,6 +1,7 @@
 // All defined variables are stored here
 
 // file
+#define FILE_DOOR "door.txt"
 #define FILE_SCORE "scoreboard.txt"
 #define FILENAME_SIZE 1024
 #define MAX_LINE 2048

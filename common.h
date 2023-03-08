@@ -1,3 +1,6 @@
+// Function: pauseKeyboard
+// Description: Pause keyboard
+void pauseKeyboard();
 
 // Function: getTimeoutPerSecond
 // Description: Timeout function per second

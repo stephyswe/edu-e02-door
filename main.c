@@ -1,5 +1,7 @@
 #include <time.h>
 
+
+
 // define file
 #include "Define.h"
 
@@ -14,23 +16,24 @@
 #include "Player.h"
 #include "Score.h"
 
-// Function: viewLowScoreboard
-// Description: View low scoreboard
-void viewLowScoreboard()
+// Function: choiceTwoListAllCards
+// Description: List all cards in system
+void choiceTwoListAllCards()
 {
-    // Read file
-    FileData fdata = useFile(FILE_SCORE, "r");
+    // strings
+    char *strMessage = "All cards in system\n";
 
-    // Loop through file
-    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
-    {
-        // Print file row
-        printf("%s", fdata.file_row);
-    }
+    // print message
+    printf(strMessage);
 
-    // Close file
-    fclose(fdata.file_ptr);
-};
+    // view all cards
+    viewAllCards();
+
+    // prompt user to press any key to continue
+    pauseKeyboard();
+
+    // return to menu
+}
 
 // Function: choiceOneRemoteOpenDoor
 // Description: Opens door for 3 seconds
@@ -75,7 +78,7 @@ void menu()
             choiceOneRemoteOpenDoor();
             break;
         case OPTION_LIST_ALL_CARDS:
-            printf("Option 2, Not implemented yet");
+            choiceTwoListAllCards();
             break;
         case OPTION_ADD_REMOVE_ACCESS:
             printf("Option 3, Not implemented yet");

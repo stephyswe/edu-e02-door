@@ -19,6 +19,24 @@
 #include "file.h"
 #include "input.h"
 
+// Function: viewAllCards
+// Description: View all cards
+void viewAllCards()
+{
+    // Read file
+    FileData fdata = useFile(FILE_DOOR, "r");
+
+    // Loop through file
+    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
+    {
+        // Print file row
+        printf("%s", fdata.file_row);
+    }
+
+    // Close file
+    fclose(fdata.file_ptr);
+};
+
 void createFileWithEmptyRow(char *filename)
 {
     // check if file exists
