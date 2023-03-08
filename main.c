@@ -1,3 +1,5 @@
+#include <time.h>
+
 // define file
 #include "Define.h"
 
@@ -30,67 +32,33 @@ void viewLowScoreboard()
     fclose(fdata.file_ptr);
 };
 
-// Function: playGame
-// Description: Plays a game of 'Guess the number'
-int playGame()
+int timeout(int seconds)
 {
-    // variables
-    int randomNumber = getRandomNumber();
-    randomNumber = 50;
-    int userGuess = 0;
-    int numTries = 0;
-    bool isWin = false;
-
-    // strings
-    char *strIntro = "Gissa ett tal mellan 1 och 100. \n";
-    char *strHigher = "Talet är högre. \n";
-    char *strLower = "Talet är lägre. \n";
-    char *strCorrect = "Rätt! Du gissade rätt på %d försök.\n";
-    char *strWrong = "Fel inmatning. Gissa ett tal mellan 1 och 100. Försök igen: ";
-    char *strGuess = "Gissning %d: ";
-
-    // intro
-    printf("%s", strIntro);
-
-    // while loop to check if guess is correct
-    while (!isWin)
+    clock_t endwait;
+    endwait = clock() + seconds * CLOCKS_PER_SEC;
+    while (clock() < endwait)
     {
-        // increment tries
-        numTries++;
-
-        // checks if guess is between 1 and 100 and if it is an integer
-        userGuess = usePrompt(strGuess, GAME_MAX, numTries);
-
-        // if guess is higher than number
-        if (userGuess > randomNumber)
-            printf(strLower);
-        // if guess is lower than number
-        else if (userGuess < randomNumber)
-            printf(strHigher);
-        // guess is correct
-        else
-        {
-            // print correct message
-            printf(strCorrect, numTries);
-
-            // set win to true
-            isWin = true;
-        }
     }
 
-    // return tries
-    return numTries;
+    return 1;
 }
 
-// Function: playGameScore
-// Description: Plays a game of 'Guess the number' and checks if score is highscore
-void playGameScore()
+void choiceOneRemoteOpenDoor()
 {
-    int tries = playGame();
-    Score score = scoreCheck(tries);
+    // strings
+    char *strMessage = "CURRENTLY LAMP IS:Green\n";
 
-    if (score.isHighScore)
-        scoreToFile(score.row, tries);
+    // prompt user for input
+    printf(strMessage);
+
+    // if timeout passes 3 seconds, print timeout message
+    if (timeout(3) == 1)
+    {
+        // printf("Time Out\n");
+        return;
+    }
+
+    // return to menu
 }
 
 // Function: menu
@@ -101,7 +69,7 @@ void menu()
     int userChoice;
 
     // strings
-    char *strMenu = "\n1. Spela igen \n2. Avsluta \n3. Se lowscore \nVälj: ";
+    char *strMenu = "Admin menu \n1. Remote open door \n2. List all cards in system \n3. Add/remove access \n4. Exit \n9. FAKE TEST SCAN CARD \n \nVälj: ";
     char *strError = "Fel inmatning. Försök igen.";
 
     do
@@ -112,14 +80,20 @@ void menu()
         // execute the chosen option
         switch (userChoice)
         {
-        case OPTION_PLAY_AGAIN:
-            playGameScore();
+        case OPTION_REMOTE_OPEN_DOOR:
+            choiceOneRemoteOpenDoor();
+            break;
+        case OPTION_LIST_ALL_CARDS:
+            printf("Option 2, Not implemented yet");
+            break;
+        case OPTION_ADD_REMOVE_ACCESS:
+            printf("Option 3, Not implemented yet");
             break;
         case OPTION_EXIT:
             exit(EXIT_SUCCESS);
             break;
-        case OPTION_VIEW_SCOREBOARD:
-            viewLowScoreboard();
+        case OPTION_FAKE_SCAN_CARD:
+            printf("Option 9, Not implemented yet");
             break;
         default:
             fprintf(stderr, "%s\n", strError);
@@ -135,9 +109,6 @@ void menu()
 // Description: Main function
 void main()
 {
-    // play game
-    playGameScore();
-
     // menu with options
     menu();
 }
