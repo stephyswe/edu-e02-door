@@ -67,28 +67,17 @@ void choiceTwoListAllCards()
 
     // prompt user to press any key to continue
     pauseKeyboard();
-
-    // return to menu
 }
 
 // Function: choiceOneRemoteOpenDoor
 // Description: Opens door for 3 seconds
 void choiceOneRemoteOpenDoor()
 {
-    // strings
-    char *strMessage = "CURRENTLY LAMP IS:Green\n";
+    // print message
+    printf("CURRENTLY LAMP IS:Green\n");
 
-    // prompt user for input
-    printf(strMessage);
-
-    // if timeout passes 3 seconds, print timeout message
-    if (getTimeoutPerSecond(3) == 1)
-    {
-        // printf("Time Out\n");
-        return;
-    }
-
-    // return to menu
+    // wait for 3 seconds
+    getTimeoutPerSecond(3);
 }
 
 // Function: menu
