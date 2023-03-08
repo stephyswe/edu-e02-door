@@ -23,4 +23,9 @@ FileData useFile(char *filename, char *mode);
 // Parameters: int line_to_write, int tries
 void scoreToFile(int line_to_write, int tries);
 
+// Function: viewStatusCards
+// Description: View status of cards
+// Parameters: int cardNumber
+void viewStatusCards(int cardNumber);
+
 #endif /* FILE_H */

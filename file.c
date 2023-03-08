@@ -72,20 +72,11 @@ FileData useFile(char *filename, char *mode)
     return fdata;
 }
 
-void scoreToFile(int insertion_line, int tries)
+void modifyRow(int row_number, char *new_row)
 {
-    // create a Player
-    Player player = playerAdd(tries);
 
     // store the filename and temp filename
     char temp_filename[FILENAME_SIZE];
-
-    // newline will store the new line of text to be written to the file
-    char player_line[MAX_LINE];
-
-    // cast integer player_value to string newline
-    // ensures that the destination buffer is not overflowed
-    snprintf(player_line, MAX_LINE, "%s %s %d", player.date, player.name, player.points);
 
     // create a temporary filename
     // snprintf will write the string "temp____" followed by the filename to
@@ -94,30 +85,31 @@ void scoreToFile(int insertion_line, int tries)
     snprintf(temp_filename, FILENAME_SIZE, "temp_%ld.txt", t);
 
     // open the original file for reading, and the temp file for writing
-    FileData file = useFile(FILE_SCORE, "r");
+    FileData file = useFile(FILE_DOOR, "r");
     FileData temp = useFile(temp_filename, "w");
 
-    // keep track of the current line number we are reading from the file
+    char line[100];
     int current_line = 1;
 
-    // loop through each line in the file
-    while (fgets(file.file_row, MAX_LINE, file.file_ptr) != NULL && current_line < MAX_LINES)
+    // loop through the original file, copying each line to the temp file
+    while (fgets(file.file_row, sizeof(line), file.file_ptr) != NULL)
     {
-        if (current_line == insertion_line)
+        // if we are at the line we want to modify, write the new row to the temp file
+        if (current_line == row_number)
         {
-            fprintf(temp.file_ptr, "%s\n%s", player_line, file.file_row);
-        }
-        else
-        {
-            fputs(file.file_row, temp.file_ptr);
-        }
-        current_line++;
-    }
+            // write the new row to the temp file
+            fputs(new_row, temp.file_ptr);
 
-    // only runs if file is empty
-    if (current_line == insertion_line)
-    {
-        fprintf(temp.file_ptr, "%s\n", player_line);
+            // if we are not at the end of the file, add a newline character
+            if (!feof(file.file_ptr))
+                fputc('\n', temp.file_ptr);
+        }
+
+        // otherwise, just copy the current line to the temp file
+        else
+            fputs(file.file_row, temp.file_ptr);
+
+        current_line++;
     }
 
     // close our access to both files as we are done with them
@@ -125,6 +117,74 @@ void scoreToFile(int insertion_line, int tries)
     fclose(temp.file_ptr);
 
     // delete the original file, rename temp file to the original file's name
-    remove(FILE_SCORE);
-    rename(temp_filename, FILE_SCORE);
+    remove(FILE_DOOR);
+    rename(temp_filename, FILE_DOOR);
+}
+
+// Helper function to extract the card number from a row
+int getCardNumber(char *row)
+{
+    int number;
+    sscanf(row, "%d %*s %*s", &number);
+    return number;
+}
+
+// Helper function to extract the date from a row
+void getDate(char *row, char *iDate)
+{
+    char *date_start = strstr(row, ": ") + 2;
+    strncpy(iDate, date_start, 10);
+    iDate[10] = '\0'; // add a null terminator at the end
+}
+
+// Helper function to check if a row indicates the card has no access
+bool hasNoAccess(char *row)
+{
+    return (strstr(row, "No") != NULL);
+}
+
+// Helper function to prompt the user for input and return it
+int getUserInput()
+{
+    int input;
+    printf("Enter 1 for access, 2 for no access.\n");
+    scanf("%d", &input);
+    return input;
+}
+
+// Function: viewStatusCards
+// Description: View status of cards
+void viewStatusCards(int cardNumber)
+{
+    const int MAX_ROW_LENGTH = 60;
+    FileData fdata = useFile(FILE_DOOR, "r");
+    int row_line = 1;
+    bool hasAccess = false;
+    char new_row[MAX_ROW_LENGTH];
+    char iDate[20];
+
+    while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL)
+    {
+        if (cardNumber == getCardNumber(fdata.file_row))
+        {
+            hasAccess = !hasNoAccess(fdata.file_row);
+            break;
+        }
+        row_line++;
+    }
+
+    fclose(fdata.file_ptr);
+
+    printf("This card %s.\n", hasAccess ? "has access" : "has no access");
+
+    int input = getUserInput();
+
+    getDate(fdata.file_row, iDate);
+
+    if ((input == 1 && !hasAccess) || (input == 2 && hasAccess))
+    {
+        const char *action = input == 1 ? "Access added to system:" : "No access added to system:";
+        snprintf(new_row, MAX_ROW_LENGTH, "%d %s %s", cardNumber, action, iDate);
+        modifyRow(row_line, new_row);
+    }
 }

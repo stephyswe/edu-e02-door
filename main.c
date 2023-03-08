@@ -16,6 +16,25 @@
 #include "Player.h"
 #include "Score.h"
 
+// Function: choiceThreeAddRemoveAccess
+// Description: Add or remove access to card
+void choiceThreeAddRemoveAccess()
+{
+    // strings
+    char *strMessage = "Enter cardnumber>";
+
+    // variables
+    int cardNumber;
+
+    printf(strMessage);
+    scanf("%d", &cardNumber);
+
+    // check if card entered has access or not
+    viewStatusCards(cardNumber);
+
+    // return to menu
+}
+
 // Function: choiceTwoListAllCards
 // Description: List all cards in system
 void choiceTwoListAllCards()
@@ -68,6 +87,7 @@ void menu()
 
     do
     {
+        printf("Menu time!");
         // show the menu and get the user's choice
         userChoice = usePrompt(strMenu, MENU_MAX, 0);
 
@@ -81,7 +101,7 @@ void menu()
             choiceTwoListAllCards();
             break;
         case OPTION_ADD_REMOVE_ACCESS:
-            printf("Option 3, Not implemented yet");
+            choiceThreeAddRemoveAccess();
             break;
         case OPTION_EXIT:
             exit(EXIT_SUCCESS);
