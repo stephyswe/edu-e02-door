@@ -19,15 +19,16 @@ void viewAllCards();
 // Returns: FileData file_data
 FileData useFile(char *filename, char *mode);
 
-// Function: scoreToFile
-// Description: Writes the score to the file
-// Parameters: int line_to_write, int tries
-void scoreToFile(int line_to_write, int tries);
+// Function: modifyRow
+// Description: Modify row in file
+// Parameters: int row_number, char new_row
+void modifyRow(int row_number, char *new_row);
 
 // Function: viewStatusCards
 // Description: View status of cards
 // Parameters: int cardNumber
-void viewStatusCards(int cardNumber);
+// Returns: FileCard card
+FileCard viewStatusCards(int cardNumber);
 
 // Function: getFakeCardStatus
 // Description: Get fake card status

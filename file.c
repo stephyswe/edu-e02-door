@@ -74,7 +74,6 @@ FileData useFile(char *filename, char *mode)
 
 void modifyRow(int row_number, char *new_row)
 {
-
     // store the filename and temp filename
     char temp_filename[FILENAME_SIZE];
 
@@ -130,11 +129,13 @@ int getCardNumber(char *row)
 }
 
 // Helper function to extract the date from a row
-void getDate(char *row, char *iDate)
+char* getDate(char *row)
 {
+    char *iDate = malloc(11); // allocate memory for 11 characters (10 for date, 1 for null terminator)
     char *date_start = strstr(row, ": ") + 2;
     strncpy(iDate, date_start, 10);
     iDate[10] = '\0'; // add a null terminator at the end
+    return iDate;
 }
 
 // Helper function to check if a row indicates the card has no access
@@ -143,22 +144,11 @@ bool hasNoAccess(char *row)
     return (strstr(row, "No") != NULL);
 }
 
-// Helper function to prompt the user for input and return it
-int getUserInput()
+FileCard viewStatusCards(int cardNumber)
 {
-    int input;
-    printf("Enter 1 for access, 2 for no access.\n");
-    scanf("%d", &input);
-    return input;
-}
-
-void viewStatusCards(int cardNumber)
-{
-    const int MAX_ROW_LENGTH = 60;
     FileData fdata = useFile(FILE_DOOR, "r");
     int row_line = 1;
     bool hasAccess = false;
-    char new_row[MAX_ROW_LENGTH];
     char iDate[20];
 
     while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL)
@@ -173,18 +163,9 @@ void viewStatusCards(int cardNumber)
 
     fclose(fdata.file_ptr);
 
-    printf("This card %s.\n", hasAccess ? "has access" : "has no access");
+    char *date = getDate(fdata.file_row);
 
-    int input = getUserInput();
-
-    getDate(fdata.file_row, iDate);
-
-    if ((input == 1 && !hasAccess) || (input == 2 && hasAccess))
-    {
-        const char *action = input == 1 ? "Access added to system:" : "No access added to system:";
-        snprintf(new_row, MAX_ROW_LENGTH, "%d %s %s", cardNumber, action, iDate);
-        modifyRow(row_line, new_row);
-    }
+    return (FileCard){.date = date, .row = row_line, .hasAccess = hasAccess};
 }
 
 bool getFakeCardStatus(int cardNumber)

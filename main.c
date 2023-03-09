@@ -35,10 +35,23 @@ void choiceNineFakeScanCard()
 void choiceThreeAddRemoveAccess()
 {
     int cardNumber;
+    char new_row[MAX_ROW_LENGTH];
+
     printf("Enter cardnumber>");
     scanf("%d", &cardNumber);
 
-    viewStatusCards(cardNumber);
+    FileCard card = viewStatusCards(cardNumber);
+
+    printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
+
+    int input = usePrompt("Enter 1 for access, 2 for no access.\n", CHOICE_THREE_MAX, 0);
+
+    if ((input == 1 && !card.hasAccess) || (input == 2 && card.hasAccess))
+    {
+        const char *action = input == 1 ? "Access added to system:" : "No access added to system:";
+        snprintf(new_row, MAX_ROW_LENGTH, "%d %s %s", cardNumber, action, card.date);
+        modifyRow(card.row, new_row);
+    }
 }
 
 // Function: choiceTwoListAllCards

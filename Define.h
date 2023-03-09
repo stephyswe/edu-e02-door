@@ -6,6 +6,7 @@
 #define FILENAME_SIZE 1024
 #define MAX_LINE 2048
 #define MAX_LINES 5
+#define MAX_ROW_LENGTH 60
 
 // input
 #define MAX_SCORES 6
@@ -24,3 +25,4 @@
 #define PROMPT_MIN 1
 #define GAME_MAX 100
 #define MENU_MAX 9
+#define CHOICE_THREE_MAX 2
