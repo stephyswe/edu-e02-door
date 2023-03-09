@@ -61,7 +61,7 @@ bool isWithinRange(int num, int min, int max)
     return (num >= min && num <= max);
 }
 
-int usePrompt(const char *prompt, int max, int tries)
+int usePrompt(const char *prompt, int max)
 {
     // variables
     int number;
@@ -73,7 +73,7 @@ int usePrompt(const char *prompt, int max, int tries)
 
     while (true)
     {
-        printf(prompt, tries);
+        printf(prompt);
         validateInput(inputBuffer);
         int inputValue = atoi(inputBuffer);
         const int withinRage = isWithinRange(inputValue, PROMPT_MIN, max);

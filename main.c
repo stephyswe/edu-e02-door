@@ -41,7 +41,7 @@ void choiceThreeAddRemoveAccess()
 
     printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
 
-    int input = usePrompt("Enter 1 for access, 2 for no access.\n", CHOICE_THREE_MAX, 0);
+    int input = usePrompt("Enter 1 for access, 2 for no access.\n", CHOICE_THREE_MAX);
 
     if ((input == 1 && !card.hasAccess) || (input == 2 && card.hasAccess))
     {
@@ -85,7 +85,7 @@ void menu()
     do
     {
         // show the menu and get the user's choice
-        userChoice = usePrompt(strMenu, MENU_MAX, 0);
+        userChoice = usePrompt(strMenu, MENU_MAX);
 
         // execute the chosen option
         switch (userChoice)
