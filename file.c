@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <math.h>
-#include <ctype.h>
-#include <errno.h>
 #include <unistd.h>
 
 // define file
@@ -13,11 +9,10 @@
 
 // struct files
 #include "FileData.h"
-#include "Player.h"
 
 // header files
 #include "file.h"
-#include "input.h"
+#include "common.h"
 
 // Function: viewAllCards
 // Description: View all cards
@@ -128,16 +123,6 @@ int getCardNumber(char *row)
     return number;
 }
 
-// Helper function to extract the date from a row
-char* getDate(char *row)
-{
-    char *iDate = malloc(11); // allocate memory for 11 characters (10 for date, 1 for null terminator)
-    char *date_start = strstr(row, ": ") + 2;
-    strncpy(iDate, date_start, 10);
-    iDate[10] = '\0'; // add a null terminator at the end
-    return iDate;
-}
-
 // Helper function to check if a row indicates the card has no access
 bool hasNoAccess(char *row)
 {
@@ -163,7 +148,7 @@ FileCard viewStatusCards(int cardNumber)
 
     fclose(fdata.file_ptr);
 
-    char *date = getDate(fdata.file_row);
+    char *date = getCardDate(fdata.file_row);
 
     return (FileCard){.date = date, .row = row_line, .hasAccess = hasAccess};
 }

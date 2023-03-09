@@ -21,4 +21,4 @@ typedef struct
     bool hasAccess;
 } FileCard;
 
-#endif
+#endif /* FILEDATA_H */

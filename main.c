@@ -5,12 +5,9 @@
 #include "prompt.h"
 #include "common.h"
 #include "file.h"
-#include "input.h"
 
 // struct files
 #include "FileData.h"
-#include "Player.h"
-#include "Score.h"
 
 // Function: choiceNineFakeScanCard
 // Description: Fake scan card

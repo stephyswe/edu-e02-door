@@ -4,7 +4,6 @@
 
 // struct files
 #include "FileData.h"
-#include "Player.h"
 
 #ifndef FILE_H
 #define FILE_H
