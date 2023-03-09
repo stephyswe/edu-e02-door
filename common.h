@@ -12,3 +12,9 @@ int getTimeoutPerSecond(int seconds);
 // Description: Returns card date
 // Returns: char *date
 char* getCardDate(char *row);
+
+// Function: getCurrentDate specific format
+// Description: Returns current date
+// Parameters: char *format
+// Returns: char *date
+char *getCurrentDate(char *format);

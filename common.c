@@ -35,3 +35,27 @@ char* getCardDate(char *row)
     date[10] = '\0'; // add a null terminator at the end
     return date;
 }
+
+char *getCurrentDate(char *format)
+{
+    // Get current date and time
+    time_t current_time = time(NULL);
+
+    // Convert to local time format and print to stdout
+    struct tm *local_time = localtime(&current_time);
+
+    // Format date and time
+    char buffer[100];
+
+    // Date
+    static char date[11];
+
+    // Format date and time
+    strftime(buffer, sizeof(buffer), format, local_time);
+
+    // Copy buffer to date
+    strcpy(date, buffer);
+
+    // Return date
+    return date;
+}
