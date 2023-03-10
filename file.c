@@ -65,29 +65,25 @@ FileData useFile(char *fileName, char *mode)
     return fdata;
 }
 
-void modifyRow(int rowNumber, char *newRow)
+void generateTempFileName(char *tempFileName)
 {
-    // store the filename and temp filename
-    char temp_filename[FILE_SIZE];
+    // create a temporary file name based on current time
+    time_t currentTime = time(NULL);
+    snprintf(tempFileName, FILE_SIZE, "temp_%ld.txt", currentTime);
+}
 
-    // create a temporary filename
-    // snprintf will write the string "temp____" followed by the filename to
-    // ensures that the destination buffer is not overflowed
-    time_t t = time(NULL);
-    snprintf(temp_filename, FILE_SIZE, "temp_%ld.txt", t);
-
-    // open the original file for reading, and the temp file for writing
+void copyAndModifyFile(int rowNumber, char *newRow, char *tempFileName)
+{
+    // open original file for reading, and temp file for writing
     FileData file = useFile(FILE_DOOR, "r");
-    FileData temp = useFile(temp_filename, "w");
+    FileData temp = useFile(tempFileName, "w");
 
-    char line[100];
-    int current_line = 1;
+    int currentLine = 1;
 
-    // loop through the original file, copying each line to the temp file
-    while (fgets(file.file_row, sizeof(line), file.file_ptr) != NULL)
+    // loop through file, copying each line to temp file and modifying the specified row
+    while (fgets(file.file_row, MAX_ROW_LENGTH, file.file_ptr) != NULL)
     {
-        // if we are at the line we want to modify, write the new row to the temp file
-        if (current_line == rowNumber)
+        if (currentLine == rowNumber)
         {
             // write the new row to the temp file
             fputs(newRow, temp.file_ptr);
@@ -96,21 +92,37 @@ void modifyRow(int rowNumber, char *newRow)
             if (!feof(file.file_ptr))
                 fputc('\n', temp.file_ptr);
         }
-
-        // otherwise, just copy the current line to the temp file
         else
+        {
+            // copy the current line to the temp file
             fputs(file.file_row, temp.file_ptr);
-
-        current_line++;
+        }
+        currentLine++;
     }
 
-    // close our access to both files as we are done with them
+    // close file pointers
     fclose(file.file_ptr);
     fclose(temp.file_ptr);
+}
 
-    // delete the original file, rename temp file to the original file's name
+void replaceOriginalFileWithTempFile(char *tempFileName)
+{
+    // delete original file, rename temp file to original file name
     remove(FILE_DOOR);
-    rename(temp_filename, FILE_DOOR);
+    rename(tempFileName, FILE_DOOR);
+}
+
+void modifyRow(int rowNumber, char *newRow)
+{
+    // create a temporary file name
+    char tempFileName[FILE_SIZE];
+    generateTempFileName(tempFileName);
+
+    // copy file contents to temp file, modifying the specified row
+    copyAndModifyFile(rowNumber, newRow, tempFileName);
+
+    // replace original file with modified temp file
+    replaceOriginalFileWithTempFile(tempFileName);
 }
 
 // Helper function to extract the card number from a row
@@ -211,12 +223,11 @@ bool getFakeCardStatus(int cardNumber)
     // Iterate through the file to find the row corresponding to the card number
     while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
     {
-        //
+        // Check if the row contains the card number
         if (sscanf(fdata.file_row, "%d", &number) == 1 && cardNumber == number)
         {
             // Check if the card has access
             if (strstr(fdata.file_row, "No") == NULL)
-
                 // Set card access to true
                 cardAccess = true;
             break;
