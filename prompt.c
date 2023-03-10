@@ -104,7 +104,7 @@ int usePrompt(const char *prompt, int max)
     return number;
 }
 
-bool validateModifyInput(int input, FileCard card, int cardNumber, char *text)
+bool validateModifyInput(int input, CardStatus card, int cardNumber, char *text)
 {
     // variables
     bool modify = false;

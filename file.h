@@ -24,27 +24,15 @@ FileData useFile(char *fileName, char *mode);
 // Parameters: int rowNumber, char newRow
 void modifyRow(int rowNumber, char *newRow);
 
-// Function: viewStatusCards
-// Description: View status of cards
-// Parameters: int cardNumber
-// Returns: FileCard card
-FileCard viewStatusCards(int cardNumber);
-
 // Function: getFakeCardStatus
 // Description: Get fake card status
 // Parameters: int cardNumber
 bool getFakeCardStatus(int cardNumber);
 
-// Function: getStatusCard
-// Description: Get status card
+// Function: getCardStatus
+// Description: Get card status
 // Parameters: int cardNumber
-// Returns: FileStatusCard statusCard
-FileStatusCard getStatusCard(int cardNumber);
-
-// Function: appendCardIfNotExist
-// Description: Append card if not exist
-// Parameters: FileStatusCard fileStatusCard, int cardNumber
-// Returns: FileCard fileCard
-FileCard AppendCardIfNotExist(FileStatusCard fileStatusCard, int cardNumber);
+// Returns: CardStatus cardStatus
+CardStatus getCardStatus(int cardNumber);
 
 #endif /* FILE_H */

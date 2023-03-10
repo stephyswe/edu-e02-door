@@ -201,72 +201,6 @@ void appendLine(char *file_path, int rowLine, char *text)
     freeLines(fileAppend);
 }
 
-FileStatusCard getStatusCard(int cardNumber)
-{
-    // Open file for reading
-    FileData fdata = useFile(FILE_DOOR, "r");
-
-    // Initialize variables
-    int row = 1;
-    bool endOfFile = false;
-    bool hasAccess = false;
-    bool cardExists = false;
-    char *date = malloc(sizeof(char) * 20);
-    char newRow[MAX_ROW_LENGTH];
-
-    // Iterate through the file to find the row corresponding to the card number
-    while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL && cardNumber >= getCardNumber(fdata.file_row))
-    {
-        if (cardNumber == getCardNumber(fdata.file_row))
-        {
-            cardExists = true;
-            hasAccess = !hasNoAccess(fdata.file_row);
-            date = getCardDate(fdata.file_row);
-            break;
-        }
-        row++;
-    }
-
-    // Check if end of file is reached
-    endOfFile = feof(fdata.file_ptr);
-
-    fclose(fdata.file_ptr);
-
-    return (FileStatusCard){
-        .date = date,
-        .row = row,
-        .hasAccess = hasAccess,
-        .cardExists = cardExists,
-        .endOfFile = endOfFile,
-    };
-}
-
-FileCard AppendCardIfNotExist(FileStatusCard fileStatusCard, int cardNumber)
-{
-    // variable
-    char text[MAX_ROW_LENGTH];
-    char *defaultText = "No access Added to system:";
-
-    // Append the new card to the file if it doesn't exist
-    if (!fileStatusCard.cardExists)
-    {
-        // text format based on row position
-        const char *textFormat = fileStatusCard.endOfFile ? "\n%d %s %s" : "%d %s %s\n";
-
-        // current date
-        fileStatusCard.date = getCurrentDate("%Y-%m-%d");
-
-        // text
-        snprintf(text, MAX_ROW_LENGTH, textFormat, cardNumber, defaultText, fileStatusCard.date);
-
-        // append to file at selected row
-        appendLine(FILE_DOOR, fileStatusCard.row, text);
-    }
-
-    // return card information
-    return (FileCard){.date = fileStatusCard.date, .row = fileStatusCard.row, .hasAccess = fileStatusCard.hasAccess};
-}
-
 bool getFakeCardStatus(int cardNumber)
 {
     FileData fdata = useFile(FILE_DOOR, "r");
@@ -292,3 +226,55 @@ bool getFakeCardStatus(int cardNumber)
     fclose(fdata.file_ptr);
     return cardAccess;
 };
+
+void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
+{
+    while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL && cardNumber >= getCardNumber(fdata.file_row))
+    {
+        if (cardNumber == getCardNumber(fdata.file_row))
+        {
+            cardStatus->cardExists = true;
+            cardStatus->hasAccess = !hasNoAccess(fdata.file_row);
+            cardStatus->date = getCardDate(fdata.file_row);
+            break;
+        }
+        cardStatus->row++;
+    }
+
+    cardStatus->endOfFile = feof(fdata.file_ptr);
+}
+
+void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
+{
+    const char *textFormat = cardStatus->endOfFile ? "\n%d No access Added to system:%s" : "%d No access Added to system:%s\n";
+    char *date = getCurrentDate("%Y-%m-%d");
+
+    snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, date);
+    appendLine(FILE_DOOR, cardStatus->row, fdata.file_row);
+
+    cardStatus->date = date;
+    cardStatus->cardExists = true;
+}
+
+CardStatus getCardStatus(int cardNumber)
+{
+    FileData fdata = useFile(FILE_DOOR, "r+");
+
+    CardStatus cardStatus = {
+        .row = 1,
+        .endOfFile = false,
+        .hasAccess = false,
+        .cardExists = false,
+        .date = NULL};
+
+    findCardInFile(fdata, cardNumber, &cardStatus);
+
+    if (!cardStatus.cardExists)
+    {
+        appendNewCard(fdata, cardNumber, &cardStatus);
+    }
+
+    fclose(fdata.file_ptr);
+
+    return cardStatus;
+}

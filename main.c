@@ -39,11 +39,8 @@ void choiceThreeAddRemoveAccess()
     printf("Enter cardnumber>");
     scanf("%d", &cardNumber);
 
-    // Get card information from file
-    FileStatusCard fileStatusCard = getStatusCard(cardNumber);
-
-    // Append card to file if it doesn't exist
-    FileCard card = AppendCardIfNotExist(fileStatusCard, cardNumber);
+    // Get card information from file and append if it doesn't exist
+    CardStatus card = getCardStatus(cardNumber);
 
     // print card information
     printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");

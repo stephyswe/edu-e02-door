@@ -20,24 +20,13 @@ typedef struct
     int row_insert;
 } FileAppend;
 
-// Struct: FileCard
-// Description: date, row and access
-typedef struct
-{
-    char *date;
+typedef struct {
     int row;
     bool hasAccess;
-} FileCard;
-
-// Struct: FileStatusCard
-// Description: date, row and access
-typedef struct
-{
     char *date;
-    int row;
-    bool hasAccess;
     bool cardExists;
     bool endOfFile;
-} FileStatusCard;
+} CardStatus;
+
 
 #endif /* FILEDATA_H */
