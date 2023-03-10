@@ -31,24 +31,32 @@ void choiceNineFakeScanCard()
 // Description: Add or remove access to card
 void choiceThreeAddRemoveAccess()
 {
+    // variables
     int cardNumber;
-    char new_row[MAX_ROW_LENGTH];
+    char text[MAX_ROW_LENGTH];
 
+    // get card number
     printf("Enter cardnumber>");
     scanf("%d", &cardNumber);
 
-    FileCard card = viewStatusCards(cardNumber);
+    // Get card information from file
+    FileStatusCard fileStatusCard = getStatusCard(cardNumber);
 
+    // Append card to file if it doesn't exist
+    FileCard card = AppendCardIfNotExist(fileStatusCard, cardNumber);
+
+    // print card information
     printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
 
+    // get input
     int input = usePrompt("Enter 1 for access, 2 for no access.\n", CHOICE_THREE_MAX);
 
-    if ((input == 1 && !card.hasAccess) || (input == 2 && card.hasAccess))
-    {
-        const char *action = input == 1 ? "Access added to system:" : "No access added to system:";
-        snprintf(new_row, MAX_ROW_LENGTH, "%d %s %s", cardNumber, action, card.date);
-        modifyRow(card.row, new_row);
-    }
+    // check input, return true if modify is valid
+    bool isModify = validateModifyInput(input, card, cardNumber, text);
+
+    // modify file if needed
+    if (isModify)
+        modifyRow(card.row, text);
 }
 
 // Function: choiceTwoListAllCards
@@ -57,7 +65,7 @@ void choiceTwoListAllCards()
 {
     printf("All cards in system\n");
 
-    viewAllCards();
+    viewFileData(FILE_DOOR);
 
     pauseKeyboard();
 }

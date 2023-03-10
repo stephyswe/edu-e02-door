@@ -2,7 +2,7 @@
 
 // file
 #define FILE_DOOR "door.txt"
-#define FILENAME_SIZE 1024
+#define FILE_SIZE 1024
 #define MAX_ROW_LENGTH 60
 
 //main

@@ -14,12 +14,10 @@
 #include "file.h"
 #include "common.h"
 
-// Function: viewAllCards
-// Description: View all cards
-void viewAllCards()
+void viewFileData(char *fileName)
 {
     // Read file
-    FileData fdata = useFile(FILE_DOOR, "r");
+    FileData fdata = useFile(fileName, "r");
 
     // Loop through file
     while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
@@ -52,31 +50,31 @@ void createFileWithEmptyRow(char *filename)
     }
 }
 
-FileData useFile(char *filename, char *mode)
+FileData useFile(char *fileName, char *mode)
 {
     // Read file
     FileData fdata;
 
     // check if file exists
-    createFileWithEmptyRow(filename);
+    createFileWithEmptyRow(fileName);
 
     // Open file
-    fdata.file_ptr = fopen(filename, mode);
+    fdata.file_ptr = fopen(fileName, mode);
 
     // Return file data
     return fdata;
 }
 
-void modifyRow(int row_number, char *new_row)
+void modifyRow(int rowNumber, char *newRow)
 {
     // store the filename and temp filename
-    char temp_filename[FILENAME_SIZE];
+    char temp_filename[FILE_SIZE];
 
     // create a temporary filename
     // snprintf will write the string "temp____" followed by the filename to
     // ensures that the destination buffer is not overflowed
     time_t t = time(NULL);
-    snprintf(temp_filename, FILENAME_SIZE, "temp_%ld.txt", t);
+    snprintf(temp_filename, FILE_SIZE, "temp_%ld.txt", t);
 
     // open the original file for reading, and the temp file for writing
     FileData file = useFile(FILE_DOOR, "r");
@@ -89,10 +87,10 @@ void modifyRow(int row_number, char *new_row)
     while (fgets(file.file_row, sizeof(line), file.file_ptr) != NULL)
     {
         // if we are at the line we want to modify, write the new row to the temp file
-        if (current_line == row_number)
+        if (current_line == rowNumber)
         {
             // write the new row to the temp file
-            fputs(new_row, temp.file_ptr);
+            fputs(newRow, temp.file_ptr);
 
             // if we are not at the end of the file, add a newline character
             if (!feof(file.file_ptr))
@@ -129,65 +127,87 @@ bool hasNoAccess(char *row)
     return (strstr(row, "No") != NULL);
 }
 
-// Helper function to append a line to a file at a given line number
-void appendLine(char *file_path, int line_number, char *text)
+// Helper function to free memory allocated for an array of strings
+void freeLines(FileAppend fileAppend)
+{
+    for (int j = 0; j < fileAppend.row_insert; j++)
+    {
+        free(fileAppend.lines[j]);
+    }
+    free(fileAppend.lines);
+}
+
+FileAppend readFile(char *file_path, int num_lines, int line_number, char *text)
 {
     FILE *file = fopen(file_path, "r");
     char **lines = malloc(sizeof(char *) * 1000);
-    if (!lines)
-    {
-        printf("Error: Unable to allocate memory.\n");
-        fclose(file);
-        return;
-    }
 
     int i = 0;
     char buffer[1000];
+
+    // Loop through the file until we reach the line we want to insert
     while (fgets(buffer, sizeof(buffer), file))
     {
         size_t len = strlen(buffer);
         lines[i] = malloc(sizeof(char) * (len + 1));
-        if (!lines[i])
-        {
-            printf("Error: Unable to allocate memory.\n");
-            fclose(file);
-            return;
-        }
+
         strcpy(lines[i], buffer);
         i++;
     }
 
     fclose(file);
 
-    file = fopen(file_path, "w");
-    for (int j = 0; j < line_number - 1 && j < i; j++)
+    return (FileAppend){.lines = lines, .row_insert = i};
+}
+
+void writeFile(char *file_path, FileAppend fileAppend, int rowLine, char *text)
+{
+    FILE *file = fopen(file_path, "w");
+
+    // Loop through the file until we reach the line we want to insert
+    for (int j = 0; j < rowLine - 1 && j < fileAppend.row_insert; j++)
     {
-        fputs(lines[j], file);
+        // Write the line to the file
+        fputs(fileAppend.lines[j], file);
     }
 
+    // Insert the new line
     fputs(text, file);
 
-    for (int j = line_number - 1; j < i; j++)
+    // Loop through the rest of the file
+    for (int j = rowLine - 1; j < fileAppend.row_insert; j++)
     {
-        fputs(lines[j], file);
+        // Write the line to the file
+        fputs(fileAppend.lines[j], file);
     }
 
     fclose(file);
-
-    for (int j = 0; j < i; j++)
-    {
-        free(lines[j]);
-    }
-    free(lines);
 }
 
-FileCard viewStatusCards(int cardNumber)
+// Function: appendLine
+// Description: Append a line to a file
+// Parameters: file_path - the path to the file
+//             rowLine - the line number to append the line to
+//             text - the text to append to the file
+void appendLine(char *file_path, int rowLine, char *text)
+{
+    // Read the file into struct FileAppend
+    FileAppend fileAppend = readFile(file_path, FILE_SIZE, rowLine, text);
+
+    // Write the file at the specified line
+    writeFile(file_path, fileAppend, rowLine, text);
+
+    // Free memory
+    freeLines(fileAppend);
+}
+
+FileStatusCard getStatusCard(int cardNumber)
 {
     // Open file for reading
     FileData fdata = useFile(FILE_DOOR, "r");
 
     // Initialize variables
-    int rowLine = 1;
+    int row = 1;
     bool endOfFile = false;
     bool hasAccess = false;
     bool cardExists = false;
@@ -204,7 +224,7 @@ FileCard viewStatusCards(int cardNumber)
             date = getCardDate(fdata.file_row);
             break;
         }
-        rowLine++;
+        row++;
     }
 
     // Check if end of file is reached
@@ -212,17 +232,39 @@ FileCard viewStatusCards(int cardNumber)
 
     fclose(fdata.file_ptr);
 
+    return (FileStatusCard){
+        .date = date,
+        .row = row,
+        .hasAccess = hasAccess,
+        .cardExists = cardExists,
+        .endOfFile = endOfFile,
+    };
+}
+
+FileCard AppendCardIfNotExist(FileStatusCard fileStatusCard, int cardNumber)
+{
+    // variable
+    char text[MAX_ROW_LENGTH];
+    char *defaultText = "No access Added to system:";
+
     // Append the new card to the file if it doesn't exist
-    if (!cardExists)
+    if (!fileStatusCard.cardExists)
     {
-        const char *newRowFormat = endOfFile ? "\n%d %s %s" : "%d %s %s\n";
-        date = getCurrentDate("%Y-%m-%d");
-        snprintf(newRow, MAX_ROW_LENGTH, newRowFormat, cardNumber, "No access Added to system:", date);
-        appendLine(FILE_DOOR, rowLine, newRow);
+        // text format based on row position
+        const char *textFormat = fileStatusCard.endOfFile ? "\n%d %s %s" : "%d %s %s\n";
+
+        // current date
+        fileStatusCard.date = getCurrentDate("%Y-%m-%d");
+
+        // text
+        snprintf(text, MAX_ROW_LENGTH, textFormat, cardNumber, defaultText, fileStatusCard.date);
+
+        // append to file at selected row
+        appendLine(FILE_DOOR, fileStatusCard.row, text);
     }
 
-    // Return card information
-    return (FileCard){.date = date, .row = rowLine, .hasAccess = hasAccess};
+    // return card information
+    return (FileCard){.date = fileStatusCard.date, .row = fileStatusCard.row, .hasAccess = fileStatusCard.hasAccess};
 }
 
 bool getFakeCardStatus(int cardNumber)
@@ -232,11 +274,16 @@ bool getFakeCardStatus(int cardNumber)
     int number;
     bool cardAccess = false;
 
+    // Iterate through the file to find the row corresponding to the card number
     while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
     {
+        //
         if (sscanf(fdata.file_row, "%d", &number) == 1 && cardNumber == number)
         {
+            // Check if the card has access
             if (strstr(fdata.file_row, "No") == NULL)
+
+                // Set card access to true
                 cardAccess = true;
             break;
         }

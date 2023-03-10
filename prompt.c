@@ -7,6 +7,9 @@
 // define file
 #include "Define.h"
 
+// struct files
+#include "FileData.h"
+
 // Function: validateInput
 // Description: Validates input
 // Parameters: char *inputBuffer
@@ -99,4 +102,24 @@ int usePrompt(const char *prompt, int max)
         }
     }
     return number;
+}
+
+bool validateModifyInput(int input, FileCard card, int cardNumber, char *text)
+{
+    // variables
+    bool modify = false;
+
+    // check if input is 1 or 2
+    if ((input == 1 && !card.hasAccess) || (input == 2 && card.hasAccess))
+    {
+        // decide action
+        const char *action = input == 1 ? "Access added to system:" : "No access added to system:";
+
+        // text
+        snprintf(text, MAX_ROW_LENGTH, "%d %s %s", cardNumber, action, card.date);
+
+        // modify row in file
+        modify = true;
+    }
+    return modify;
 }
