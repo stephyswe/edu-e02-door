@@ -11,28 +11,38 @@
 
 void pauseKeyboard()
 {
-    printf("\nPress key to continue\n");
-    _getch();
+    printf("\nPress any key to continue...\n");
+    fflush(stdout); // Ensure prompt is displayed immediately
+
+    int c;
+    do {
+        c = getchar();
+    } while (c != EOF && c != '\n');
 }
 
-int getTimeoutPerSecond(int seconds)
+void waitSeconds(int seconds)
 {
-    clock_t endwait;
-    endwait = clock() + seconds * CLOCKS_PER_SEC;
-    while (clock() < endwait)
-    {
-    }
-
-    return 1;
+    clock_t endTime = clock() + seconds * CLOCKS_PER_SEC;
+    // Pause execution until endTime is reached
+    while (clock() < endTime) { }
 }
 
 // Helper function to extract the date from a row
 char* getCardDate(char *row)
 {
-    char *date = malloc(11); // allocate memory for 11 characters (10 for date, 1 for null terminator)
+    // allocate memory for 11 characters (10 for date, 1 for null terminator)
+    char *date = malloc(11);
+
+    // find the start of the date
     char *date_start = strstr(row, ": ") + 2;
+
+    // copy date from row to date
     strncpy(date, date_start, 10);
-    date[10] = '\0'; // add a null terminator at the end
+
+    // add a null terminator at the end
+    date[10] = '\0';
+
+    // return date
     return date;
 }
 

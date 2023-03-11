@@ -2,11 +2,10 @@
 // Description: Pause keyboard
 void pauseKeyboard();
 
-// Function: getTimeoutPerSecond
+// Function: waitSeconds
 // Description: Timeout function per second
 // Parameters: int seconds
-// Returns: 1 // TODO: change into void function
-int getTimeoutPerSecond(int seconds);
+void waitSeconds(int seconds);
 
 // Function: getCurrentDate
 // Description: Returns card date

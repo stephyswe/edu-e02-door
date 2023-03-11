@@ -174,6 +174,6 @@ scoreinput.c
 
 ### prompt.c ###
 - void validateInput(char *inputBuffer)
-- bool checkInteger(char *input)
+- bool isInteger(char *input)
 - bool isWithinRange(int num, int min, int max)
 - int usePrompt(char *prompt, int max, int tries)

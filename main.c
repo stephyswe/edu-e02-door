@@ -5,6 +5,7 @@
 #include "prompt.h"
 #include "common.h"
 #include "file.h"
+#include "input.h"
 
 // struct files
 #include "FileData.h"
@@ -13,15 +14,18 @@
 // Description: Fake scan card
 void choiceNineFakeScanCard()
 {
-    const char *LAMP_OFF = "Off";
-    const char *LAMP_MESSAGE = "CURRENTLY LAMP IS:%s \n";
+    // variables
+    char *LAMP_MESSAGE = "CURRENTLY LAMP IS: Off";
     const char *LAMP_STATUS_MESSAGES[] = {"Red", "Green"};
-
     int cardNumber;
-    printf(LAMP_MESSAGE, LAMP_OFF);
-    scanf("%d", &cardNumber);
 
+    // get card number
+    GetInputInt(LAMP_MESSAGE, &cardNumber);
+
+    // get card status
     bool status = getFakeCardStatus(cardNumber);
+
+    // print card status
     printf(LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
 
     pauseKeyboard();
@@ -36,8 +40,7 @@ void choiceThreeAddRemoveAccess()
     char text[MAX_ROW_LENGTH];
 
     // get card number
-    printf("Enter cardnumber>");
-    scanf("%d", &cardNumber);
+    GetInputInt("Enter cardnumber>", &cardNumber);
 
     // Get card information from file and append if it doesn't exist
     CardStatus card = getCardStatus(cardNumber);
@@ -73,7 +76,7 @@ void choiceOneRemoteOpenDoor()
 {
     printf("CURRENTLY LAMP IS:Green\n");
 
-    getTimeoutPerSecond(3);
+    waitSeconds(3);
 }
 
 // Function: menu
