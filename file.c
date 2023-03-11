@@ -257,10 +257,10 @@ void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
 
 void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
 {
-    const char *textFormat = cardStatus->endOfFile ? "\n%d No access Added to system: %s" : "%d No access Added to system: %s\n";
+    const char *textFormat = cardStatus->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
     char *date = getCurrentDate("%Y-%m-%d");
 
-    snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, date);
+    snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, TEXT_NO_ACCESS, TEXT_ADDED, date);
     appendLine(FILE_DOOR, cardStatus->row, fdata.file_row);
 
     cardStatus->date = date;

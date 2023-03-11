@@ -94,10 +94,10 @@ bool validateModifyInput(int input, CardStatus card, int cardNumber, char *text)
     if ((input == 1 && !card.hasAccess) || (input == 2 && card.hasAccess))
     {
         // decide action
-        const char *action = input == 1 ? "Access added to system:" : "No access added to system:";
+        const char *action = input == 1 ? TEXT_ACCESS : TEXT_NO_ACCESS;
 
         // text
-        snprintf(text, MAX_ROW_LENGTH, "%d %s %s", cardNumber, action, card.date);
+        snprintf(text, MAX_ROW_LENGTH, "%d %s %s %s", cardNumber, action, TEXT_ADDED, card.date);
 
         // modify row in file
         modify = true;
