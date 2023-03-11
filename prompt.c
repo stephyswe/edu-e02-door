@@ -22,11 +22,11 @@ void validateInput(char *inputBuffer)
     }
 }
 
-// Function: checkInteger
+// Function: isInteger
 // Description: Checks if input is integer
 // Parameters: char *input
 // Returns: bool
-bool checkInteger(char *input)
+bool isInteger(char *input)
 {
     // variables
     int length = strlen(input);
@@ -55,53 +55,34 @@ bool checkInteger(char *input)
     return is_integer;
 }
 
-// Function: isWithinRange
-// Description: Checks if number is within range
+// Function: isInRange
+// Description: Checks if number is in range
 // Parameters: int num
 // Returns: bool
-bool isWithinRange(int num, int min, int max)
+bool isInRange(int num, int min, int max)
 {
     return (num >= min && num <= max);
 }
 
 int usePrompt(const char *prompt, int max)
 {
-    // variables
     int number;
     char inputBuffer[100];
-
-    // error messages
-    const char *strErrorDefaultMsg = "Felaktig inmatning, försök igen\n";
-    const char *strErrorNumberMsg = "Felaktigt nummer, måste vara %d - %d, försök igen\n";
 
     while (true)
     {
         printf(prompt);
         validateInput(inputBuffer);
-        int inputValue = atoi(inputBuffer);
-        const int withinRage = isWithinRange(inputValue, PROMPT_MIN, max);
 
-        bool isValidInput = checkInteger(inputBuffer) && withinRage;
+        int inputValue = atoi(inputBuffer);
+        bool isValidInput = isInteger(inputBuffer) && isInRange(inputValue, PROMPT_MIN, max);
 
         if (isValidInput)
-        {
-            number = inputValue;
-            break;
-        }
-        else if (!checkInteger(inputBuffer))
-        {
-            printf(strErrorDefaultMsg);
-        }
-        else if (withinRage)
-        {
-            printf(strErrorDefaultMsg);
-        }
-        else
-        {
-            printf(strErrorNumberMsg, PROMPT_MIN, max);
-        }
+            return inputValue;
+
+        printf(isValidInput ? "" : "Felaktig %s, måste vara %d - %d, försök igen\n",
+               isInteger(inputBuffer) ? "nummer" : "inmatning", PROMPT_MIN, max);
     }
-    return number;
 }
 
 bool validateModifyInput(int input, CardStatus card, int cardNumber, char *text)
