@@ -27,6 +27,7 @@ void modifyRow(int rowNumber, char *newRow);
 // Function: getFakeCardStatus
 // Description: Get fake card status
 // Parameters: int cardNumber
+// Returns: bool fakeCardStatus
 bool getFakeCardStatus(int cardNumber);
 
 // Function: getCardStatus
