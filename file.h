@@ -8,6 +8,11 @@
 #ifndef FILE_H
 #define FILE_H
 
+// Function: viewArrayData
+// Description: View all array data
+// Parameters: ArrayData arrData
+void viewArrayData(ArrayData arrData);
+
 // Function: getFakeCardStatus
 // Description: Get fake card status
 // Parameters: ArrayData arrData, int cardNumber

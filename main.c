@@ -55,7 +55,7 @@ void choiceThreeAddRemoveAccess(ArrayData *arrData)
     // check input, return true if modify is valid
     bool isModify = validateModifyInput(input, card, cardNumber, text);
 
-        // modify file if needed
+    // modify file if needed
     if (isModify)
         updateDataToArray(arrData, cardNumber, text);
 }
@@ -66,11 +66,7 @@ void choiceTwoListAllCards(ArrayData arrData)
 {
     printf("All cards in system\n");
 
-    // viewFileData
-    for (int i = 0; i < arrData.size; i++)
-    {
-        printf("%d %s %s\n", arrData.data[i].id, arrData.data[i].access, arrData.data[i].date);
-    }
+    viewArrayData(arrData);
 
     pauseKeyboard();
 }

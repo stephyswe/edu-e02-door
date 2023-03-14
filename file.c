@@ -14,6 +14,15 @@
 #include "file.h"
 #include "common.h"
 
+void viewArrayData(ArrayData arrData)
+{
+    // Loop through the array and print the data
+    for (int i = 0; i < arrData.size; i++)
+    {
+        printf("%d %s %s\n", arrData.data[i].id, arrData.data[i].access, arrData.data[i].date);
+    }
+};
+
 // Helper function to extract the card number from a row
 int getCardNumber(char *row)
 {
