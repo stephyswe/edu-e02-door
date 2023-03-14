@@ -29,7 +29,7 @@ void choiceNineFakeScanCard()
     bool status = getFakeCardStatus(cardNumber);
 
     // print card status
-    printf(LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
+    printf("%s %s", LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
 }
 
 // Function: choiceThreeAddRemoveAccess
