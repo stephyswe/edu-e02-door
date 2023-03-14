@@ -15,20 +15,21 @@
 void choiceNineFakeScanCard()
 {
     // variables
-    char *LAMP_MESSAGE = "CURRENTLY LAMP IS: Off";
+    char *LAMP_MESSAGE = "CURRENTLY LAMP IS:";
     const char *LAMP_STATUS_MESSAGES[] = {"Red", "Green"};
     int cardNumber;
 
+    // add two string together to a new char array
+    char *LAMP_INIT = concatStrings(LAMP_MESSAGE, " Off\n");
+
     // get card number
-    GetInputInt(LAMP_MESSAGE, &cardNumber);
+    GetInputInt(LAMP_INIT, &cardNumber);
 
     // get card status
     bool status = getFakeCardStatus(cardNumber);
 
     // print card status
     printf(LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
-
-    pauseKeyboard();
 }
 
 // Function: choiceThreeAddRemoveAccess
@@ -45,7 +46,7 @@ void choiceThreeAddRemoveAccess()
     // Get card information from file and append if it doesn't exist
     CardStatus card = getCardStatus(cardNumber);
 
-    // print card information
+        // print card information
     printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
 
     // get input

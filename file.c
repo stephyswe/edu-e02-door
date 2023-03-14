@@ -263,8 +263,8 @@ void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
     snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, TEXT_NO_ACCESS, TEXT_ADDED, date);
     appendLine(FILE_DOOR, cardStatus->row, fdata.file_row);
 
+    // use in vg-file as file update whole row, not only access status
     cardStatus->date = date;
-    cardStatus->cardExists = true;
 }
 
 CardStatus getCardStatus(int cardNumber)
