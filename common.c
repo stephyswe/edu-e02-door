@@ -48,7 +48,7 @@ void waitSeconds(int seconds)
     }
 }
 
-char* getCardDate(const char* row)
+char* getCardDateToFile(const char* row)
 {
     // Allocate memory for 11 characters (10 for date, 1 for null terminator)
     char* date = malloc(11);

@@ -246,7 +246,7 @@ void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
         {
             cardStatus->cardExists = true;
             cardStatus->hasAccess = !hasNoAccess(fdata.file_row);
-            cardStatus->date = getCardDate(fdata.file_row);
+            cardStatus->date = getCardDateToFile(fdata.file_row);
             break;
         }
         cardStatus->row++;

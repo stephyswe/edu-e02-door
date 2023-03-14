@@ -15,7 +15,7 @@ void waitSeconds(int seconds);
 // Function: getCurrentDate
 // Description: Returns card date
 // Returns: char *date
-char* getCardDate(char *row);
+char* getCardDateToFile(char *row);
 
 // Function: getCurrentDate specific format
 // Description: Returns current date
