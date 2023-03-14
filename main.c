@@ -12,28 +12,29 @@
 
 // Function: choiceNineFakeScanCard
 // Description: Fake scan card
-void choiceNineFakeScanCard()
+void choiceNineFakeScanCard(ArrayData arrData)
 {
     // variables
-    char *LAMP_MESSAGE = "CURRENTLY LAMP IS: Off";
+    char *LAMP_MESSAGE = "CURRENTLY LAMP IS:";
     const char *LAMP_STATUS_MESSAGES[] = {"Red", "Green"};
     int cardNumber;
 
+    // add two string together to a new char array
+    char *LAMP_INIT = concatStrings(LAMP_MESSAGE, " Off\n");
+
     // get card number
-    GetInputInt(LAMP_MESSAGE, &cardNumber);
+    GetInputInt(LAMP_INIT, &cardNumber);
 
     // get card status
-    bool status = getFakeCardStatus(cardNumber);
+    bool status = getFakeCardStatus(arrData, cardNumber);
 
     // print card status
-    printf(LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
-
-    pauseKeyboard();
+    printf("%s %s", LAMP_MESSAGE, LAMP_STATUS_MESSAGES[status]);
 }
 
 // Function: choiceThreeAddRemoveAccess
 // Description: Add or remove access to card
-void choiceThreeAddRemoveAccess()
+void choiceThreeAddRemoveAccess(ArrayData *arrData)
 {
     // variables
     int cardNumber;
@@ -43,7 +44,7 @@ void choiceThreeAddRemoveAccess()
     GetInputInt("Enter cardnumber>", &cardNumber);
 
     // Get card information from file and append if it doesn't exist
-    CardStatus card = getCardStatus(cardNumber);
+    CardStatus card = getCardStatus(cardNumber, arrData);
 
     // print card information
     printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
@@ -54,18 +55,22 @@ void choiceThreeAddRemoveAccess()
     // check input, return true if modify is valid
     bool isModify = validateModifyInput(input, card, cardNumber, text);
 
-    // modify file if needed
+        // modify file if needed
     if (isModify)
-        modifyRow(card.row, text);
+        updateDataToArray(arrData, cardNumber, text);
 }
 
 // Function: choiceTwoListAllCards
 // Description: List all cards in system
-void choiceTwoListAllCards()
+void choiceTwoListAllCards(ArrayData arrData)
 {
     printf("All cards in system\n");
 
-    viewFileData(FILE_DOOR);
+    // viewFileData
+    for (int i = 0; i < arrData.size; i++)
+    {
+        printf("%d %s %s\n", arrData.data[i].id, arrData.data[i].access, arrData.data[i].date);
+    }
 
     pauseKeyboard();
 }
@@ -79,12 +84,29 @@ void choiceOneRemoteOpenDoor()
     waitSeconds(3);
 }
 
+// Function: initialData
+// Description: Initial data
+void initialData(ArrayData *arrData)
+{
+    addDataToArray(arrData, (Data){1000, concatStrings(TEXT_ACCESS, TEXT_ADDED), "2023-03-11"}, 0);
+    addDataToArray(arrData, (Data){1212, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2019-10-19"}, 1);
+    addDataToArray(arrData, (Data){1213, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2019-10-20"}, 2);
+    addDataToArray(arrData, (Data){1215, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2020-10-20"}, 3);
+    addDataToArray(arrData, (Data){1216, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2021-10-24"}, 4);
+}
+
 // Function: menu
 // Description: Menu function
 void menu()
 {
     // variables
+    ArrayData arrData;
+    arrData.size = 0;
+    arrData.data = NULL;
     int userChoice;
+
+    // initial data
+    initialData(&arrData);
 
     // strings
     char *strMenu = "Admin menu \n1. Remote open door \n2. List all cards in system \n3. Add/remove access \n4. Exit \n9. FAKE TEST SCAN CARD \n \nVälj: ";
@@ -102,16 +124,16 @@ void menu()
             choiceOneRemoteOpenDoor();
             break;
         case OPTION_LIST_ALL_CARDS:
-            choiceTwoListAllCards();
+            choiceTwoListAllCards(arrData);
             break;
         case OPTION_ADD_REMOVE_ACCESS:
-            choiceThreeAddRemoveAccess();
+            choiceThreeAddRemoveAccess(&arrData);
             break;
         case OPTION_EXIT:
             exit(EXIT_SUCCESS);
             break;
         case OPTION_FAKE_SCAN_CARD:
-            choiceNineFakeScanCard();
+            choiceNineFakeScanCard(arrData);
             break;
         default:
             fprintf(stderr, "%s\n", strError);

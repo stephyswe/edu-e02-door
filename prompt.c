@@ -7,6 +7,9 @@
 // define file
 #include "Define.h"
 
+// header files
+#include "common.h"
+
 // struct files
 #include "FileData.h"
 
@@ -97,7 +100,7 @@ bool validateModifyInput(int input, CardStatus card, int cardNumber, char *text)
         const char *action = input == 1 ? TEXT_ACCESS : TEXT_NO_ACCESS;
 
         // text
-        snprintf(text, MAX_ROW_LENGTH, "%d %s %s %s", cardNumber, action, TEXT_ADDED, card.date);
+        snprintf(text, MAX_ROW_LENGTH, "%s", concatStrings(action, TEXT_ADDED));
 
         // modify row in file
         modify = true;

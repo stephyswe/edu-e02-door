@@ -1,3 +1,8 @@
+// Description: concatStrings
+// Parameters: const char *str1, const char *str2
+// Returns: char *result
+char *concatStrings(const char *str1, const char *str2);
+
 // Function: pauseKeyboard
 // Description: Pause keyboard
 void pauseKeyboard();

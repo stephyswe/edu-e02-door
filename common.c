@@ -9,6 +9,24 @@
 // header files
 #include "Define.h"
 
+char *concatStrings(const char *str1, const char *str2)
+{
+    size_t len1 = strlen(str1);
+    size_t len2 = strlen(str2);
+    char *result = malloc((len1 + len2 + 1) * sizeof(char)); // allocate memory for result string
+
+    if (result == NULL)
+    { // check for allocation failure
+        printf("Error: unable to allocate memory.\n");
+        return NULL;
+    }
+
+    strcpy(result, str1); // copy str1 to result
+    strcat(result, str2); // concatenate str2 to result
+
+    return result;
+}
+
 void pauseKeyboard()
 {
     printf("\nPress any key to continue...\n");

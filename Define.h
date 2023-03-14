@@ -7,7 +7,7 @@
 
 #define TEXT_NO_ACCESS "No access"
 #define TEXT_ACCESS "Access"
-#define TEXT_ADDED "Added to system:"
+#define TEXT_ADDED " Added to system:"
 
 //main
 #define OPTION_REMOTE_OPEN_DOOR 1

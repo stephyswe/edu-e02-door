@@ -14,115 +14,18 @@
 #include "file.h"
 #include "common.h"
 
-void viewFileData(char *fileName)
+// Helper function to find the index to insert a new row
+int findIndexToInsert(ArrayData *arrData, int id)
 {
-    // Read file
-    FileData fdata = useFile(fileName, "r");
-
-    // Loop through file
-    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
+    int i;
+    for (i = 0; i < arrData->size; i++)
     {
-        // Print file row
-        printf("%s", fdata.file_row);
-    }
-
-    // Close file
-    fclose(fdata.file_ptr);
-};
-
-void createFileWithEmptyRow(char *filename)
-{
-    // check if file exists
-    if (access(filename, F_OK) == -1)
-    {
-        // create file
-        FILE *file_ptr = fopen(filename, "w");
-
-        // check if file is created
-        if (file_ptr == NULL)
+        if (arrData->data[i].id > id)
         {
-            printf("Error creating file");
-            exit(1);
+            return i;
         }
-
-        // close file
-        fclose(file_ptr);
     }
-}
-
-FileData useFile(char *fileName, char *mode)
-{
-    // Read file
-    FileData fdata;
-
-    // check if file exists
-    createFileWithEmptyRow(fileName);
-
-    // Open file
-    fdata.file_ptr = fopen(fileName, mode);
-
-    // Return file data
-    return fdata;
-}
-
-void generateTempFileName(char *tempFileName)
-{
-    // create a temporary file name based on current time
-    time_t currentTime = time(NULL);
-    snprintf(tempFileName, FILE_SIZE, "temp_%ld.txt", currentTime);
-}
-
-void copyAndModifyFile(int rowNumber, char *newRow, char *tempFileName)
-{
-    // open original file for reading, and temp file for writing
-    FileData file = useFile(FILE_DOOR, "r");
-    FileData temp = useFile(tempFileName, "w");
-
-    int currentLine = 1;
-
-    // loop through file, copying each line to temp file and modifying the specified row
-    while (fgets(file.file_row, MAX_ROW_LENGTH, file.file_ptr) != NULL)
-    {
-        if (currentLine == rowNumber)
-        {
-            // write the new row to the temp file
-            fputs(newRow, temp.file_ptr);
-
-            // if we are not at the end of the file, add a newline character
-            if (!feof(file.file_ptr))
-                fputc('\n', temp.file_ptr);
-        }
-        else
-        {
-            // copy the current line to the temp file
-            fputs(file.file_row, temp.file_ptr);
-        }
-        currentLine++;
-    }
-
-    // close file pointers
-    fclose(file.file_ptr);
-    fclose(temp.file_ptr);
-}
-
-void replaceOriginalFileWithTempFile(char *tempFileName)
-{
-    // delete original file, rename temp file to original file name
-    remove(FILE_DOOR);
-    rename(tempFileName, FILE_DOOR);
-}
-
-void modifyRow(int rowNumber, char *newRow)
-{
-    // create a temporary file name
-    char tempFileName[FILE_SIZE];
-    generateTempFileName(tempFileName);
-
-    // copy file contents to temp file, modifying the specified row
-    copyAndModifyFile(rowNumber, newRow, tempFileName);
-
-    // replace original file with modified temp file
-    replaceOriginalFileWithTempFile(tempFileName);
+    return arrData->size;
 }
 
 // Helper function to extract the card number from a row
@@ -139,138 +42,98 @@ bool hasNoAccess(char *row)
     return (strstr(row, "No") != NULL);
 }
 
-// Helper function to free memory allocated for an array of strings
-void freeLines(FileAppend fileAppend)
+bool getFakeCardStatus(ArrayData arrData, int cardNumber)
 {
-    for (int j = 0; j < fileAppend.row_insert; j++)
-    {
-        free(fileAppend.lines[j]);
-    }
-    free(fileAppend.lines);
-}
-
-FileAppend readFile(char *file_path, int num_lines, int line_number, char *text)
-{
-    FILE *file = fopen(file_path, "r");
-    char **lines = malloc(sizeof(char *) * 1000);
-
-    int i = 0;
-    char buffer[1000];
-
-    // Loop through the file until we reach the line we want to insert
-    while (fgets(buffer, sizeof(buffer), file))
-    {
-        size_t len = strlen(buffer);
-        lines[i] = malloc(sizeof(char) * (len + 1));
-
-        strcpy(lines[i], buffer);
-        i++;
-    }
-
-    fclose(file);
-
-    return (FileAppend){.lines = lines, .row_insert = i};
-}
-
-void writeFile(char *file_path, FileAppend fileAppend, int rowLine, char *text)
-{
-    FILE *file = fopen(file_path, "w");
-
-    // Loop through the file until we reach the line we want to insert
-    for (int j = 0; j < rowLine - 1 && j < fileAppend.row_insert; j++)
-    {
-        // Write the line to the file
-        fputs(fileAppend.lines[j], file);
-    }
-
-    // Insert the new line
-    fputs(text, file);
-
-    // Loop through the rest of the file
-    for (int j = rowLine - 1; j < fileAppend.row_insert; j++)
-    {
-        // Write the line to the file
-        fputs(fileAppend.lines[j], file);
-    }
-
-    fclose(file);
-}
-
-// Function: appendLine
-// Description: Append a line to a file
-// Parameters: file_path - the path to the file
-//             rowLine - the line number to append the line to
-//             text - the text to append to the file
-void appendLine(char *file_path, int rowLine, char *text)
-{
-    // Read the file into struct FileAppend
-    FileAppend fileAppend = readFile(file_path, FILE_SIZE, rowLine, text);
-
-    // Write the file at the specified line
-    writeFile(file_path, fileAppend, rowLine, text);
-
-    // Free memory
-    freeLines(fileAppend);
-}
-
-bool getFakeCardStatus(int cardNumber)
-{
-    FileData fdata = useFile(FILE_DOOR, "r");
-
     int number;
     bool cardAccess = false;
 
-    // Iterate through the file to find the row corresponding to the card number
-    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
+    // Iterate through the array
+    for (int i = 0; i < arrData.size; i++)
     {
-        // Check if the row contains the card number
-        if (sscanf(fdata.file_row, "%d", &number) == 1 && cardNumber == number)
+        // Check if the card number matches
+        if (cardNumber == arrData.data[i].id)
         {
             // Check if the card has access
-            if (strstr(fdata.file_row, "No") == NULL)
+            if (strcmp(arrData.data[i].access, "No access Added to system:") != 0)
                 // Set card access to true
                 cardAccess = true;
             break;
         }
     }
 
-    fclose(fdata.file_ptr);
     return cardAccess;
 };
 
-void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
+
+
+void updateDataToArray(ArrayData *arrData, int id, char *newAccess)
 {
-    while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL && cardNumber >= getCardNumber(fdata.file_row))
+    // Loop through the array to find the row with the specified id
+    for (int i = 0; i < arrData->size; i++)
     {
-        if (cardNumber == getCardNumber(fdata.file_row))
+        if (arrData->data[i].id == id)
+        {
+            // Update the access field
+            strncpy(arrData->data[i].access, newAccess, strlen(newAccess));
+            arrData->data[i].access[strlen(newAccess)] = '\0'; // Ensure null termination                                                 // Exit the function after updating the data
+        }
+    }
+
+    // If the id is not found, print an error message and exit the function
+    printf("Error: Data with id %d not found\n", id);
+}
+
+void addDataToArray(ArrayData *arrData, Data newData, int row)
+{
+    if (row < 0 || row > arrData->size)
+    {
+        printf("Invalid row specified.\n");
+        return;
+    }
+
+    // Increase the size of the data array by 1
+    arrData->data = realloc(arrData->data, (arrData->size + 1) * sizeof(Data));
+
+    // Shift existing data up to make space for the new data
+    memmove(&arrData->data[row + 1], &arrData->data[row], (arrData->size - row) * sizeof(Data));
+
+    // Insert the new data
+    arrData->data[row] = newData;
+
+    // Increment the size of the array
+    arrData->size++;
+}
+
+void findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+{
+    for (int i = 0; i < arrData->size; i++)
+    {
+        if (cardNumber == arrData->data[i].id)
         {
             cardStatus->cardExists = true;
-            cardStatus->hasAccess = !hasNoAccess(fdata.file_row);
-            cardStatus->date = getCardDate(fdata.file_row);
+            cardStatus->hasAccess = strcmp(arrData->data[i].access, "No access Added to system:") != 0;
+
+            // Allocate memory for the date field
+            cardStatus->date = malloc(strlen(arrData->data[i].date) + 1);
+            // Copy the date from arrData to cardStatus
+            strcpy(cardStatus->date, arrData->data[i].date);
+
             break;
         }
         cardStatus->row++;
     }
-
-    cardStatus->endOfFile = feof(fdata.file_ptr);
+    cardStatus->endOfFile = cardStatus->row >= arrData->size;
 }
 
-void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
+ArrayData *appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
 {
     const char *textFormat = cardStatus->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
     char *date = getCurrentDate("%Y-%m-%d");
-
-    snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, TEXT_NO_ACCESS, TEXT_ADDED, date);
-    appendLine(FILE_DOOR, cardStatus->row, fdata.file_row);
-
-    cardStatus->date = date;
-    cardStatus->cardExists = true;
+    addDataToArray(arrData, (Data){cardNumber, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), date}, cardStatus->row);
 }
 
-CardStatus getCardStatus(int cardNumber)
+CardStatus getCardStatus(int cardNumber, ArrayData *arrData)
 {
-    FileData fdata = useFile(FILE_DOOR, "r+");
-
     CardStatus cardStatus = {
         .row = 1,
         .endOfFile = false,
@@ -278,14 +141,14 @@ CardStatus getCardStatus(int cardNumber)
         .cardExists = false,
         .date = NULL};
 
-    findCardInFile(fdata, cardNumber, &cardStatus);
+    findCardInArray(arrData, cardNumber, &cardStatus);
 
     if (!cardStatus.cardExists)
     {
-        appendNewCard(fdata, cardNumber, &cardStatus);
+        // TODO: Check how cardStatus.row = findIndexToInsert is handled in File version.
+        cardStatus.row = findIndexToInsert(arrData, cardNumber);
+        appendNewCard(arrData, cardNumber, &cardStatus);
     }
-
-    fclose(fdata.file_ptr);
 
     return cardStatus;
 }
