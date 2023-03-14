@@ -14,20 +14,6 @@
 #include "file.h"
 #include "common.h"
 
-// Helper function to find the index to insert a new row
-int findIndexToInsert(ArrayData *arrData, int id)
-{
-    int i;
-    for (i = 0; i < arrData->size; i++)
-    {
-        if (arrData->data[i].id > id)
-        {
-            return i;
-        }
-    }
-    return arrData->size;
-}
-
 // Helper function to extract the card number from a row
 int getCardNumber(char *row)
 {
@@ -37,14 +23,14 @@ int getCardNumber(char *row)
 }
 
 // Helper function to check if a row indicates the card has no access
-bool hasNoAccess(char *row)
+bool hasNoAccessToArray(ArrayData arrData, int i)
 {
-    return (strstr(row, "No") != NULL);
+    return strcmp(arrData.data[i].access, "No access Added to system:") != 0;
 }
 
+// Helper function to check if a row indicates the card has access
 bool getFakeCardStatus(ArrayData arrData, int cardNumber)
 {
-    int number;
     bool cardAccess = false;
 
     // Iterate through the array
@@ -54,7 +40,7 @@ bool getFakeCardStatus(ArrayData arrData, int cardNumber)
         if (cardNumber == arrData.data[i].id)
         {
             // Check if the card has access
-            if (strcmp(arrData.data[i].access, "No access Added to system:") != 0)
+            if (hasNoAccessToArray(arrData, i))
                 // Set card access to true
                 cardAccess = true;
             break;
@@ -76,9 +62,6 @@ void updateDataToArray(ArrayData *arrData, int id, char *newAccess)
             arrData->data[i].access[strlen(newAccess)] = '\0'; // Ensure null termination                                                 // Exit the function after updating the data
         }
     }
-
-    // If the id is not found, print an error message and exit the function
-    printf("Error: Data with id %d not found\n", id);
 }
 
 void addDataToArray(ArrayData *arrData, Data newData, int row)
@@ -112,7 +95,7 @@ void findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
         if (cardNumber == arrData->data[i].id)
         {
             cardStatus->cardExists = true;
-            cardStatus->hasAccess = hasNoAccessToArray(arrData, i);
+            cardStatus->hasAccess = hasNoAccessToArray(*arrData, i);
             getCardDateToArray(cardStatus, arrData->data[i].date);
             break;
         }
@@ -142,8 +125,6 @@ CardStatus getCardStatus(int cardNumber, ArrayData *arrData)
 
     if (!cardStatus.cardExists)
     {
-        // TODO: Check how cardStatus.row = findIndexToInsert is handled in File version.
-        cardStatus.row = findIndexToInsert(arrData, cardNumber);
         appendNewCard(arrData, cardNumber, &cardStatus);
     }
 

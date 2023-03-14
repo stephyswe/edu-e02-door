@@ -15,11 +15,6 @@ void pauseKeyboard();
 // Parameters: int seconds
 void waitSeconds(int seconds);
 
-// Function: getCurrentDate
-// Description: Returns card date
-// Returns: char *date
-char* getCardDate(char *row);
-
 // Function: getCardDateToArray
 // Description: Returns card date
 // Parameters: CardStatus *cardStatus, const char *date

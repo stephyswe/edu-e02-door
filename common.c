@@ -72,6 +72,12 @@ char* getCardDate(const char* row)
     return date;
 }
 
+void getCardDateToArray(CardStatus *cardStatus, const char *date)
+{
+    cardStatus->date = malloc(strlen(date) + 1);
+    strcpy(cardStatus->date, date);
+}
+
 char *getCurrentDate(char *format)
 {
     // Allocate memory for date buffer
