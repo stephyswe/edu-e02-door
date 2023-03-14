@@ -19,10 +19,10 @@ void viewFileData(char *fileName);
 // Returns: FileData fileData
 FileData useFile(char *fileName, char *mode);
 
-// Function: modifyRow
+// Function: updateDataToFile
 // Description: Modify row in file
 // Parameters: int rowNumber, char newRow
-void modifyRow(int rowNumber, char *newRow);
+void updateDataToFile(int rowNumber, char *newRow);
 
 // Function: getFakeCardStatus
 // Description: Get fake card status

@@ -112,7 +112,7 @@ void replaceOriginalFileWithTempFile(char *tempFileName)
     rename(tempFileName, FILE_DOOR);
 }
 
-void modifyRow(int rowNumber, char *newRow)
+void updateDataToFile(int rowNumber, char *newRow)
 {
     // create a temporary file name
     char tempFileName[FILE_SIZE];

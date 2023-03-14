@@ -46,7 +46,7 @@ void choiceThreeAddRemoveAccess()
     // Get card information from file and append if it doesn't exist
     CardStatus card = getCardStatus(cardNumber);
 
-        // print card information
+    // print card information
     printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
 
     // get input
@@ -57,7 +57,7 @@ void choiceThreeAddRemoveAccess()
 
     // modify file if needed
     if (isModify)
-        modifyRow(card.row, text);
+        updateDataToFile(card.row, text);
 }
 
 // Function: choiceTwoListAllCards
