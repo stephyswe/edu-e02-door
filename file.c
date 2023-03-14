@@ -64,8 +64,6 @@ bool getFakeCardStatus(ArrayData arrData, int cardNumber)
     return cardAccess;
 };
 
-
-
 void updateDataToArray(ArrayData *arrData, int id, char *newAccess)
 {
     // Loop through the array to find the row with the specified id
@@ -106,21 +104,20 @@ void addDataToArray(ArrayData *arrData, Data newData, int row)
 
 void findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
 {
-    for (int i = 0; i < arrData->size; i++)
+    // use while loop to find the card number
+    int i = 0;
+
+    while (i < arrData[0].size && cardNumber >= arrData->data[i].id)
     {
         if (cardNumber == arrData->data[i].id)
         {
             cardStatus->cardExists = true;
-            cardStatus->hasAccess = strcmp(arrData->data[i].access, "No access Added to system:") != 0;
-
-            // Allocate memory for the date field
-            cardStatus->date = malloc(strlen(arrData->data[i].date) + 1);
-            // Copy the date from arrData to cardStatus
-            strcpy(cardStatus->date, arrData->data[i].date);
-
+            cardStatus->hasAccess = hasNoAccessToArray(arrData, i);
+            getCardDateToArray(cardStatus, arrData->data[i].date);
             break;
         }
         cardStatus->row++;
+        i++;
     }
     cardStatus->endOfFile = cardStatus->row >= arrData->size;
 }

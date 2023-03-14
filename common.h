@@ -1,3 +1,6 @@
+// struct files
+#include "FileData.h"
+
 // Description: concatStrings
 // Parameters: const char *str1, const char *str2
 // Returns: char *result
@@ -16,6 +19,11 @@ void waitSeconds(int seconds);
 // Description: Returns card date
 // Returns: char *date
 char* getCardDate(char *row);
+
+// Function: getCardDateToArray
+// Description: Returns card date
+// Parameters: CardStatus *cardStatus, const char *date
+void getCardDateToArray(CardStatus *cardStatus, const char *date);
 
 // Function: getCurrentDate specific format
 // Description: Returns current date

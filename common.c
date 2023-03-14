@@ -9,6 +9,9 @@
 // header files
 #include "Define.h"
 
+// struct files
+#include "FileData.h"
+
 char *concatStrings(const char *str1, const char *str2)
 {
     size_t len1 = strlen(str1);
