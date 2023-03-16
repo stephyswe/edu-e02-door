@@ -72,3 +72,10 @@ char *getCurrentDate(char *format)
     // Return date buffer
     return date;
 }
+
+int getCardNumber(char *row)
+{
+    int number;
+    sscanf(row, "%d %*s %*s", &number);
+    return number;
+}

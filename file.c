@@ -14,50 +14,20 @@
 #include "file.h"
 #include "common.h"
 
+// Helper function to show array data
 void viewArrayData(ArrayData arrData)
 {
-    // Loop through the array and print the data
     for (int i = 0; i < arrData.size; i++)
     {
         printf("%d %s %s\n", arrData.data[i].id, arrData.data[i].access, arrData.data[i].date);
     }
 };
 
-// Helper function to extract the card number from a row
-int getCardNumber(char *row)
-{
-    int number;
-    sscanf(row, "%d %*s %*s", &number);
-    return number;
-}
-
 // Helper function to check if a row indicates the card has no access
-bool hasNoAccessToArray(ArrayData arrData, int i)
+bool isAccessInArray(ArrayData arrData, int i)
 {
     return strcmp(arrData.data[i].access, "No access Added to system:") != 0;
 }
-
-// Helper function to check if a row indicates the card has access
-bool getFakeCardStatus(ArrayData arrData, int cardNumber)
-{
-    bool cardAccess = false;
-
-    // Iterate through the array
-    for (int i = 0; i < arrData.size; i++)
-    {
-        // Check if the card number matches
-        if (cardNumber == arrData.data[i].id)
-        {
-            // Check if the card has access
-            if (hasNoAccessToArray(arrData, i))
-                // Set card access to true
-                cardAccess = true;
-            break;
-        }
-    }
-
-    return cardAccess;
-};
 
 void updateDataToArray(ArrayData *arrData, int id, char *newAccess)
 {
@@ -104,7 +74,7 @@ void findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
         if (cardNumber == arrData->data[i].id)
         {
             cardStatus->cardExists = true;
-            cardStatus->hasAccess = hasNoAccessToArray(*arrData, i);
+            cardStatus->hasAccess = isAccessInArray(*arrData, i);
             getCardDateToArray(cardStatus, arrData->data[i].date);
             break;
         }
@@ -139,3 +109,21 @@ CardStatus getCardStatus(int cardNumber, ArrayData *arrData)
 
     return cardStatus;
 }
+
+bool getFakeCardStatus(ArrayData arrData, int cardNumber)
+{
+    bool cardAccess = false;
+
+    // Iterate through the array
+    for (int i = 0; i < arrData.size; i++)
+    {
+        // Check if the card number matches
+        if (cardNumber == arrData.data[i].id)
+        {
+            cardAccess = isAccessInArray(arrData, i);
+            break;
+        }
+    }
+
+    return cardAccess;
+};
