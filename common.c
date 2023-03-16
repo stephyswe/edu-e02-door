@@ -48,15 +48,15 @@ void waitSeconds(int seconds)
     }
 }
 
-char* getCardDateToFile(const char* row)
+char *getCardDateToFile(const char *row)
 {
     // Allocate memory for 11 characters (10 for date, 1 for null terminator)
-    char* date = malloc(11);
+    char *date = malloc(11);
 
     if (date != NULL)
     {
         // Find the start of the date
-        const char* date_start = strstr(row, ": ") + 2;
+        const char *date_start = strstr(row, ": ") + 2;
 
         // Copy date from row to date
         memcpy(date, date_start, 10);

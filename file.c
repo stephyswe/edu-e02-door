@@ -14,6 +14,26 @@
 #include "file.h"
 #include "common.h"
 
+<<<<<<< HEAD
+=======
+void viewFileData(char *fileName)
+{
+    FileData fdata = useFile(fileName, "r");
+    // Loop through the file and print the data
+    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
+    {
+        printf("%s", fdata.file_row);
+    }
+    fclose(fdata.file_ptr);
+};
+
+// Helper function to check if a row indicates the card has no access
+bool hasAccessToFile(char *row)
+{
+    return (strstr(row, "No") == NULL);
+}
+
+>>>>>>> db938342d2261c71dbd31d5ccd7eeac91fe10660
 void createFileWithEmptyRow(char *filename)
 {
     // check if file exists
@@ -49,6 +69,7 @@ FileData useFile(char *fileName, char *mode)
     return fdata;
 }
 
+<<<<<<< HEAD
 // Helper function to show file data
 void viewFileData(char *fileName)
 {
@@ -67,6 +88,35 @@ bool isAccessInFile(char *row)
     return (strstr(row, "No") == NULL);
 }
 
+=======
+bool getFakeCardStatus(int cardNumber)
+{
+    FileData fdata = useFile(FILE_DOOR, "r");
+
+    int number;
+    bool cardAccess = false;
+
+    // Iterate through the file to find the row corresponding to the card number
+    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
+    {
+        // Check if the row contains the card number
+        if (sscanf(fdata.file_row, "%d", &number) == 1 && cardNumber == number)
+        {
+            // Check if the card has access
+            if (hasAccessToFile(fdata.file_row))
+                // Set card access to true
+                cardAccess = true;
+
+            break;
+        }
+    }
+
+    fclose(fdata.file_ptr);
+
+    return cardAccess;
+};
+
+>>>>>>> db938342d2261c71dbd31d5ccd7eeac91fe10660
 void generateTempFileName(char *tempFileName)
 {
     // create a temporary file name based on current time
@@ -203,7 +253,11 @@ void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
         if (cardNumber == getCardNumber(fdata.file_row))
         {
             cardStatus->cardExists = true;
+<<<<<<< HEAD
             cardStatus->hasAccess = isAccessInFile(fdata.file_row);
+=======
+            cardStatus->hasAccess = hasAccessToFile(fdata.file_row);
+>>>>>>> db938342d2261c71dbd31d5ccd7eeac91fe10660
             cardStatus->date = getCardDateToFile(fdata.file_row);
             break;
         }
