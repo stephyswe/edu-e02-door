@@ -15,10 +15,16 @@ void waitSeconds(int seconds);
 // Function: getCurrentDate
 // Description: Returns card date
 // Returns: char *date
-char* getCardDateToFile(char *row);
+char *getCardDateToFile(char *row);
 
 // Function: getCurrentDate specific format
 // Description: Returns current date
 // Parameters: char *format
 // Returns: char *date
 char *getCurrentDate(char *format);
+
+// Function: getCardNumber
+// Description: Returns card number
+// Parameters: char *row
+// Returns: int number
+int getCardNumber(char *row);
