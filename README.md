@@ -74,23 +74,13 @@ GRÖNT: när man scannat ett kort som har access
 
 Men vi fejkar med att skriva ut “CURRENTLY LAMP IS: Green” och Red
 
+## Kravspecifikation
+
 Att tänka på:
 
 - inte krascha vid DÅLIG inmatning
 - felhantering, snäll mot användaren
 - systemet skall klara “OBEGRÄNSAT” antal kort (dynamisk minnesallokering – mallloc/realloc)
-
-### Väl godkänt
-
-Kort ska kunna SPARAS i FIL! Dvs efter omstart ska alla kort läsas upp och finnas kvar
-
-Branch med alternativ implementation: gör en version UTAN dynamisk minnesallokering (och ingen statisk array heller...men du ska ändå klara “oändligt” många kort !). Dvs du får läsa upp EN I TAGET
-
-hela tiden från fil, mer info https://youtu.be/GqKZFzM9COA
-
-Bra kod, best practices etc
-
-## Kravspecifikation
 
 ### Godkänt
 
