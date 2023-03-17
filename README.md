@@ -101,7 +101,7 @@ Att tänka på:
 
 ## Programmet
 
-Programmet startar i main() och visar en meny() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
+Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
 
 > ### choiceOneRemoteOpenDoor()
 
