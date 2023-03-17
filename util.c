@@ -10,7 +10,7 @@
 #include "common.h"
 #include "file.h"
 
-bool findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
+bool findCardInFile(FileData fdata, int cardNumber, Card *card)
 {
 
     bool cardExist = false;
@@ -20,49 +20,49 @@ bool findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
         if (cardNumber == getCardNumber(fdata.file_row))
         {
             cardExist = true;
-            cardStatus->hasAccess = isAccessInFile(fdata.file_row);
-            cardStatus->date = getCardDateToFile(fdata.file_row);
+            card->hasAccess = isAccessInFile(fdata.file_row);
+            card->date = getCardDateToFile(fdata.file_row);
             break;
         }
-        cardStatus->row++;
+        card->row++;
     }
 
-    cardStatus->endOfFile = feof(fdata.file_ptr);
+    card->endOfFile = feof(fdata.file_ptr);
     return cardExist;
 }
 
-void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
+void appendNewCard(FileData fdata, int cardNumber, Card *card)
 {
-    const char *textFormat = cardStatus->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
+    const char *textFormat = card->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
     char *date = getCurrentDate("%Y-%m-%d");
 
     snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, TEXT_NO_ACCESS, TEXT_ADDED, date);
-    addDataToFile(FILE_DOOR, cardStatus->row, fdata.file_row);
+    addDataToFile(FILE_DOOR, card->row, fdata.file_row);
 
     // use in vg-file as file update whole row, not only access status
-    cardStatus->date = date;
+    card->date = date;
 }
 
-CardStatus getCardInfo(int cardNumber)
+Card getCardInfo(int cardNumber)
 {
     FileData fdata = useFile(FILE_DOOR, "r+");
 
-    CardStatus cardStatus = {
+    Card card = {
         .row = 1,
         .endOfFile = false,
         .hasAccess = false,
         .date = NULL};
 
-    bool cardExist = findCardInFile(fdata, cardNumber, &cardStatus);
+    bool cardExist = findCardInFile(fdata, cardNumber, &card);
 
     if (!cardExist)
     {
-        appendNewCard(fdata, cardNumber, &cardStatus);
+        appendNewCard(fdata, cardNumber, &card);
     }
 
     fclose(fdata.file_ptr);
 
-    return cardStatus;
+    return card;
 }
 
 bool getFakeCardStatus(int cardNumber)

@@ -129,11 +129,11 @@ pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
 
 (3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToFile()' för att uppdatera kortets behörigheter i filen. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
 
-getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hjälp av useFile(FILE_DOOR). Därefter skapas en ny struct CardStatus med initial data. Funktionen findCardInFile() anropas för att hitta radnumret för kortet i filen. Om kortet hittas i filen, läses kortets data in i structen cardStatus. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet i filen. Slutligen returneras structen cardStatus.
+getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hjälp av useFile(FILE_DOOR). Därefter skapas en ny struct Card med initial data. Funktionen findCardInFile() anropas för att hitta radnumret för kortet i filen. Om kortet hittas i filen, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet i filen. Slutligen returneras structen Card.
 
-- findCardInFile() - Funktionen letar efter kortets radnummer i filen. Om kortet hittas, läggs kortinformationen till i cardStatus och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
+- findCardInFile() - Funktionen letar efter kortets radnummer i filen. Om kortet hittas, läggs kortinformationen till i card och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
 
-- appendNewCard() - Om kortet inte redan finns i filen, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med snprintf() och skickas till funktionen addDataToFile() för att lägga till det nya kortnumret i filen. Slutligen läggs dagens datum till i cardStatus.
+- appendNewCard() - Om kortet inte redan finns i filen, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med snprintf() och skickas till funktionen addDataToFile() för att lägga till det nya kortnumret i filen. Slutligen läggs dagens datum till i card.
 
 - addDatatoFile() - Funktionen lägger till en rad med data i filen. Tre parametrar skickas med: filen, raden som ska läggas till och vilken rad. Funktionen läser in alla rader i filen med hjälp av readFile() och lägger till den nya raden på rätt plats med writeFile(). Slutligen frigörs minnet som allokerats för filen med freeLine().
 
@@ -187,7 +187,7 @@ main.c
 - FileData.h
   - FileData - FILE \*file_ptr, char file_row[256]
   - FileAppend - char \*\*lines, int row_insert
-  - CardStatus - int row, bool hasAccess, char \*date, bool endOfFile
+  - Card - int row, bool hasAccess, char \*date, bool endOfFile
 
 ### common.c
 
@@ -200,9 +200,9 @@ main.c
 
 ### util.c
 
-- bool findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
-- void appendNewCard(FileData fdata, int cardNumber, CardStatus \*cardStatus)
-- CardStatus getCardInfo(int cardNumber)
+- bool findCardInFile(FileData fdata, int cardNumber, Card *card)
+- void appendNewCard(FileData fdata, int cardNumber, Card \*card)
+- Card getCardInfo(int cardNumber)
 - bool getFakeCardStatus(int cardNumber)
 
 ### file.c
@@ -230,7 +230,7 @@ main.c
 - bool isInteger(char \*input)
 - bool isInRange(int num, int min, int max)
 - int usePrompt(const char \*prompt, int max)
-- bool validateModifyInput(int input, CardStatus card, int cardNumber, char \*text)
+- bool validateModifyInput(int input, Card card, int cardNumber, char \*text)
 
 ### Define.c
 
