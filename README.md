@@ -136,9 +136,9 @@ getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hj
   - isAccessInFile() - returnerar true om kortet i filen har behörighet, annars returneras false.
   - getCardDateToFile() - läser in kortets datum från filen och returnerar det
 
-- appendNewCard() - Om kortet inte redan finns i filen, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med snprintf() och skickas till funktionen addDataToFile() för att lägga till det nya kortnumret i filen. Slutligen läggs dagens datum till i card.
+- appendNewCard() - Om kortet inte redan finns i filen, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Därefter skapas en formaterad sträng med snprintf() och skickas till funktionen addDataToFile() för att lägga till det nya kortnumret i filen. Slutligen läggs dagens datum till i card.
 
-- addDatatoFile() - Funktionen lägger till en rad med data i filen. Tre parametrar skickas med: filen, raden som ska läggas till och vilken rad. Funktionen läser in alla rader i filen med hjälp av readFile() och lägger till den nya raden på rätt plats med writeFile(). Slutligen frigörs minnet som allokerats för filen med freeLine().
+- addDatatoFile() - Denna funktion lägger till en rad med data i filen. Tre parametrar skickas med: filen, raden som ska läggas till och radnumret. Funktionen läser in alla rader i filen med hjälp av readFile() och lägger till den nya raden på rätt plats med writeFile(). Slutligen frigörs minnet som allokerats för filen med freeLine().
 
   - readFile() - läser in data från filen och returnerar en struct fileAppendData med data från filen.
   - writeFile() - lägger till data till filen.
@@ -146,27 +146,28 @@ getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hj
 
 usePrompt() - Funktionen används för att läsa in användarens val.
 
-validateModifyInput() - Funktionen validerar användarens val genom att jämföra det med kortets nuvarande behörigheter och returnerar en boolean som indikerar om användarens val skiljer sig från dessa behörigheter.
+validateModifyInput() - Funktionen validerar användarens val mot kortets nuvarande behörigheter och returnerar en boolean som indikerar om de är olika.
 
-if (isModify) updateDatatoFile() - Funktionen generateTempFileName() används för att uppdatera kortets behörigheter i filen. Funktionen skapar en temporär fil med namnet 'temp.txt' och kopierar innehållet från 'door.txt' till den temporära filen. Därefter modifieras den valda raden med hjälp av funktionen copyAndModifyFile(). Till slut ersätts originalfilen med den temporära filen genom att anropa replaceOriginalFileWithTempFile() och den temporära filen döps om till 'door.txt'.
+if (isModify) 
+updateDatatoFile() - Funktionen generateTempFileName() uppdaterar kortets behörigheter i filen genom att skapa en temporär fil med namnet 'temp.txt', kopiera innehållet från 'door.txt' till den temporära filen, modifiera den valda raden med copyAndModifyFile(), ersätta originalfilen med den temporära filen genom replaceOriginalFileWithTempFile() och döpa om den temporära filen till 'door.txt'.
 
-- generateTempFileName() - genererar ett unikt namn för den temporära filen baserat på datum och tid.
-- copyAndModifyFile() - kopierar innehållet från 'door.txt' till den temporära filen och modifierar den valda raden.
-- replaceOriginalFileWithTempFile() - ersätter den ursprungliga filen med den temporära filen och döper om den temporära filen till 'door.txt'.
+- generateTempFileName() - genererar unikt namn för temporär fil baserat på datum och tid.
+- copyAndModifyFile() - kopierar innehåll från 'door.txt' till temporär fil och modifierar den valda raden.
+- replaceOriginalFileWithTempFile() - ersätter originalfilen med temporär fil och döper om den till 'door.txt'.
 
 > ### exit(EXIT_SUCCESS)
 
-(4) - Kör funktionen exit(EXIT_SUCCESS) som avslutar programmet.
+(4) - Använd exit(EXIT_SUCCESS) för att avsluta programmet.
 
 > ### choiceNineFakeScanCard()
 
-(9) - Om användaren väljer att skanna ett falskt testkort, startar funktionen 'choiceNineFakeScanCard()'. Först visas ett meddelande som indikerar att lampan är släckt, och användaren ombeds att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' används för att hämta kortets status från filen 'door.txt'. Om användaren anger ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte."
+(9) - Om användaren skannar ett falskt testkort startar 'choiceNineFakeScanCard()'. Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status från filen 'door.txt'. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
 
-- GetInputInt() - läser in ett kortnummer från användaren.
-- getFakeCardStatus() - Funktionen hämtar kortinformation från filen 'door.txt' och returnerar en boolean som indikerar om kortet har behörighet eller inte. Filen loopas igenom och kortnumret kontrolleras med hjälp av getCardNumber(). Om rätt rad hittas, så uppdateras kortbehörigheten med hjälp av isAccessInFile(). Därefter returneras cardAccess.
+- GetInputInt() - läser in kortnummer från användaren.
+- getFakeCardStatus() - hämtar kortinformation från filen 'door.txt' och returnerar en boolean som indikerar om kortet har behörighet eller inte. Funktionen söker efter rätt rad i filen med hjälp av getCardNumber() och uppdaterar kortbehörigheten med isAccessInFile(). Funktionen returnerar cardAccess.
 
-  - getCardNumber() - returnerar kortnumret från en rad i filen.
-  - isAccessInFile() - returnerar true om kortet har behörighet, annars returneras false.
+  - getCardNumber() - hämtar kortnumret från en rad i filen och returnerar det.
+  - isAccessInFile() - returnerar en boolean som indikerar om kortet har behörighet eller inte.
 
 ## Filstruktur
 
