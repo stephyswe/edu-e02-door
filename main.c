@@ -26,9 +26,15 @@ void choiceNineFakeScanCard(ArrayData arrData)
     char *LAMP_INIT = concatStrings(LAMP_MESSAGE, " Off\n");
 
     // get card number
-    GetInputInt(LAMP_INIT, &cardNumber);
+    bool isNumber = GetInputInt(LAMP_INIT, &cardNumber);
 
-     // get card status
+    // if not number, return
+    if (!isNumber)
+    {
+        return;
+    }
+
+    // get card status
     bool status = getFakeCardStatus(arrData, cardNumber);
 
     // print card status
@@ -58,7 +64,8 @@ void choiceThreeAddRemoveAccess(ArrayData *arrData)
     bool isModify = validateModifyInput(input, card, cardNumber, text);
 
     // Modify if needed
-    if (isModify) {
+    if (isModify)
+    {
         updateDataToArray(arrData, cardNumber, text);
     }
 }
