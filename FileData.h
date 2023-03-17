@@ -13,7 +13,7 @@ typedef struct
 } FileData;
 
 // Struct: FileAppend
-// Description: date, row and access
+// Description: lines & row_insert
 typedef struct
 {
     char **lines;

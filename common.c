@@ -3,9 +3,6 @@
 #include <time.h>
 #include <stdlib.h>
 
-// pauseKeyboard - _getch
-#include <conio.h>
-
 // header files
 #include "Define.h"
 
