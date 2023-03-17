@@ -1,4 +1,4 @@
-Uppgift 1. Gissa talet - Godkänt kritierium - v.1.1
+Uppgift 2. Administrationssystem dörr - Väl Godkänt kritierium ink. Fil - v.1.1
 
 # Innehållsförteckning
 
