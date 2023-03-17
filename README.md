@@ -126,29 +126,29 @@ getCardInfo() - Funktionen hämtar kortinformation och skapar sedan en ny struct
   - isAccessInArray() - returnerar true om kortet har behörighet, annars returneras false.
   - getCardDateToArray() - läser in kortets datum och lägger till det i struct Card.
 
-- appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret i filen.
+- appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Därefter skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret.
 
-- addDatatoArray() - Denna funktion lägger till en rad med data i en fil. Funktionen tar tre parametrar: en array, raden som ska läggas till och radnumret. Först ökar funktionen storleken på arrayen med "relloc", flyttar sedan datan i arrayen, lägger till den nya raden och ökar till sist storleken på arrayen med 1.
+- addDatatoArray() - Denna funktion lägger till en rad med data. Funktionen tar tre parametrar: en array, raden som ska läggas till och radnumret. Först ökar funktionen storleken på arrayen med "relloc", flyttar sedan datan i arrayen, lägger till den nya raden och ökar till sist storleken på arrayen med 1.
 
 usePrompt() - Funktionen används för att läsa in användarens val.
 
-validateModifyInput() - Funktionen validerar användarens val genom att jämföra det med kortets nuvarande behörigheter och returnerar en boolean som indikerar om användarens val skiljer sig från dessa behörigheter.
+validateModifyInput() - Funktionen validerar användarens val mot kortets nuvarande behörigheter och returnerar en boolean som indikerar om de är olika.
 
 if (isModify)
-updateDataToArray() - Funktionen loopar igenom arrayen för att hitta raden med det valda kortnumret. Därefter uppdateras behörigheten för det valda kortnumret med hjälp av funktionerna strncpy() och strlen().
+updateDataToArray() - Funktionen letar upp raden med det valda kortnumret i arrayen och uppdaterar dess behörighet med hjälp av strncpy() och strlen().
 
 > ### exit(EXIT_SUCCESS)
 
-(4) - Kör funktionen exit(EXIT_SUCCESS) som avslutar programmet.
+(4) - Använd exit(EXIT_SUCCESS) för att avsluta programmet.
 
 > ### choiceNineFakeScanCard()
 
-(9) - Om användaren väljer att skanna ett falskt testkort, startar funktionen 'choiceNineFakeScanCard()'. Först visas ett meddelande som indikerar att lampan är släckt, och användaren ombeds att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' används för att hämta kortets status. Om användaren anger ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte."
+(9) - Om användaren skannar ett falskt testkort startar 'choiceNineFakeScanCard()'. Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
 
-- GetInputInt() - läser in ett kortnummer från användaren.
-- getFakeCardStatus() - Funktionen loopar igenom arrayen för att hitta raden med det valda kortnumret.  Om rätt rad hittas, så uppdateras kortbehörigheten med hjälp av isAccessInArray(). Därefter returneras cardAccess.
+- GetInputInt() - läser in kortnummer från användaren.
+- getFakeCardStatus() - letar upp raden med det valda kortnumret i arrayen och uppdaterar dess behörighet med isAccessInArray(). Funktionen returnerar cardAccess.
 
-  - isAccessInArray() - returnerar true om kortet har behörighet, annars returneras false.
+  - isAccessInArray() - returnerar en boolean som indikerar om kortet har behörighet eller inte.
 
 ## Filstruktur
 
