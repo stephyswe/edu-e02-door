@@ -179,7 +179,7 @@ main.c
 - FileData.h
   - Data - int id, char *access, char *date
   - ArrayData - Data *data, int size
-  - Card - int row, bool hasAccess, char \*date, bool endOfFile
+  - Card - int row, bool isAccess, char \*date, bool endOfFile
 
 ### common.c
 

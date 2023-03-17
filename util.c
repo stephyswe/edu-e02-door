@@ -21,7 +21,7 @@ bool findCardInArray(ArrayData *arrData, int cardNumber, Card *card)
         if (cardNumber == arrData->data[i].id)
         {
             cardExist = true;
-            card->hasAccess = isAccessInArray(*arrData, i);
+            card->isAccess = isAccessInArray(*arrData, i);
             getCardDateToArray(card, arrData->data[i].date);
             break;
         }
@@ -44,7 +44,7 @@ Card getCardInfo(int cardNumber, ArrayData *arrData)
     Card card = {
         .row = 0,
         .endOfFile = false,
-        .hasAccess = false,
+        .isAccess = false,
         .date = NULL};
 
     bool cardExist = findCardInArray(arrData, cardNumber, &card);
