@@ -208,6 +208,13 @@ main.c
 - char *getCurrentDate(char *format)
 - int getCardNumber(char \*row)
 
+### util.c
+
+- bool findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
+- void appendNewCard(FileData fdata, int cardNumber, CardStatus \*cardStatus)
+- CardStatus getCardInfo(int cardNumber)
+- bool getFakeCardStatus(int cardNumber)
+
 ### file.c
 
 - void createFileWithEmptyRow(char \*filename)
@@ -218,14 +225,10 @@ main.c
 - void copyAndModifyFile(int rowNumber, char *newRow, char *tempFileName)
 - void replaceOriginalFileWithTempFile(char \*tempFileName)
 - void updateDataToFile(int rowNumber, char \*newRow)
-- void freeLines(FileAppend fileAppend)
 - FileAppend readFile(char *file_path, int num_lines, int line_number, char *text)
 - void writeFile(char *file_path, FileAppend fileAppend, int rowLine, char *text)
+- void freeLines(FileAppend fileAppend)
 - void addDataToFile(char *file_path, int rowLine, char *text)
-- void findCardInFile(FileData fdata, int cardNumber, CardStatus \*cardStatus)
-- void appendNewCard(FileData fdata, int cardNumber, CardStatus \*cardStatus)
-- CardStatus getCardInfo(int cardNumber)
-- bool getFakeCardStatus(int cardNumber)
 
 ### input.c
 

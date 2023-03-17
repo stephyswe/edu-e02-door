@@ -4,6 +4,7 @@
 // header files
 #include "prompt.h"
 #include "common.h"
+#include "util.h"
 #include "file.h"
 #include "input.h"
 

@@ -61,7 +61,6 @@ void viewFileData(char *fileName)
     fclose(fdata.file_ptr);
 };
 
-// Helper function to check if a row indicates the card has no access
 bool isAccessInFile(char *row)
 {
     return (strstr(row, "No") == NULL);
@@ -127,16 +126,6 @@ void updateDataToFile(int rowNumber, char *newRow)
     replaceOriginalFileWithTempFile(tempFileName);
 }
 
-// Helper function to free memory allocated for an array of strings
-void freeLines(FileAppend fileAppend)
-{
-    for (int j = 0; j < fileAppend.row_insert; j++)
-    {
-        free(fileAppend.lines[j]);
-    }
-    free(fileAppend.lines);
-}
-
 FileAppend readFile(char *file_path, int num_lines, int line_number, char *text)
 {
     FILE *file = fopen(file_path, "r");
@@ -184,6 +173,16 @@ void writeFile(char *file_path, FileAppend fileAppend, int rowLine, char *text)
     fclose(file);
 }
 
+// Helper function to free memory allocated for an array of strings
+void freeLines(FileAppend fileAppend)
+{
+    for (int j = 0; j < fileAppend.row_insert; j++)
+    {
+        free(fileAppend.lines[j]);
+    }
+    free(fileAppend.lines);
+}
+
 void addDataToFile(char *file_path, int rowLine, char *text)
 {
     // Read the file into struct FileAppend
@@ -195,79 +194,3 @@ void addDataToFile(char *file_path, int rowLine, char *text)
     // Free memory
     freeLines(fileAppend);
 }
-
-bool findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
-{
-
-    bool cardExist = false;
-
-    while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL && cardNumber >= getCardNumber(fdata.file_row))
-    {
-        if (cardNumber == getCardNumber(fdata.file_row))
-        {
-            cardExist = true;
-            cardStatus->hasAccess = isAccessInFile(fdata.file_row);
-            cardStatus->date = getCardDateToFile(fdata.file_row);
-            break;
-        }
-        cardStatus->row++;
-    }
-
-    cardStatus->endOfFile = feof(fdata.file_ptr);
-    return cardExist;
-}
-
-void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
-{
-    const char *textFormat = cardStatus->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
-    char *date = getCurrentDate("%Y-%m-%d");
-
-    snprintf(fdata.file_row, MAX_ROW_LENGTH, textFormat, cardNumber, TEXT_NO_ACCESS, TEXT_ADDED, date);
-    addDataToFile(FILE_DOOR, cardStatus->row, fdata.file_row);
-
-    // use in vg-file as file update whole row, not only access status
-    cardStatus->date = date;
-}
-
-CardStatus getCardInfo(int cardNumber)
-{
-    FileData fdata = useFile(FILE_DOOR, "r+");
-
-    CardStatus cardStatus = {
-        .row = 1,
-        .endOfFile = false,
-        .hasAccess = false,
-        .date = NULL};
-
-    bool cardExist = findCardInFile(fdata, cardNumber, &cardStatus);
-
-    if (!cardExist)
-    {
-        appendNewCard(fdata, cardNumber, &cardStatus);
-    }
-
-    fclose(fdata.file_ptr);
-
-    return cardStatus;
-}
-
-bool getFakeCardStatus(int cardNumber)
-{
-    // variables
-    FileData fdata = useFile(FILE_DOOR, "r");
-    bool cardAccess = false;
-
-    // Iterate through the file until we find the card number
-    while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
-    {
-        if (cardNumber == getCardNumber(fdata.file_row))
-        {
-            cardAccess = isAccessInFile(fdata.file_row);
-            break;
-        }
-    }
-
-    fclose(fdata.file_ptr);
-
-    return cardAccess;
-};
