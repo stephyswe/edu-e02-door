@@ -1,179 +1,245 @@
-Uppgift 1. Gissa talet - Godkänt kritierium - v.1.1
+Uppgift 2. Administrationssystem dörr - Godkänt kritierium - v.1.1
 
+# Innehållsförteckning
 
-# Innehållsförteckning #
 - Beskrivning
 - Kravspecifikation
 - Programmet
 - Filstruktur
 
-## Beskrivning ##
-Programmet "Gissa talet" utmanar användaren att gissa ett slumpmässigt valt tal mellan 1 och 100. Efter varje gissning ges en ledtråd om talet är större eller mindre än det gissade talet. När användaren till slut gissar rätt visar programmet antalet gissningar det tog och frågar om användaren vill spela igen. 
+## Beskrivning
 
-### Väl godkänt ####
- - Om användarens resultat är lägre än resultatet i scoreboard-filen, kan de spara datum, namn och poäng i filen.
+Programmet "Administrationssystem dörr" är ett inpasseringssystem där besökaren scannar sitt kort. Användaren kan välja fyra menyval som är kopplade till olika funktioner.
 
-** Exempel - Godkänt  **
-* Gissa ett tal mellan 1 och 100.
-* Gissning 1: 50
-* Talet är lägre.
-* Gissning 2: 25
-* Talet är högre.
-* Gissning 3: 37
-* Talet är högre.
-* Gissning 4: 43
-* Talet är högre.
-* Gissning 5: 47
-* Rätt! Du gissade rätt på 5 försök.
-* Vill du spela igen? (Ja/Nej):
+```
+Admin menu
+1. Remote open door
+2. List all cards in system
+3. Add/Remove access
+4. Exit
+9. FAKE CARD TEST SCAN
+```
 
-** Exempel - Väl Godkänt  **
-* Samma som ovan.
-* Rätt! Du gissade rätt på 5 försök.
-* Ange ditt namn: ___
-1. Spela igen
-2. Avsluta
-3. Se lowscore
-* Välj: ___
+### 1: Remote open door
 
-## Kravspecifikation ##
+När man väljer denna ska systemet öppna dörren, “visas” genom GRÖN lampa enl nedan. Dörren ska vara öppen (grön lampa) i 3 sekunder
 
-### Godkänt ###
-    Programmet ska använda de texter som finns i exemplet ovan.
-    - Texterna sparas som teckensträngar (strings).
+```
+CURRENTLY LAMP IS:Green
+```
 
-    Programmet ska välja olika slumptal varje gång.
-    - Slumptalen genereras med rand() och time().
+### 2: List all cards in system
 
-    Slumptalet ska kunna vara alla tal från 1 till och med 100 men inte 0 och inte 101.
-    - Slumptalen genereras med rand() % 100 + 1.
+Lista ALLA kortnummer och skriv om dom har access eller INTE. (1212 har access, 1213 har nekats samt DATUM när dom lades till i systemet)
 
-    Skriver användaren in något som inte är ett tal ska de få uppmaningen att försöka igen tills de skriver in ett tal med siffror.
-    - Användaren uppmanas att försöka igen tills de skriver in ett tal.
+```
+All cards in system
+1212 Access Added to system: 2019-10-19
+1213 Access Added to system: 2019-10-19
+Press key to continue
+```
 
-    Programmet ska bara räkna gissningar som är heltal. I exemplet ovan skriver användaren ”Fyra” vilket inte är ett heltal och får då försöka igen.
-    - Programmet räknar endast gissningar som är heltal.
+### 3: Add/remove access
 
-    Efter varje gissning ska en ledtråd visas om talet är större eller mindre.
-    - En ledtråd visas efter varje gissning.
+```
+Enter cardnumber>1212
+This card has access
+Enter 1 for access, 2 for no access
+```
 
-    Gissar man rätt ska man få reda på hur många gissningar det tog och en fråga om man vill spela igen.
-    - "Rätt! Du gissade rätt på %d försök.\n" visas efter varje korrekt gissning.
-    "Vill du spela igen? (Ja/Nej): " visas efter varje spel.   
+Här ska kort eventuellt skapas ifall det inte redan finns
 
-    Svara man Ja ska spelet starta om från början med ett helt nytt slumptal. Svara man Nej så avslutas programmet.
-    
-    Vid alla andra svar ställs frågan om man vill spela om igen.
-    - "Vill du spela igen? (Ja/Nej):" visas efter varje spel.
+### 4: Exit
 
-### Väl Godkänt ###
-    Programmet ska innehålla en ”low score lista”. De (max) fem LÄGSTA resultaten ska lagras i en fil. Och när man spelat en omgång ska man
-    (ifall man platsar på highscore) få mata in sitt namn och sen lagrtas man på rätt plats i highscorelistan
-    - Low score listan lagras i filen "scoreboard.txt". Filen skapas om den inte finns, innehåller de fem lägsta resultaten och uppdateras efter varje spel.
+Avslutar programmet
 
-    I menyn ska man kunna välja att se lowscore-listan. Så ska den visas upp på skärmen
-    - I menyn kan användaren välja lowscore-listan med alternativ 3: "3. Se lowscore".
+### 9: Fake card test scanning
 
-    Datum och tid, namn och antal gissningar ska lagras och visas för varje low-score entry
-    - Datum och tid, namn och antal gissningar ska lagras och visas för varje low-score entry enligt formatet "DD/MM/YYY HH:MM NAMN SCORE", t.ex. "02/02/2023 13:17 TopPlayer 3
+```
+Please scan card to enter or X to back to admin mode
+CURRENTLY LAMP IS: Off
+```
 
-    Så istället för ”Vill du spela igen (Ja/Nej)?” ska du implementera en meny
-    - Efter varje spel visas en meny med tre alternativ med hjälp av switch case:
-    "\n1. Spela igen \n2. Avsluta \n3. Se lowscore \n".
+```
+Please scan card to enter or X to back to admin mode
+CURRENTLY LAMP IS: Off
+1212
+CURRENTLY LAMP IS: Green/Red
+```
 
-    Felhantering – inte krascha vid felaktig inmatning i menyer etc etc och hantera felmeddelanden för användaren
-    - Felmeddelande visas för användaren när användaren skriver felaktigt val i menyn. Användaren får uppmaning att försöka igen tills hen skriver in ett giltigt val.
-    Felmeddelande visas också när användaren skriver in fel format (text istället för siffror och/eller decimaltal). Meddelandet "Felaktig inmatning" visas och användaren får uppmaning att försöka igen tills hen skriver in ett giltigt tal.
+Det finns alltså en lampa på kortenheten. Den kommer lysa
 
-## Programmet ##
-Programmet inleds i main() med två funktioner, där spelet påbörjas genom funktionen 'playScoreGame()', och efter spelet är avslutat visas en meny() med tre alternativ: att spela spelet (1), visa scoreboard (2), eller att avsluta spelet (3). Om användaren väljer att spela spelet igen så startas funktionen 'playScoreGame()' igen. Om användaren väljer att visa scoreboard så visas viewLowScoreboard() och om användaren väljer att avsluta spelet så avslutas programmet.
+RÖTT: när man scannat ett kort som ej har access
+GRÖNT: när man scannat ett kort som har access
 
-playScoreGame() omfattar två funktioner: att spela spelet och att spara användarens resultat till en fil. playGame() ansvarar för att lagra användarens gissningsförsök i en variabel 'tries', medan scoreCheck() verifierar om användarens resultat är mindre än det nuvarande resultatet i scoreboard.
+Men vi fejkar med att skriva ut “CURRENTLY LAMP IS: Green” och Red
 
-om score.isHighScore är sant
-- playerAdd - registrerar användarens resultat som en ny post i Player-objektet
-- scoreToFile() - sätter in användarens resultat på lämplig plats i scoreboard-filen
+Att tänka på:
 
-### playGame() ###
-Funktionen playGame genererar ett slumpmässigt nummer med hjälp av getRandomNumber(). handlePrompt() hanterar användarens input och ger ledtrådar om gissningen är för hög eller för låg. Om användaren gissar rätt returneras antalet försök som användes.
+- inte krascha vid DÅLIG inmatning
+- felhantering, snäll mot användaren
+- systemet skall klara “OBEGRÄNSAT” antal kort (dynamisk minnesallokering – mallloc/realloc)
 
-getRandomNumber() - genererar ett slumpmässigt heltal mellan 1 och 100.
+### Väl godkänt
 
-handlePrompt() - hanterar användarens inmatning. Om användarens inmatning är ett giltigt heltal mellan 1 och 100 returneras det. Om inmatningen inte är ett giltigt heltal mellan 1 och 100 returneras ett felmeddelande.
+Kort ska kunna SPARAS i FIL! Dvs efter omstart ska alla kort läsas upp och finnas kvar
 
+Branch med alternativ implementation: gör en version UTAN dynamisk minnesallokering (och ingen statisk array heller...men du ska ändå klara “oändligt” många kort !). Dvs du får läsa upp EN I TAGET
 
-### scoreCheck() ###
-scoreCheck kontrollerar scoreboard-filen genom att läsa in den med hjälp av readFile() och iterera igenom varje rad. scoreAdd() funktionen anropas när användarens resultat uppfyller en av följande kriterier:
-(1) Det är mindre än det nuvarande resultatet i scoreboard.
-(2) Antalet rader i scoreboard är mindre än 5.
+hela tiden från fil, mer info https://youtu.be/GqKZFzM9COA
 
-scoreAdd() - skapar och returnerar ett Score-objekt med vald rad och isHighscore inställd på sant.
+Bra kod, best practices etc
 
-### playerAdd() ###
+## Kravspecifikation
 
-playerAdd skapar och returnerar en instans av "Player"-klassen.
+### Godkänt
 
-### scoreToFile() ###
+    Använda buffer overflow (inmatning)
+    - ...
 
-scoreToFile anropas med radnummer (line_to_write) och Player-objekt. Datum, namn och poäng sparas i en "newline"-rad med snprintf(). Scoreboard-filen läser varje rad med fgets() och ökar current_line med 1. Det finns tre scenarion där det nya resultatet sparas i temporär fil. Efter scenarion stängs scoreboard-filen och temporära filen med fclose(). Slutligen tas den nuvarande scoreboard-filen bort med remove() och ersätts av den temporära filen via funktionen rename().
+    Använda stack overflow (flöde)
+    - ...
 
----
+    Dela upp i funktioner
+    - ...
 
-#### Scenario (1): Om scoreboard-filen inte existerar
-- Skapa filen med createFileWithEmptyRow() 
-- empty row
+    inga globala variabler: samla "state" i struct
+    - ...
 
-#### Scenario (2): Om scoreboard-filen existerar och antalet rader är mindre än 5
-- same row
-- empty row
+    Hantera fel inmatning och inte kracha
+    - ...
 
-#### Scenario (3): Om scoreboard-filen existerar, antalet rader är 5 och andra platsen byts ut.
-- same row
-- found row
-- same row
-- same row
+### Väl Godkänt
 
+    Kort ska kunna SPARAS i FIL! Dvs efter omstart ska alla kort läsas upp och finnas kvar
 
-    Empty row <> en rad med newline, en ny rad
-    Same row <> en rad med buffer
-    Found row <> en rad med newline, en ny rad, en rad med buffer
+    Branch med alternativ implementation: gör en version UTAN dynamisk minnesallokering (och ingen statisk array heller...men du ska ändå klara “oändligt” många kort !).  Dvs du får läsa upp EN I TAGET
 
-## Filstruktur ##
-Det finns totalt 15 filer i projektet. 1 scoreboard fil. 3 structs, 2 common, 2 file, 1 main, 4 inputs och 2 prompt.
+    hela tiden från fil, mer info https://youtu.be/GqKZFzM9COA
 
-### main ###
-scoreboard.txt
+    Bra kod, best practices etc
+
+## Programmet
+
+Programmet startar i main() och visar en meny() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
+
+> ### choiceOneRemoteOpenDoor()
+
+(1) - Fjärröppna en dörr startar funktionen 'choiceOneRemoteOpenDoor()'. Funktionen visar ett meddelande som indikerar att lampan är grön och pausar sedan programmet i 3 sekunder med hjälp av funktionen 'waitSeconds(seconds)'.
+
+> ### choiceTwoListAllCards()
+
+(2) - För att visa alla kort och deras behörighet i systemet kan användaren välja att starta funktionen 'choiceTwoListAllCards()'. Då kommer alla data från viewArrayData(arrData) att skrivas ut i terminalen.
+
+viewArrayData() - läser in data och skriver ut datan i terminalen.
+
+> ### choiceThreeAddRemoveAccess()
+
+(3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToArray()' för att uppdatera kortets behörigheter. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
+
+getCardInfo() - Funktionen hämtar kortinformation. Därefter skapas en ny struct CardStatus med initial data. Funktionen findCardInArray() anropas för att hitta radnumret för kortet. Om kortet hittas, läses kortets data in i structen cardStatus. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet. Slutligen returneras structen cardStatus.
+
+- findCardInArray() - Funktionen letar efter kortets radnummer. Om kortet hittas, läggs kortinformationen till i cardStatus och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
+
+  - isAccessInArray() - Funktionen letar efter kortets behörighet. Om behörigheten hittas, läggs behörigheten till i cardStatus och funktionen returnerar true. Om behörigheten inte hittas, returnerar funktionen false.
+  - getCardDateToArray() - läser in data från filen och lägger till den i en array
+
+- appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret i filen.
+
+- addDatatoArray() - Denna funktion lägger till en rad med data i en fil. Funktionen tar tre parametrar: en array, raden som ska läggas till och radnumret. Först ökar funktionen storleken på arrayen med "relloc", flyttar sedan datan i arrayen, lägger till den nya raden och ökar till sist storleken på arrayen med 1.
+
+usePrompt() - Funktionen används för att läsa in användarens val.
+
+validateModifyInput() - Funktionen validerar användarens val genom att jämföra det med kortets nuvarande behörigheter och returnerar en boolean som indikerar om användarens val skiljer sig från dessa behörigheter.
+
+if (isModify)
+updateDataToArray() - Funktionen loopar igenom arrayen för att hitta raden med det valda kortnumret. Därefter uppdateras behörigheten för det valda kortnumret med hjälp av funktionerna strncpy() och strlen().
+
+> ### exit(EXIT_SUCCESS)
+
+(4) - Kör funktionen exit(EXIT_SUCCESS) som avslutar programmet.
+
+> ### choiceNineFakeScanCard()
+
+(9) - Om användaren väljer att skanna ett falskt testkort, startar funktionen 'choiceNineFakeScanCard()'. Först visas ett meddelande som indikerar att lampan är släckt, och användaren ombeds att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' används för att hämta kortets status. Om användaren anger ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte."
+
+- GetInputInt() - läser in ett kortnummer från användaren.
+- getFakeCardStatus() - Funktionen loopar igenom arrayen för att hitta raden med det valda kortnumret.  Om rätt rad hittas, så uppdateras kortbehörigheten med hjälp av isAccessInArray(). Därefter returneras cardAccess.
+
+  - isAccessInArray() - returnerar true om kortet har behörighet, annars returneras false.
+
+## Filstruktur
+
+Det finns totalt 15 filer i projektet. Programmet är uppdelat i en text fil 'door.txt' och följande struktur: Define.h, FileData, common, door.txt, file, input, main & prompt.
+
+### main
+
+door.txt
 
 main.c
-- void viewLowScoreboard()
-- int playGame()
-- void playGameScore()
+
+- void choiceNineFakeScanCard()
+- void choiceThreeAddRemoveAccess()
+- void choiceTwoListAllCards()
+- void choiceOneRemoteOpenDoor()
+- initialData()
 - void menu()
 - void main()
 
-### struct ###
-- FileData.h - FILE *file_ptr, char file_row[256]
-- Score.h - bool isHighScore, int row
-- Player.h - char date[20], char name[20], int points
+### struct
 
-### common.c ###
-- int getRandomNumber()
-- char *getCurrentDate()
- 
-### file.c ###
-- FileData useFile(char *filename, char *mode)
-- void createFileWithEmptyRow(char *filename)
-- void scoreToFile(int write_line, Player player)
+- FileData.h
+  - Data - int id, char *access, char *date
+  - ArrayData - Data *data, int size
+  - CardStatus - int row, bool hasAccess, char \*date, bool endOfFile
 
-### inputs ###
-playerinput.c
-- Player playerAdd(int points)
+### common.c
 
-scoreinput.c
-- Score scoreCheck(int tries)
+- char *concatStrings(const char *str1, const char \*str2)
+- void pauseKeyboard()
+- void waitSeconds(int seconds)
+- void getCardDateToArray(CardStatus *cardStatus, const char *date)
+- char *getCurrentDate(char *format)
+- int getCardNumber(char \*row)
 
-### prompt.c ###
-- void validateInput(char *inputBuffer)
-- bool isInteger(char *input)
-- bool isWithinRange(int num, int min, int max)
-- int usePrompt(char *prompt, int max, int tries)
+### file.c
+
+- void viewArrayData(ArrayData arrData)
+- bool isAccessInArray(ArrayData arrData, int i)
+- void updateDataToArray(ArrayData *arrData, int cardNumber, char *newAccess)
+- void addDataToArray(ArrayData *arrData, Data newData, int row)
+- bool findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+- void appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+- CardStatus getCardInfo(int cardNumber, ArrayData *arrData)
+- bool getFakeCardStatus(ArrayData arrData, int cardNumber)
+
+### input.c
+
+- bool GetInputInt(char *prompt, int *value)
+
+### prompt.c
+
+- void validateInput(char \*inputBuffer)
+- bool isInteger(char \*input)
+- bool isInRange(int num, int min, int max)
+- int usePrompt(const char \*prompt, int max)
+- bool validateModifyInput(int input, CardStatus card, int cardNumber, char \*text)
+
+### Define.c
+
+- file
+  - MAX_ROW_LENGTH 60
+  - TEXT_NO_ACCESS "No access"
+  - TEXT_ACCESS "Access"
+  - TEXT_ADDED " Added to system"
+- main
+  - OPTION_REMOTE_OPEN_DOOR 1
+  - OPTION_LIST_ALL_CARDS 2
+  - OPTION_ADD_REMOVE_ACCESS 3
+  - OPTOON_EXIT 4
+  - OPTION_FAKE_SCAN_CARD 9
+  - CLOCKS_PER_SEC 1000
+- prompt
+  - PROMPT_MIN 1
+  - MENU_MAX 9
+  - CHOICE_THREE_MAX 2
