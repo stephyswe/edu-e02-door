@@ -22,7 +22,7 @@ typedef struct
 
 typedef struct {
     int row;
-    bool hasAccess;
+    bool isAccess;
     char *date;
     bool endOfFile;
 } Card;

@@ -20,7 +20,7 @@ bool findCardInFile(FileData fdata, int cardNumber, Card *card)
         if (cardNumber == getCardNumber(fdata.file_row))
         {
             cardExist = true;
-            card->hasAccess = isAccessInFile(fdata.file_row);
+            card->isAccess = isAccessInFile(fdata.file_row);
             card->date = getCardDateToFile(fdata.file_row);
             break;
         }
@@ -50,7 +50,7 @@ Card getCardInfo(int cardNumber)
     Card card = {
         .row = 1,
         .endOfFile = false,
-        .hasAccess = false,
+        .isAccess = false,
         .date = NULL};
 
     bool cardExist = findCardInFile(fdata, cardNumber, &card);

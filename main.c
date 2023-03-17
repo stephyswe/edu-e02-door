@@ -48,7 +48,7 @@ void choiceThreeAddRemoveAccess()
     Card card = getCardInfo(cardNumber);
 
     // print card information
-    printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
+    printf("This card %s.\n", card.isAccess ? "has access" : "has no access");
 
     // get input
     int input = usePrompt("Enter 1 for access, 2 for no access.\n", CHOICE_THREE_MAX);

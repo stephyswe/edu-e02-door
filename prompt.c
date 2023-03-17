@@ -91,7 +91,7 @@ bool validateModifyInput(int input, Card card, int cardNumber, char *text)
     bool modify = false;
 
     // check if input is 1 or 2
-    if ((input == 1 && !card.hasAccess) || (input == 2 && card.hasAccess))
+    if ((input == 1 && !card.isAccess) || (input == 2 && card.isAccess))
     {
         // decide action
         const char *action = input == 1 ? TEXT_ACCESS : TEXT_NO_ACCESS;
