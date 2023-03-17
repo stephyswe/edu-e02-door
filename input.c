@@ -117,6 +117,12 @@ INPUT_RESULT GetInputAlt(char *prompt, char *buff, int maxSize)
 		return INPUT_RESULT_NO_INPUT;
 	}
 
+	// If buff equal X or x, return;
+	if (buff[0] == 'X' || buff[0] == 'x')
+	{
+		return INPUT_RESULT_EXIT;
+	}
+
 	// Remove newline character
 	size_t len = strlen(buff);
 	if (len > 0 && buff[len - 1] == '\n')

@@ -24,7 +24,13 @@ void choiceNineFakeScanCard()
     char *LAMP_INIT = concatStrings(LAMP_MESSAGE, " Off\n");
 
     // get card number
-    GetInputInt(LAMP_INIT, &cardNumber);
+    bool isNumber = GetInputInt(LAMP_INIT, &cardNumber);
+
+    // if not number, return
+    if (!isNumber)
+    {
+        return;
+    }
 
     // get card status
     bool status = getFakeCardStatus(cardNumber);
