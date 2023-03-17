@@ -17,8 +17,8 @@ void waitSeconds(int seconds);
 
 // Function: getCardDateToArray
 // Description: Returns card date
-// Parameters: CardStatus *cardStatus, const char *date
-void getCardDateToArray(CardStatus *cardStatus, const char *date);
+// Parameters: Card *card, const char *date
+void getCardDateToArray(Card *card, const char *date);
 
 // Function: getCurrentDate specific format
 // Description: Returns current date

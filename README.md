@@ -127,11 +127,11 @@ viewArrayData() - läser in data och skriver ut datan i terminalen.
 
 (3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToArray()' för att uppdatera kortets behörigheter. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
 
-getCardInfo() - Funktionen hämtar kortinformation. Därefter skapas en ny struct CardStatus med initial data. Funktionen findCardInArray() anropas för att hitta radnumret för kortet. Om kortet hittas, läses kortets data in i structen cardStatus. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet. Slutligen returneras structen cardStatus.
+getCardInfo() - Funktionen hämtar kortinformation och skapar sedan en ny struct Card med initial data. För att hitta radnumret för kortet anropas funktionen findCardInArray(). Om kortet hittas, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet. Till slut returneras structen Card.
 
-- findCardInArray() - Funktionen letar efter kortets radnummer. Om kortet hittas, läggs kortinformationen till i cardStatus och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
+- findCardInArray() - Funktionen letar efter kortets radnummer. Om kortet hittas, läggs kortinformationen till i card och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
 
-  - isAccessInArray() - Funktionen letar efter kortets behörighet. Om behörigheten hittas, läggs behörigheten till i cardStatus och funktionen returnerar true. Om behörigheten inte hittas, returnerar funktionen false.
+  - isAccessInArray() - Funktionen letar efter kortets behörighet. Om behörigheten hittas, läggs behörigheten till i card och funktionen returnerar true. Om behörigheten inte hittas, returnerar funktionen false.
   - getCardDateToArray() - läser in data från filen och lägger till den i en array
 
 - appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret i filen.
@@ -179,22 +179,22 @@ main.c
 - FileData.h
   - Data - int id, char *access, char *date
   - ArrayData - Data *data, int size
-  - CardStatus - int row, bool hasAccess, char \*date, bool endOfFile
+  - Card - int row, bool hasAccess, char \*date, bool endOfFile
 
 ### common.c
 
 - char *concatStrings(const char *str1, const char \*str2)
 - void pauseKeyboard()
 - void waitSeconds(int seconds)
-- void getCardDateToArray(CardStatus *cardStatus, const char *date)
+- void getCardDateToArray(Card *card, const char *date)
 - char *getCurrentDate(char *format)
 - int getCardNumber(char \*row)
 
 ### util.c
 
-- bool findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
-- void appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
-- CardStatus getCardInfo(int cardNumber, ArrayData *arrData)
+- bool findCardInArray(ArrayData *arrData, int cardNumber, Card *card)
+- void appendNewCard(ArrayData *arrData, int cardNumber, Card *card)
+- Card getCardInfo(int cardNumber, ArrayData *arrData)
 - bool getFakeCardStatus(ArrayData arrData, int cardNumber)
 
 ### array.c
@@ -214,7 +214,7 @@ main.c
 - bool isInteger(char \*input)
 - bool isInRange(int num, int min, int max)
 - int usePrompt(const char \*prompt, int max)
-- bool validateModifyInput(int input, CardStatus card, int cardNumber, char \*text)
+- bool validateModifyInput(int input, Card card, int cardNumber, char \*text)
 
 ### Define.c
 

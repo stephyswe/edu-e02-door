@@ -23,6 +23,6 @@ typedef struct
     bool hasAccess;
     char *date;
     bool endOfFile;
-} CardStatus;
+} Card;
 
 #endif /* FILEDATA_H */

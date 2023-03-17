@@ -10,7 +10,7 @@
 #include "common.h"
 #include "array.h"
 
-bool findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+bool findCardInArray(ArrayData *arrData, int cardNumber, Card *card)
 {
     // use while loop to find the card number
     int i = 0;
@@ -21,40 +21,40 @@ bool findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
         if (cardNumber == arrData->data[i].id)
         {
             cardExist = true;
-            cardStatus->hasAccess = isAccessInArray(*arrData, i);
-            getCardDateToArray(cardStatus, arrData->data[i].date);
+            card->hasAccess = isAccessInArray(*arrData, i);
+            getCardDateToArray(card, arrData->data[i].date);
             break;
         }
-        cardStatus->row++;
+        card->row++;
         i++;
     }
-    cardStatus->endOfFile = cardStatus->row >= arrData->size;
+    card->endOfFile = card->row >= arrData->size;
     return cardExist;
 }
 
-void appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+void appendNewCard(ArrayData *arrData, int cardNumber, Card *card)
 {
-    const char *textFormat = cardStatus->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
+    const char *textFormat = card->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
     char *date = getCurrentDate("%Y-%m-%d");
-    addDataToArray(arrData, (Data){cardNumber, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), date}, cardStatus->row);
+    addDataToArray(arrData, (Data){cardNumber, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), date}, card->row);
 }
 
-CardStatus getCardInfo(int cardNumber, ArrayData *arrData)
+Card getCardInfo(int cardNumber, ArrayData *arrData)
 {
-    CardStatus cardStatus = {
+    Card card = {
         .row = 0,
         .endOfFile = false,
         .hasAccess = false,
         .date = NULL};
 
-    bool cardExist = findCardInArray(arrData, cardNumber, &cardStatus);
+    bool cardExist = findCardInArray(arrData, cardNumber, &card);
 
     if (!cardExist)
     {
-        appendNewCard(arrData, cardNumber, &cardStatus);
+        appendNewCard(arrData, cardNumber, &card);
     }
 
-    return cardStatus;
+    return card;
 };
 
 bool getFakeCardStatus(ArrayData arrData, int cardNumber)

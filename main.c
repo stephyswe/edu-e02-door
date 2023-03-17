@@ -47,7 +47,7 @@ void choiceThreeAddRemoveAccess(ArrayData *arrData)
     GetInputInt("Enter cardnumber>", &cardNumber);
 
     // Get card information
-    CardStatus card = getCardInfo(cardNumber, arrData);
+    Card card = getCardInfo(cardNumber, arrData);
 
     // print card information
     printf("This card %s\n", card.hasAccess ? "has access" : "has no access");

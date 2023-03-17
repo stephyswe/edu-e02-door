@@ -88,7 +88,7 @@ int usePrompt(const char *prompt, int max)
     }
 }
 
-bool validateModifyInput(int input, CardStatus card, int cardNumber, char *text)
+bool validateModifyInput(int input, Card card, int cardNumber, char *text)
 {
     // variables
     bool modify = false;

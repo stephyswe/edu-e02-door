@@ -51,10 +51,10 @@ void waitSeconds(int seconds)
     }
 }
 
-void getCardDateToArray(CardStatus *cardStatus, const char *date)
+void getCardDateToArray(Card *card, const char *date)
 {
-    cardStatus->date = malloc(strlen(date) + 1);
-    strcpy(cardStatus->date, date);
+    card->date = malloc(strlen(date) + 1);
+    strcpy(card->date, date);
 }
 
 char *getCurrentDate(char *format)

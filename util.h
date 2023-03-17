@@ -8,8 +8,8 @@
 // Function: getCardInfo
 // Description: Get card information
 // Parameters: int cardNumber
-// Returns: CardStatus cardStatus
-CardStatus getCardInfo(int cardNumber, ArrayData *data);
+// Returns: Card card
+Card getCardInfo(int cardNumber, ArrayData *data);
 
 // Function: getFakeCardStatus
 // Description: Get fake card status
