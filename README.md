@@ -133,7 +133,7 @@ pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
 getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hjälp av useFile(FILE_DOOR). Därefter skapas en ny struct Card med initial data. Funktionen findCardInFile() anropas för att hitta radnumret för kortet i filen. Om kortet hittas i filen, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet i filen. Slutligen returneras structen Card.
 
 - findCardInFile() - Funktionen letar efter kortets radnummer i filen. Om kortet hittas, läggs kortinformationen till i card och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
-  - isAccessInArray() - Funktionen letar efter kortets behörighet. Om behörigheten hittas, läggs behörigheten till i card och funktionen returnerar true. Om behörigheten inte hittas, returnerar funktionen false.
+  - isAccessInFile() - returnerar true om kortet i filen har behörighet, annars returneras false.
   - getCardDateToFile() - läser in kortets datum från filen och returnerar det
 
 - appendNewCard() - Om kortet inte redan finns i filen, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med snprintf() och skickas till funktionen addDataToFile() för att lägga till det nya kortnumret i filen. Slutligen läggs dagens datum till i card.
