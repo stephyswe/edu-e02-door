@@ -113,6 +113,8 @@ Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärrö
 
 viewArrayData() - läser in data och skriver ut datan i terminalen.
 
+pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
+
 > ### choiceThreeAddRemoveAccess()
 
 (3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToArray()' för att uppdatera kortets behörigheter. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
