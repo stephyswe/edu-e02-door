@@ -109,7 +109,7 @@ Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärrö
 
 > ### choiceTwoListAllCards()
 
-(2) - För att visa alla kort och deras behörighet i systemet kan användaren välja att starta funktionen 'choiceTwoListAllCards()'. Då kommer alla data från viewArrayData(arrData) att skrivas ut i terminalen.
+(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewArrayData(arrData) och skriver ut dem i terminalen.
 
 viewArrayData() - läser in data och skriver ut datan i terminalen.
 
