@@ -9,7 +9,8 @@ Uppgift 2. Administrationssystem dörr - Väl Godkänt kritierium ink. Fil - v.1
 
 ## Beskrivning
 
-Programmet "Administrationssystem dörr" är ett inpasseringssystem där besökaren scannar sitt kort. Besökaren kan välja fyra menyval som är kopplade till olika funktioner.
+Programmet "Administrationssystem dörr" är ett inpasseringssystem där besökaren scannar sitt kort. Besökaren kan välja fyra menyval som är kopplade till olika funktioner. Eftersom många funktioner är liknande i både "main"- och "vg-file"-grenarna, läggs ett "*" till i avsnitt 'Filstruktur' för att visa att funktionen finns tillgänglig i båda grenarna.
+
 
 ```
 Admin menu
@@ -175,12 +176,12 @@ door.txt
 
 main.c
 
-- void choiceNineFakeScanCard()
-- void choiceThreeAddRemoveAccess()
-- void choiceTwoListAllCards()
-- void choiceOneRemoteOpenDoor()
-- void menu()
-- void main()
+- void choiceNineFakeScanCard() *
+- void choiceThreeAddRemoveAccess() *
+- void choiceTwoListAllCards() *
+- void choiceOneRemoteOpenDoor() *
+- void menu() *
+- void main() *
 
 ### struct
 
@@ -191,11 +192,11 @@ main.c
 
 ### common.c
 
-- char *concatStrings(const char *str1, const char \*str2)
-- void pauseKeyboard()
-- void waitSeconds(int seconds)
+- char *concatStrings(const char *str1, const char \*str2) *
+- void pauseKeyboard() *
+- void waitSeconds(int seconds) *
 - char *getCardDateToFile(const char *row)
-- char *getCurrentDate(char *format)
+- char *getCurrentDate(char *format) *
 - int getCardNumber(char \*row)
 
 ### util.c
@@ -222,33 +223,33 @@ main.c
 
 ### input.c
 
-- bool GetInputInt(char *prompt, int *value)
+- bool GetInputInt(char *prompt, int *value) *
 
 ### prompt.c
 
-- void validateInput(char \*inputBuffer)
-- bool isInteger(char \*input)
-- bool isInRange(int num, int min, int max)
-- int usePrompt(const char \*prompt, int max)
+- void validateInput(char \*inputBuffer) *
+- bool isInteger(char \*input) *
+- bool isInRange(int num, int min, int max) *
+- int usePrompt(const char \*prompt, int max) *
 - bool validateModifyInput(int input, Card card, int cardNumber, char \*text)
 
-### Define.c
+### Define.h
 
 - file
   - FILE_DOOR "door.txt"
   - FILE_SIZE 1024
-  - MAX_ROW_LENGTH 60
-  - TEXT_NO_ACCESS "No access"
-  - TEXT_ACCESS "Access"
+  - MAX_ROW_LENGTH 60 *
+  - TEXT_NO_ACCESS "No access" *
+  - TEXT_ACCESS "Access" *
   - TEXT_ADDED " Added to system"
 - main
-  - OPTION_REMOTE_OPEN_DOOR 1
-  - OPTION_LIST_ALL_CARDS 2
-  - OPTION_ADD_REMOVE_ACCESS 3
-  - OPTOON_EXIT 4
-  - OPTION_FAKE_SCAN_CARD 9
-  - CLOCKS_PER_SEC 1000
+  - OPTION_REMOTE_OPEN_DOOR 1 *
+  - OPTION_LIST_ALL_CARDS 2 *
+  - OPTION_ADD_REMOVE_ACCESS 3 *
+  - OPTOON_EXIT 4 *
+  - OPTION_FAKE_SCAN_CARD 9 *
+  - CLOCKS_PER_SEC 1000 *
 - prompt
-  - PROMPT_MIN 1
-  - MENU_MAX 9
-  - CHOICE_THREE_MAX 2
+  - PROMPT_MIN 1 *
+  - MENU_MAX 9 *
+  - CHOICE_THREE_MAX 2 *
