@@ -123,8 +123,8 @@ getCardInfo() - Funktionen hämtar kortinformation och skapar sedan en ny struct
 
 - findCardInArray() - Funktionen letar efter kortets radnummer. Om kortet hittas, läggs kortinformationen till i card och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
 
-  - isAccessInArray() - Funktionen letar efter kortets behörighet. Om behörigheten hittas, läggs behörigheten till i card och funktionen returnerar true. Om behörigheten inte hittas, returnerar funktionen false.
-  - getCardDateToArray() - läser in kortets datum och lägger till det i structen
+  - isAccessInArray() - returnerar true om kortet har behörighet, annars returneras false.
+  - getCardDateToArray() - läser in kortets datum och lägger till det i struct Card.
 
 - appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret i filen.
 
