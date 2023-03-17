@@ -99,16 +99,6 @@ Att tänka på:
     Hantera fel inmatning och inte kracha
     - ...
 
-### Väl Godkänt
-
-    Kort ska kunna SPARAS i FIL! Dvs efter omstart ska alla kort läsas upp och finnas kvar
-
-    Branch med alternativ implementation: gör en version UTAN dynamisk minnesallokering (och ingen statisk array heller...men du ska ändå klara “oändligt” många kort !).  Dvs du får läsa upp EN I TAGET
-
-    hela tiden från fil, mer info https://youtu.be/GqKZFzM9COA
-
-    Bra kod, best practices etc
-
 ## Programmet
 
 Programmet startar i main() och visar en meny() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
