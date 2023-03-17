@@ -188,7 +188,7 @@ main.c
 - FileData.h
   - FileData - FILE \*file_ptr, char file_row[256]
   - FileAppend - char \*\*lines, int row_insert
-  - Card - int row, bool isAccess, char \*date, bool endOfFile
+  - Card - int row, bool isAccess, char \*date, bool endOfFile *
 
 ### common.c
 
