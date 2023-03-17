@@ -43,7 +43,7 @@ void choiceThreeAddRemoveAccess(ArrayData *arrData)
     char text[MAX_ROW_LENGTH];
 
     // Prompt user for card number
-    GetInputInt("Enter card number> ", &cardNumber);
+    GetInputInt("Enter cardnumber>", &cardNumber);
 
     // Get card information
     Card card = getCardInfo(cardNumber, arrData);
