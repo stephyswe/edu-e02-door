@@ -170,11 +170,9 @@ updateDataToArray() - Funktionen loopar igenom arrayen för att hitta raden med 
 
 ## Filstruktur
 
-Det finns totalt 15 filer i projektet. Programmet är uppdelat i en text fil 'door.txt' och följande struktur: Define.h, FileData, common, door.txt, file, input, main & prompt.
+Det finns totalt 15 filer i projektet. Programmet är uppdelat i en ArrayData och följande struktur: Define.h, FileData, common, util, array, input, main & prompt.
 
 ### main
-
-door.txt
 
 main.c
 
@@ -202,16 +200,19 @@ main.c
 - char *getCurrentDate(char *format)
 - int getCardNumber(char \*row)
 
-### file.c
+### util.c
 
-- void viewArrayData(ArrayData arrData)
-- bool isAccessInArray(ArrayData arrData, int i)
-- void updateDataToArray(ArrayData *arrData, int cardNumber, char *newAccess)
-- void addDataToArray(ArrayData *arrData, Data newData, int row)
 - bool findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
 - void appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
 - CardStatus getCardInfo(int cardNumber, ArrayData *arrData)
 - bool getFakeCardStatus(ArrayData arrData, int cardNumber)
+
+### array.c
+
+- bool isAccessInArray(ArrayData arrData, int i)
+- void viewArrayData(ArrayData arrData)
+- void updateDataToArray(ArrayData *arrData, int cardNumber, char *newAccess)
+- void addDataToArray(ArrayData *arrData, Data newData, int row)
 
 ### input.c
 

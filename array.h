@@ -5,25 +5,16 @@
 // struct files
 #include "FileData.h"
 
-#ifndef FILE_H
-#define FILE_H
+// Function: isAccessInArray
+// Description: Check if access is in array
+// Parameters: ArrayData arrData, int i
+// Returns: bool isAccessInArray
+bool isAccessInArray(ArrayData arrData, int i);
 
 // Function: viewArrayData
 // Description: View all array data
 // Parameters: ArrayData arrData
 void viewArrayData(ArrayData arrData);
-
-// Function: getFakeCardStatus
-// Description: Get fake card status
-// Parameters: ArrayData arrData, int cardNumber
-// Returns: bool fakeCardStatus
-bool getFakeCardStatus(ArrayData arrData, int cardNumber);
-
-// Function: getCardInfo
-// Description: Get card information
-// Parameters: int cardNumber
-// Returns: CardStatus cardStatus
-CardStatus getCardInfo(int cardNumber, ArrayData *data);
 
 // Function: addDataToArray
 // Description: Add data to array
@@ -34,5 +25,3 @@ void addDataToArray(ArrayData *arrData, Data newData, int row);
 // Description: Update data in array
 // Parameters: ArrayData arrData, int id, char newAccess
 void updateDataToArray(ArrayData *arrData, int id, char *newAccess);
-
-#endif /* FILE_H */
