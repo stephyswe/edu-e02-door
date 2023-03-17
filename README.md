@@ -120,7 +120,7 @@ Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärrö
 
 > ### choiceTwoListAllCards()
 
-(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewFileData(FILE_DOOR) från filen 'door.txt' och skriver ut dem i terminalen.
+(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewFileData(FILE_DOOR) från filen 'door.txt' och skriver ut dem i terminalen. Slutligen anropas 'pauseKeyboard()' för att pausa programmet tills användaren trycker på en tangent.
 
 viewFileData() - läser in data från filen 'door.txt' och skriver ut datan i terminalen.
 
