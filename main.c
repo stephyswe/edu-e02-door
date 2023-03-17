@@ -39,28 +39,28 @@ void choiceNineFakeScanCard(ArrayData arrData)
 // Description: Add or remove access to card
 void choiceThreeAddRemoveAccess(ArrayData *arrData)
 {
-    // variables
     int cardNumber;
     char text[MAX_ROW_LENGTH];
 
-    // get card number
-    GetInputInt("Enter cardnumber>", &cardNumber);
+    // Prompt user for card number
+    GetInputInt("Enter card number> ", &cardNumber);
 
     // Get card information
     Card card = getCardInfo(cardNumber, arrData);
 
-    // print card information
+    // Print card information
     printf("This card %s\n", card.isAccess ? "has access" : "has no access");
 
-    // get input
+    // Prompt user for input
     int input = usePrompt("Enter 1 for access, 2 for no access\n", CHOICE_THREE_MAX);
 
-    // check input, return true if modify is valid
+    // Validate input and set modify flag
     bool isModify = validateModifyInput(input, card, cardNumber, text);
 
-    // modify file if needed
-    if (isModify)
+    // Modify if needed
+    if (isModify) {
         updateDataToArray(arrData, cardNumber, text);
+    }
 }
 
 // Function: choiceTwoListAllCards
