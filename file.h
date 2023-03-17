@@ -19,11 +19,11 @@ void viewArrayData(ArrayData arrData);
 // Returns: bool fakeCardStatus
 bool getFakeCardStatus(ArrayData arrData, int cardNumber);
 
-// Function: getCardStatus
-// Description: Get card status
+// Function: getCardInfo
+// Description: Get card information
 // Parameters: int cardNumber
 // Returns: CardStatus cardStatus
-CardStatus getCardStatus(int cardNumber, ArrayData *data);
+CardStatus getCardInfo(int cardNumber, ArrayData *data);
 
 // Function: addDataToArray
 // Description: Add data to array

@@ -29,12 +29,12 @@ bool isAccessInArray(ArrayData arrData, int i)
     return strcmp(arrData.data[i].access, "No access Added to system:") != 0;
 }
 
-void updateDataToArray(ArrayData *arrData, int id, char *newAccess)
+void updateDataToArray(ArrayData *arrData, int cardNumber, char *newAccess)
 {
     // Loop through the array to find the row with the specified id
     for (int i = 0; i < arrData->size; i++)
     {
-        if (arrData->data[i].id == id)
+        if (cardNumber == arrData->data[i].id)
         {
             // Update the access field
             strncpy(arrData->data[i].access, newAccess, strlen(newAccess));
@@ -64,16 +64,17 @@ void addDataToArray(ArrayData *arrData, Data newData, int row)
     arrData->size++;
 }
 
-void findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+bool findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
 {
     // use while loop to find the card number
     int i = 0;
+    bool cardExist = false;
 
     while (i < arrData[0].size && cardNumber >= arrData->data[i].id)
     {
         if (cardNumber == arrData->data[i].id)
         {
-            cardStatus->cardExists = true;
+            cardExist = true;
             cardStatus->hasAccess = isAccessInArray(*arrData, i);
             getCardDateToArray(cardStatus, arrData->data[i].date);
             break;
@@ -82,27 +83,27 @@ void findCardInArray(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
         i++;
     }
     cardStatus->endOfFile = cardStatus->row >= arrData->size;
+    return cardExist;
 }
 
-ArrayData *appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
+void appendNewCard(ArrayData *arrData, int cardNumber, CardStatus *cardStatus)
 {
     const char *textFormat = cardStatus->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
     char *date = getCurrentDate("%Y-%m-%d");
     addDataToArray(arrData, (Data){cardNumber, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), date}, cardStatus->row);
 }
 
-CardStatus getCardStatus(int cardNumber, ArrayData *arrData)
+CardStatus getCardInfo(int cardNumber, ArrayData *arrData)
 {
     CardStatus cardStatus = {
-        .row = 1,
+        .row = 0,
         .endOfFile = false,
         .hasAccess = false,
-        .cardExists = false,
         .date = NULL};
 
-    findCardInArray(arrData, cardNumber, &cardStatus);
+    bool cardExist = findCardInArray(arrData, cardNumber, &cardStatus);
 
-    if (!cardStatus.cardExists)
+    if (!cardExist)
     {
         appendNewCard(arrData, cardNumber, &cardStatus);
     }

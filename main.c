@@ -19,13 +19,15 @@ void choiceNineFakeScanCard(ArrayData arrData)
     const char *LAMP_STATUS_MESSAGES[] = {"Red", "Green"};
     int cardNumber;
 
+    printf("Please scan card to enter or X to back to admin mode\n");
+
     // add two string together to a new char array
     char *LAMP_INIT = concatStrings(LAMP_MESSAGE, " Off\n");
 
     // get card number
     GetInputInt(LAMP_INIT, &cardNumber);
 
-    // get card status
+     // get card status
     bool status = getFakeCardStatus(arrData, cardNumber);
 
     // print card status
@@ -43,14 +45,14 @@ void choiceThreeAddRemoveAccess(ArrayData *arrData)
     // get card number
     GetInputInt("Enter cardnumber>", &cardNumber);
 
-    // Get card information from file and append if it doesn't exist
-    CardStatus card = getCardStatus(cardNumber, arrData);
+    // Get card information
+    CardStatus card = getCardInfo(cardNumber, arrData);
 
     // print card information
-    printf("This card %s.\n", card.hasAccess ? "has access" : "has no access");
+    printf("This card %s\n", card.hasAccess ? "has access" : "has no access");
 
     // get input
-    int input = usePrompt("Enter 1 for access, 2 for no access.\n", CHOICE_THREE_MAX);
+    int input = usePrompt("Enter 1 for access, 2 for no access\n", CHOICE_THREE_MAX);
 
     // check input, return true if modify is valid
     bool isModify = validateModifyInput(input, card, cardNumber, text);

@@ -22,7 +22,6 @@ typedef struct
     int row;
     bool hasAccess;
     char *date;
-    bool cardExists;
     bool endOfFile;
 } CardStatus;
 
