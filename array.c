@@ -29,7 +29,7 @@ void updateDataToArray(ArrayData *arrData, int cardNumber, char *newAccess)
         {
             // Update the access field
             strncpy(arrData->data[i].access, newAccess, strlen(newAccess));
-            arrData->data[i].access[strlen(newAccess)] = '\0'; // Ensure null termination                                                 // Exit the function after updating the data
+            arrData->data[i].access[strlen(newAccess)] = '\0'; // Ensure null termination
         }
     }
 }
