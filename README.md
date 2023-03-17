@@ -9,7 +9,7 @@ Uppgift 2. Administrationssystem dörr - Godkänt kritierium - v.1.1
 
 ## Beskrivning
 
-Programmet "Administrationssystem dörr" är ett inpasseringssystem där besökaren scannar sitt kort. Användaren kan välja fyra menyval som är kopplade till olika funktioner.
+Programmet "Administrationssystem dörr" är ett inpasseringssystem där besökaren scannar sitt kort. Användaren kan välja fyra menyval som är kopplade till olika funktioner. Eftersom många funktioner är liknande i både "main"- och "vg-file"-grenarna, läggs ett "*" till i avsnitt 'Filstruktur' för att visa att funktionen finns tillgänglig i båda grenarna.
 
 ```
 Admin menu
@@ -166,29 +166,28 @@ Det finns totalt 15 filer i projektet. Programmet är uppdelat i en ArrayData oc
 
 main.c
 
-- void choiceNineFakeScanCard()
-- void choiceThreeAddRemoveAccess()
-- void choiceTwoListAllCards()
-- void choiceOneRemoteOpenDoor()
+- void choiceNineFakeScanCard() *
+- void choiceThreeAddRemoveAccess() *
+- void choiceTwoListAllCards() *
+- void choiceOneRemoteOpenDoor() *
 - initialData()
-- void menu()
-- void main()
+- void menu() *
+- void main() *
 
 ### struct
 
 - FileData.h
   - Data - int id, char *access, char *date
   - ArrayData - Data *data, int size
-  - Card - int row, bool isAccess, char \*date, bool endOfFile
+  - Card - int row, bool isAccess, char \*date, bool endOfFile *
 
 ### common.c
 
-- char *concatStrings(const char *str1, const char \*str2)
-- void pauseKeyboard()
-- void waitSeconds(int seconds)
+- char *concatStrings(const char *str1, const char \*str2) *
+- void pauseKeyboard() *
+- void waitSeconds(int seconds) *
 - void getCardDateToArray(Card *card, const char *date)
-- char *getCurrentDate(char *format)
-- int getCardNumber(char \*row)
+- char *getCurrentDate(char *format) *
 
 ### util.c
 
@@ -206,31 +205,31 @@ main.c
 
 ### input.c
 
-- bool GetInputInt(char *prompt, int *value)
+- bool GetInputInt(char *prompt, int *value) *
 
 ### prompt.c
 
-- void validateInput(char \*inputBuffer)
-- bool isInteger(char \*input)
-- bool isInRange(int num, int min, int max)
-- int usePrompt(const char \*prompt, int max)
+- void validateInput(char \*inputBuffer) *
+- bool isInteger(char \*input) *
+- bool isInRange(int num, int min, int max) *
+- int usePrompt(const char \*prompt, int max) *
 - bool validateModifyInput(int input, Card card, int cardNumber, char \*text)
 
 ### Define.c
 
 - file
-  - MAX_ROW_LENGTH 60
-  - TEXT_NO_ACCESS "No access"
-  - TEXT_ACCESS "Access"
+  - MAX_ROW_LENGTH 60 *
+  - TEXT_NO_ACCESS "No access" *
+  - TEXT_ACCESS "Access" *
   - TEXT_ADDED " Added to system"
 - main
-  - OPTION_REMOTE_OPEN_DOOR 1
-  - OPTION_LIST_ALL_CARDS 2
-  - OPTION_ADD_REMOVE_ACCESS 3
-  - OPTOON_EXIT 4
-  - OPTION_FAKE_SCAN_CARD 9
-  - CLOCKS_PER_SEC 1000
+  - OPTION_REMOTE_OPEN_DOOR 1 *
+  - OPTION_LIST_ALL_CARDS 2 *
+  - OPTION_ADD_REMOVE_ACCESS 3 *
+  - OPTOON_EXIT 4 *
+  - OPTION_FAKE_SCAN_CARD 9 *
+  - CLOCKS_PER_SEC 1000 *
 - prompt
-  - PROMPT_MIN 1
-  - MENU_MAX 9
-  - CHOICE_THREE_MAX 2
+  - PROMPT_MIN 1 * 
+  - MENU_MAX 9 *
+  - CHOICE_THREE_MAX 2 *

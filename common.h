@@ -25,9 +25,3 @@ void getCardDateToArray(Card *card, const char *date);
 // Parameters: char *format
 // Returns: char *date
 char *getCurrentDate(char *format);
-
-// Function: getCardNumber
-// Description: Returns card number
-// Parameters: char *row
-// Returns: int number
-int getCardNumber(char *row);
