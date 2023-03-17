@@ -196,13 +196,16 @@ void addDataToFile(char *file_path, int rowLine, char *text)
     freeLines(fileAppend);
 }
 
-void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
+bool findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
 {
+
+    bool cardExist = false;
+
     while (fgets(fdata.file_row, MAX_ROW_LENGTH, fdata.file_ptr) != NULL && cardNumber >= getCardNumber(fdata.file_row))
     {
         if (cardNumber == getCardNumber(fdata.file_row))
         {
-            cardStatus->cardExists = true;
+            cardExist = true;
             cardStatus->hasAccess = isAccessInFile(fdata.file_row);
             cardStatus->date = getCardDateToFile(fdata.file_row);
             break;
@@ -211,6 +214,7 @@ void findCardInFile(FileData fdata, int cardNumber, CardStatus *cardStatus)
     }
 
     cardStatus->endOfFile = feof(fdata.file_ptr);
+    return cardExist;
 }
 
 void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
@@ -225,7 +229,7 @@ void appendNewCard(FileData fdata, int cardNumber, CardStatus *cardStatus)
     cardStatus->date = date;
 }
 
-CardStatus getCardStatus(int cardNumber)
+CardStatus getCardInfo(int cardNumber)
 {
     FileData fdata = useFile(FILE_DOOR, "r+");
 
@@ -233,12 +237,11 @@ CardStatus getCardStatus(int cardNumber)
         .row = 1,
         .endOfFile = false,
         .hasAccess = false,
-        .cardExists = false,
         .date = NULL};
 
-    findCardInFile(fdata, cardNumber, &cardStatus);
+    bool cardExist = findCardInFile(fdata, cardNumber, &cardStatus);
 
-    if (!cardStatus.cardExists)
+    if (!cardExist)
     {
         appendNewCard(fdata, cardNumber, &cardStatus);
     }

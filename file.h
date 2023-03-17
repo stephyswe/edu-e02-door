@@ -30,10 +30,10 @@ void updateDataToFile(int rowNumber, char *newRow);
 // Returns: bool fakeCardStatus
 bool getFakeCardStatus(int cardNumber);
 
-// Function: getCardStatus
-// Description: Get card status
+// Function: getCardInfo
+// Description: Get card information
 // Parameters: int cardNumber
 // Returns: CardStatus cardStatus
-CardStatus getCardStatus(int cardNumber);
+CardStatus getCardInfo(int cardNumber);
 
 #endif /* FILE_H */
