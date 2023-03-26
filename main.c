@@ -43,8 +43,9 @@ void choiceNineFakeScanCard()
 // Description: Add or remove access to card
 void choiceThreeAddRemoveAccess()
 {
+    
     int cardNumber;
-    char text[MAX_ROW_LENGTH];
+    char text[254];
     const int CHOICE_THREE_MAX = 2;
 
     // Prompt user for card number
@@ -75,7 +76,7 @@ void choiceTwoListAllCards()
 {
     printf("All cards in system\n");
 
-    viewFileData(FILE_DOOR);
+    viewFileData();
 
     pauseKeyboard();
 }

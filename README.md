@@ -120,7 +120,7 @@ Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärrö
 
 > ### choiceTwoListAllCards()
 
-(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewFileData(FILE_DOOR) från filen 'door.txt' och skriver ut dem i terminalen. Slutligen anropas 'pauseKeyboard()' för att pausa programmet tills användaren trycker på en tangent.
+(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewFileData() från filen 'door.txt' och skriver ut dem i terminalen. Slutligen anropas 'pauseKeyboard()' för att pausa programmet tills användaren trycker på en tangent.
 
 viewFileData() - läser in data från filen 'door.txt' och skriver ut datan i terminalen.
 
@@ -130,7 +130,7 @@ pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
 
 (3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToFile()' för att uppdatera kortets behörigheter i filen. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
 
-getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hjälp av useFile(FILE_DOOR). Därefter skapas en ny struct Card med initial data. Funktionen findCardInFile() anropas för att hitta radnumret för kortet i filen. Om kortet hittas i filen, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet i filen. Slutligen returneras structen Card.
+getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hjälp av useFile(). Därefter skapas en ny struct Card med initial data. Funktionen findCardInFile() anropas för att hitta radnumret för kortet i filen. Om kortet hittas i filen, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet i filen. Slutligen returneras structen Card.
 
 - findCardInFile() - Funktionen letar efter kortets radnummer i filen. Om kortet hittas, läggs kortinformationen till i card och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
   - isAccessInFile() - returnerar true om kortet i filen har behörighet, annars returneras false.
@@ -239,9 +239,6 @@ main.c
 ### Define.h
 
 - file
-  - FILE_DOOR "door.txt"
-  - FILE_SIZE 1024
-  - MAX_ROW_LENGTH 60 *
   - TEXT_NO_ACCESS "No access" *
   - TEXT_ACCESS "Access" *
   - TEXT_ADDED " Added to system"

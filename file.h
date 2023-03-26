@@ -12,15 +12,20 @@
 bool isAccessInFile(char *row);
 
 // Function: viewFileData
-// Description: View all file data
-// Parameters: char fileName
-void viewFileData(char *fileName);
+// Description: View all file data in door file
+void viewFileData();
 
 // Function: useFile
 // Description: use the file and returns the data
 // Parameters: char fileName, char mode
 // Returns: FileData fileData
 FileData useFile(char *fileName, char *mode);
+
+// Function: useDoorFile
+// Description: use the door file and returns the data
+// Parameters: char mode
+// Returns: FileData fileData
+FileData useDoorFile(char *mode);
 
 // Function: addDataToFile
 // Description: Add data to file

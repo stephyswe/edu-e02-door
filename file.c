@@ -34,6 +34,23 @@ void createFileWithEmptyRow(char *filename)
     }
 }
 
+
+FileData useDoorFile(char *mode)
+{
+    char *fileName = "door.txt";
+    // Read file
+    FileData fdata;
+    // check if file exists
+    createFileWithEmptyRow(fileName);
+
+    // Open file
+    fdata.file_ptr = fopen(fileName, mode);
+
+    // Return file data
+    return fdata;
+}
+
+// Function: useFile
 FileData useFile(char *fileName, char *mode)
 {
     // Read file
@@ -50,9 +67,9 @@ FileData useFile(char *fileName, char *mode)
 }
 
 // Helper function to show file data
-void viewFileData(char *fileName)
+void viewFileData()
 {
-    FileData fdata = useFile(fileName, "r");
+    FileData fdata = useDoorFile("r");
     // Loop through the file and print the data
     while (fgets(fdata.file_row, 60, fdata.file_ptr) != NULL)
     {
@@ -68,6 +85,7 @@ bool isAccessInFile(char *row)
 
 void generateTempFileName(char *tempFileName)
 {
+    const int FILE_SIZE = 1024;
     // create a temporary file name based on current time
     time_t currentTime = time(NULL);
     snprintf(tempFileName, FILE_SIZE, "temp_%ld.txt", currentTime);
@@ -75,8 +93,9 @@ void generateTempFileName(char *tempFileName)
 
 void copyAndModifyFile(int rowNumber, char *newRow, char *tempFileName)
 {
+    const int MAX_ROW_LENGTH = 60;
     // open original file for reading, and temp file for writing
-    FileData file = useFile(FILE_DOOR, "r");
+    FileData file = useDoorFile("r");
     FileData temp = useFile(tempFileName, "w");
 
     int currentLine = 1;
@@ -109,12 +128,13 @@ void copyAndModifyFile(int rowNumber, char *newRow, char *tempFileName)
 void replaceOriginalFileWithTempFile(char *tempFileName)
 {
     // delete original file, rename temp file to original file name
-    remove(FILE_DOOR);
-    rename(tempFileName, FILE_DOOR);
+    remove("door.txt");
+    rename(tempFileName, "door.txt");
 }
 
 void updateDataToFile(int rowNumber, char *newRow)
 {
+    const int FILE_SIZE = 1024;
     // create a temporary file name
     char tempFileName[FILE_SIZE];
     generateTempFileName(tempFileName);
@@ -185,6 +205,7 @@ void freeLines(FileAppend fileAppend)
 
 void addDataToFile(char *file_path, int rowLine, char *text)
 {
+    const int FILE_SIZE = 1024;
     // Read the file into struct FileAppend
     FileAppend fileAppend = readFile(file_path, FILE_SIZE, rowLine, text);
 
