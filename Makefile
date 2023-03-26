@@ -1,6 +1,6 @@
 PROG = main.exe 
 TEST_PROG = test_main.exe
-SRC = main.c Define.h prompt.c common.c util.c util.h file.h file.c FileData.h input.c input.h
+SRC = main.c prompt.c common.c util.c util.h file.h file.c FileData.h input.c input.h
 TEST_SRC = test_card_reader.c test_util.c test_common.c common.c
 CFLAGS = -g
 LIBS = 

@@ -4,9 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 
-// define file
-#include "Define.h"
-
 // struct files
 #include "FileData.h"
 

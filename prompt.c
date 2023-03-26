@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-// define file
-#include "Define.h"
-
 // struct files
 #include "FileData.h"
 
@@ -84,24 +81,4 @@ int usePrompt(const char *prompt, int max)
         printf(isValidInput ? "" : "Felaktig %s, måste vara %d - %d, försök igen\n",
                isInteger(inputBuffer) ? "nummer" : "inmatning", PROMPT_MIN, max);
     }
-}
-
-bool validateModifyInput(int input, Card card, int cardNumber, char *text)
-{
-    // variables
-    bool modify = false;
-
-    // check if input is 1 or 2
-    if ((input == 1 && !card.isAccess) || (input == 2 && card.isAccess))
-    {
-        // decide action
-        const char *action = input == 1 ? TEXT_ACCESS : TEXT_NO_ACCESS;
-
-        // text
-        snprintf(text, 256, "%d %s %s %s", cardNumber, action, TEXT_ADDED, card.date);
-
-        // modify row in file
-        modify = true;
-    }
-    return modify;
 }

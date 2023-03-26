@@ -1,6 +1,3 @@
-// define file
-#include "Define.h"
-
 // header files
 #include "prompt.h"
 #include "common.h"

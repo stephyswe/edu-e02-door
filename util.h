@@ -16,3 +16,9 @@ Card getCardInfo(int cardNumber);
 // Parameters: int cardNumber
 // Returns: bool fakeCardStatus
 bool getFakeCardStatus(int cardNumber);
+
+// Function: validateModifyInput
+// Description: Validate modify input
+// Parameters: int input, Card card, int cardNumber, char *text
+// Returns: bool isValid
+bool validateModifyInput(int input, Card card, int cardNumber, char *text);
