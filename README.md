@@ -242,9 +242,3 @@ main.c
   - TEXT_NO_ACCESS "No access" *
   - TEXT_ACCESS "Access" *
   - TEXT_ADDED " Added to system"
-- main
-  - OPTION_REMOTE_OPEN_DOOR 1 *
-  - OPTION_LIST_ALL_CARDS 2 *
-  - OPTION_ADD_REMOVE_ACCESS 3 *
-  - OPTOON_EXIT 4 *
-  - OPTION_FAKE_SCAN_CARD 9 *
