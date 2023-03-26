@@ -134,8 +134,9 @@ void menu()
 
 // Function: main
 // Description: Main function
-void main()
+int main()
 {
     // menu with options
     menu();
+    return 0;
 }

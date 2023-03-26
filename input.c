@@ -6,6 +6,7 @@
 #include <math.h>
 #include <ctype.h>
 
+// header files
 #include "input.h"
 
 bool parseDouble(const char *str, double *val)
