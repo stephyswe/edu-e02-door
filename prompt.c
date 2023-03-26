@@ -71,6 +71,7 @@ int usePrompt(const char *prompt, int max)
 {
     int number;
     char inputBuffer[100];
+    const int PROMPT_MIN = 1;
 
     while (true)
     {

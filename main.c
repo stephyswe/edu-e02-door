@@ -50,6 +50,7 @@ void choiceThreeAddRemoveAccess(ArrayData *arrData)
 {
     int cardNumber;
     char text[MAX_ROW_LENGTH];
+    const int CHOICE_THREE_MAX = 2;
 
     // Prompt user for card number
     GetInputInt("Enter cardnumber>", &cardNumber);
@@ -118,6 +119,7 @@ void menu()
     // variables
     ArrayData arrData;
     int userChoice;
+    const int MAX_MENU_CHOICE = 9;
 
     // initial data
     initialDataWithLoop(&arrData, 15);
@@ -129,7 +131,7 @@ void menu()
     do
     {
         // show the menu and get the user's choice
-        userChoice = usePrompt(strMenu, MENU_MAX);
+        userChoice = usePrompt(strMenu, MAX_MENU_CHOICE);
 
         // execute the chosen option
         switch (userChoice)
