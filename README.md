@@ -99,19 +99,9 @@ Att tänka på:
     Hantera fel inmatning och inte kracha
     - ...
 
-### Väl Godkänt
-
-    Kort ska kunna SPARAS i FIL! Dvs efter omstart ska alla kort läsas upp och finnas kvar
-
-    Branch med alternativ implementation: gör en version UTAN dynamisk minnesallokering (och ingen statisk array heller...men du ska ändå klara “oändligt” många kort !).  Dvs du får läsa upp EN I TAGET
-
-    hela tiden från fil, mer info https://youtu.be/GqKZFzM9COA
-
-    Bra kod, best practices etc
-
 ## Programmet
 
-Programmet startar i main() och visar en meny() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
+Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
 
 > ### choiceOneRemoteOpenDoor()
 
@@ -119,44 +109,46 @@ Programmet startar i main() och visar en meny() med fyra alternativ: 1) fjärrö
 
 > ### choiceTwoListAllCards()
 
-(2) - För att visa alla kort och deras behörighet i systemet kan användaren välja att starta funktionen 'choiceTwoListAllCards()'. Då kommer alla data från viewArrayData(arrData) att skrivas ut i terminalen.
+(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewArrayData(arrData) och skriver ut dem i terminalen. Slutligen anropas 'pauseKeyboard()' för att pausa programmet tills användaren trycker på en tangent.
 
 viewArrayData() - läser in data och skriver ut datan i terminalen.
+
+pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
 
 > ### choiceThreeAddRemoveAccess()
 
 (3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToArray()' för att uppdatera kortets behörigheter. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
 
-getCardInfo() - Funktionen hämtar kortinformation och skapar sedan en ny struct Card med initial data. För att hitta radnumret för kortet anropas funktionen findCardInArray(). Om kortet hittas, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet. Till slut returneras structen Card.
+getCardInfo() - Funktionen hämtar kortinformation och skapar sedan en ny struct Card med initial data. Funktionen findCardInArray() anropas för att hitta radnumret för kortet. Om kortet hittas, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet. Slutligen returneras structen Card.
 
 - findCardInArray() - Funktionen letar efter kortets radnummer. Om kortet hittas, läggs kortinformationen till i card och funktionen returnerar true. Om kortet inte hittas, returnerar funktionen false.
 
-  - isAccessInArray() - Funktionen letar efter kortets behörighet. Om behörigheten hittas, läggs behörigheten till i card och funktionen returnerar true. Om behörigheten inte hittas, returnerar funktionen false.
-  - getCardDateToArray() - läser in data från filen och lägger till den i en array
+  - isAccessInArray() - returnerar true om kortet har behörighet, annars returneras false.
+  - getCardDateToArray() - läser in kortets datum och lägger till det i struct Card.
 
-- appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Sedan skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret i filen.
+- appendNewCard() - Om kortet inte redan finns, lägger funktionen till det nya kortet. För att bestämma rätt textformatering, kontrollerar funktionen om filen har nått sitt slut (endOfFile). Därefter skapas en formaterad sträng med concatStrings() och skickas till funktionen addDataToArray() för att lägga till det nya kortnumret.
 
-- addDatatoArray() - Denna funktion lägger till en rad med data i en fil. Funktionen tar tre parametrar: en array, raden som ska läggas till och radnumret. Först ökar funktionen storleken på arrayen med "relloc", flyttar sedan datan i arrayen, lägger till den nya raden och ökar till sist storleken på arrayen med 1.
+- addDatatoArray() - Denna funktion lägger till en rad med data. Funktionen tar tre parametrar: en array, raden som ska läggas till och radnumret. Först ökar funktionen storleken på arrayen med "relloc", flyttar sedan datan i arrayen, lägger till den nya raden och ökar till sist storleken på arrayen med 1.
 
 usePrompt() - Funktionen används för att läsa in användarens val.
 
-validateModifyInput() - Funktionen validerar användarens val genom att jämföra det med kortets nuvarande behörigheter och returnerar en boolean som indikerar om användarens val skiljer sig från dessa behörigheter.
+validateModifyInput() - Funktionen validerar användarens val mot kortets nuvarande behörigheter och returnerar en boolean som indikerar om de är olika.
 
 if (isModify)
-updateDataToArray() - Funktionen loopar igenom arrayen för att hitta raden med det valda kortnumret. Därefter uppdateras behörigheten för det valda kortnumret med hjälp av funktionerna strncpy() och strlen().
+updateDataToArray() - Funktionen letar upp raden med det valda kortnumret i arrayen och uppdaterar dess behörighet med hjälp av strncpy() och strlen().
 
 > ### exit(EXIT_SUCCESS)
 
-(4) - Kör funktionen exit(EXIT_SUCCESS) som avslutar programmet.
+(4) - Använd exit(EXIT_SUCCESS) för att avsluta programmet.
 
 > ### choiceNineFakeScanCard()
 
-(9) - Om användaren väljer att skanna ett falskt testkort, startar funktionen 'choiceNineFakeScanCard()'. Först visas ett meddelande som indikerar att lampan är släckt, och användaren ombeds att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' används för att hämta kortets status. Om användaren anger ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte."
+(9) - Om användaren skannar ett falskt testkort startar 'choiceNineFakeScanCard()'. Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
 
-- GetInputInt() - läser in ett kortnummer från användaren.
-- getFakeCardStatus() - Funktionen loopar igenom arrayen för att hitta raden med det valda kortnumret.  Om rätt rad hittas, så uppdateras kortbehörigheten med hjälp av isAccessInArray(). Därefter returneras cardAccess.
+- GetInputInt() - läser in kortnummer från användaren.
+- getFakeCardStatus() - letar upp raden med det valda kortnumret i arrayen och uppdaterar dess behörighet med isAccessInArray(). Funktionen returnerar cardAccess.
 
-  - isAccessInArray() - returnerar true om kortet har behörighet, annars returneras false.
+  - isAccessInArray() - returnerar en boolean som indikerar om kortet har behörighet eller inte.
 
 ## Filstruktur
 
