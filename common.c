@@ -53,7 +53,23 @@ char *getCardDateToFile(const char *row)
     if (date != NULL)
     {
         // Find the start of the date
-        const char *date_start = strstr(row, ": ") + 2;
+        const char *date_start = strstr(row, ": ");
+
+        if (date_start == NULL)
+        {
+            // ": " not found in row, return NULL
+            return NULL;
+        }
+
+        date_start += 2;
+
+        // Check that the date has the correct format (YYYY-MM-DD)
+        if (strlen(date_start) < 10 || date_start[4] != '-' || date_start[7] != '-')
+        {
+            printf("Invalid date format.\n");
+            free(date);
+            return NULL;
+        }
 
         // Copy date from row to date
         memcpy(date, date_start, 10);
