@@ -1,7 +1,5 @@
 #include <stdio.h>
-
-// define file
-#include "Define.h"
+#include <time.h>
 
 // struct files
 #include "FileData.h"
@@ -9,6 +7,12 @@
 // header files
 #include "common.h"
 #include "array.h"
+#include "generate.h"
+
+// define values
+#define TEXT_NO_ACCESS "No access"
+#define TEXT_ACCESS "Access"
+#define TEXT_ADDED " Added to system:"
 
 bool findCardInArray(ArrayData *arrData, int cardNumber, Card *card)
 {
@@ -73,4 +77,43 @@ bool getFakeCardStatus(ArrayData arrData, int cardNumber)
     }
 
     return cardAccess;
+};
+
+bool validateModifyInput(int input, Card card, int cardNumber, char *text)
+{
+    // variables
+    bool modify = false;
+    const int MAX_ROW_LENGTH = 60;
+
+    // check if input is 1 or 2
+    if ((input == 1 && !card.isAccess) || (input == 2 && card.isAccess))
+    {
+        // decide action
+        const char *action = input == 1 ? TEXT_ACCESS : TEXT_NO_ACCESS;
+
+        // text
+        snprintf(text, MAX_ROW_LENGTH, "%s", concatStrings(action, TEXT_ADDED));
+
+        // modify row in file
+        modify = true;
+    }
+    return modify;
+};
+
+void initialDataWithLoop(ArrayData *arrData, int size)
+{
+    arrData->size = size;
+    arrData->data = malloc(arrData->size * sizeof(Data));
+
+    srand(time(NULL)); // Initialize random number generator with current time
+
+    for (int i = 0; i < arrData->size; i++)
+    {
+        arrData->data[i].date = genDate();
+        arrData->data[i].id = rand() % 9900 + 100;
+        arrData->data[i].access = concatStrings((rand() % 2 == 0) ? TEXT_NO_ACCESS : TEXT_ACCESS, TEXT_ADDED);
+    }
+
+    // Sort the array after id
+    qsort(arrData->data, arrData->size, sizeof(Data), compareIds);
 };

@@ -3,9 +3,6 @@
 #include <time.h>
 #include <stdlib.h>
 
-// header files
-#include "Define.h"
-
 // struct files
 #include "FileData.h"
 

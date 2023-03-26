@@ -16,3 +16,14 @@ Card getCardInfo(int cardNumber, ArrayData *data);
 // Parameters: ArrayData arrData, int cardNumber
 // Returns: bool fakeCardStatus
 bool getFakeCardStatus(ArrayData arrData, int cardNumber);
+
+// Function: validateModifyInput
+// Description: Validate modify input
+// Parameters: int input, Card card, int cardNumber, char *text
+// Returns: bool isValid
+bool validateModifyInput(int input, Card card, int cardNumber, char *text);
+
+// Function: initialDataWithLoop
+// Description: Initial data with loop
+// Parameters: ArrayData *arrData, int size
+void initialDataWithLoop(ArrayData *arrData, int size);

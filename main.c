@@ -1,15 +1,11 @@
 #include <time.h>
 
-// define file
-#include "Define.h"
-
 // header files
 #include "prompt.h"
 #include "common.h"
 #include "util.h"
 #include "array.h"
 #include "input.h"
-#include "generate.h"
 
 // struct files
 #include "FileData.h"
@@ -92,24 +88,6 @@ void choiceOneRemoteOpenDoor()
     printf("CURRENTLY LAMP IS:Green\n");
 
     waitSeconds(3);
-}
-
-void initialDataWithLoop(ArrayData *arrData, int size)
-{
-    arrData->size = size;
-    arrData->data = malloc(arrData->size * sizeof(Data));
-
-    srand(time(NULL)); // Initialize random number generator with current time
-
-    for (int i = 0; i < arrData->size; i++)
-    {
-        arrData->data[i].date = genDate();
-        arrData->data[i].id = rand() % 9900 + 100;
-        arrData->data[i].access = concatStrings((rand() % 2 == 0) ? TEXT_NO_ACCESS : TEXT_ACCESS, TEXT_ADDED);
-    }
-
-    // Sort the array after id
-    qsort(arrData->data, arrData->size, sizeof(Data), compareIds);
 }
 
 // Function: menu

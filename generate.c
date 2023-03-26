@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// define file
-#include "Define.h"
-
 // struct files
 #include "FileData.h"
 
