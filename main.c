@@ -136,19 +136,19 @@ void menu()
         // execute the chosen option
         switch (userChoice)
         {
-        case OPTION_REMOTE_OPEN_DOOR:
+        case 1:
             choiceOneRemoteOpenDoor();
             break;
-        case OPTION_LIST_ALL_CARDS:
+        case 2:
             choiceTwoListAllCards(arrData);
             break;
-        case OPTION_ADD_REMOVE_ACCESS:
+        case 3:
             choiceThreeAddRemoveAccess(&arrData);
             break;
-        case OPTION_EXIT:
+        case 4:
             exit(EXIT_SUCCESS);
             break;
-        case OPTION_FAKE_SCAN_CARD:
+        case 9:
             choiceNineFakeScanCard(arrData);
             break;
         default:
@@ -158,7 +158,7 @@ void menu()
 
         printf("\n");
 
-    } while (userChoice != OPTION_EXIT);
+    } while (userChoice != 4);
 }
 
 // Function: main
