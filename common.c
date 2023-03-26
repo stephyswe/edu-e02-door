@@ -38,7 +38,8 @@ void pauseKeyboard()
 
 void waitSeconds(int seconds)
 {
-    clock_t endTime = clock() + seconds * CLOCKS_PER_SEC;
+    const int MILLISECONDS = 1000;
+    clock_t endTime = clock() + seconds * MILLISECONDS;
     // Pause execution until endTime is reached
     while (clock() < endTime)
     {

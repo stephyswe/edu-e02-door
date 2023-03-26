@@ -38,6 +38,7 @@ void test_concatStrings()
 
 void test_waitSeconds()
 {
+    const int MILISECONDS = 1000;
     clock_t start = clock();
 
     // Call function being tested
@@ -45,7 +46,7 @@ void test_waitSeconds()
 
     clock_t end = clock();
 
-    double elapsed_time = ((double)(end - start)) / CLOCKS_PER_SEC;
+    double elapsed_time = ((double)(end - start)) / MILISECONDS;
 
     // The first assertion checks if elapsed_time is equal to 3,
     // and the second assertion checks if the difference between elapsed_time and 3.0
