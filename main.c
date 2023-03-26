@@ -1,3 +1,5 @@
+#include <time.h>
+
 // define file
 #include "Define.h"
 
@@ -7,6 +9,7 @@
 #include "util.h"
 #include "array.h"
 #include "input.h"
+#include "generate.h"
 
 // struct files
 #include "FileData.h"
@@ -90,15 +93,22 @@ void choiceOneRemoteOpenDoor()
     waitSeconds(3);
 }
 
-// Function: initialData
-// Description: Initial data
-void initialData(ArrayData *arrData)
+void initialDataWithLoop(ArrayData *arrData, int size)
 {
-    addDataToArray(arrData, (Data){1000, concatStrings(TEXT_ACCESS, TEXT_ADDED), "2023-03-11"}, 0);
-    addDataToArray(arrData, (Data){1212, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2019-10-19"}, 1);
-    addDataToArray(arrData, (Data){1213, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2019-10-20"}, 2);
-    addDataToArray(arrData, (Data){1215, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2020-10-20"}, 3);
-    addDataToArray(arrData, (Data){1216, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), "2021-10-24"}, 4);
+    arrData->size = size;
+    arrData->data = malloc(arrData->size * sizeof(Data));
+
+    srand(time(NULL)); // Initialize random number generator with current time
+
+    for (int i = 0; i < arrData->size; i++)
+    {
+        arrData->data[i].date = genDate();
+        arrData->data[i].id = rand() % 9900 + 100;
+        arrData->data[i].access = concatStrings((rand() % 2 == 0) ? TEXT_NO_ACCESS : TEXT_ACCESS, TEXT_ADDED);
+    }
+
+    // Sort the array after id
+    qsort(arrData->data, arrData->size, sizeof(Data), compareIds);
 }
 
 // Function: menu
@@ -107,12 +117,10 @@ void menu()
 {
     // variables
     ArrayData arrData;
-    arrData.size = 0;
-    arrData.data = NULL;
     int userChoice;
 
     // initial data
-    initialData(&arrData);
+    initialDataWithLoop(&arrData, 15);
 
     // strings
     char *strMenu = "Admin menu \n1. Remote open door \n2. List all cards in system \n3. Add/remove access \n4. Exit \n9. FAKE TEST SCAN CARD \n \nVälj: ";
