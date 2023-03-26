@@ -49,7 +49,7 @@ void choiceNineFakeScanCard(ArrayData arrData)
 void choiceThreeAddRemoveAccess(ArrayData *arrData)
 {
     int cardNumber;
-    char text[MAX_ROW_LENGTH];
+    char text[60];
     const int CHOICE_THREE_MAX = 2;
 
     // Prompt user for card number

@@ -93,6 +93,7 @@ bool validateModifyInput(int input, Card card, int cardNumber, char *text)
 {
     // variables
     bool modify = false;
+    const int MAX_ROW_LENGTH = 60;
 
     // check if input is 1 or 2
     if ((input == 1 && !card.isAccess) || (input == 2 && card.isAccess))

@@ -210,7 +210,6 @@ main.c
 ### Define.c
 
 - file
-  - MAX_ROW_LENGTH 60 *
   - TEXT_NO_ACCESS "No access" *
   - TEXT_ACCESS "Access" *
   - TEXT_ADDED " Added to system"
