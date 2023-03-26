@@ -45,6 +45,7 @@ void choiceThreeAddRemoveAccess()
 {
     int cardNumber;
     char text[MAX_ROW_LENGTH];
+    const int CHOICE_THREE_MAX = 2;
 
     // Prompt user for card number
     GetInputInt("Enter cardnumber>", &cardNumber);
@@ -94,6 +95,7 @@ void menu()
 {
     // variables
     int userChoice;
+    const int MAX_MENU_CHOICE = 9;
 
     // strings
     char *strMenu = "Admin menu \n1. Remote open door \n2. List all cards in system \n3. Add/remove access \n4. Exit \n9. FAKE TEST SCAN CARD \n \nVälj: ";
@@ -102,7 +104,7 @@ void menu()
     do
     {
         // show the menu and get the user's choice
-        userChoice = usePrompt(strMenu, MENU_MAX);
+        userChoice = usePrompt(strMenu, MAX_MENU_CHOICE);
 
         // execute the chosen option
         switch (userChoice)

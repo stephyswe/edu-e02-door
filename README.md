@@ -252,7 +252,3 @@ main.c
   - OPTOON_EXIT 4 *
   - OPTION_FAKE_SCAN_CARD 9 *
   - CLOCKS_PER_SEC 1000 *
-- prompt
-  - PROMPT_MIN 1 *
-  - MENU_MAX 9 *
-  - CHOICE_THREE_MAX 2 *

@@ -15,10 +15,4 @@
 #define OPTION_ADD_REMOVE_ACCESS 3
 #define OPTION_EXIT 4
 #define OPTION_FAKE_SCAN_CARD 9
-
 #define CLOCKS_PER_SEC 1000
-
-//prompt
-#define PROMPT_MIN 1
-#define MENU_MAX 9
-#define CHOICE_THREE_MAX 2
