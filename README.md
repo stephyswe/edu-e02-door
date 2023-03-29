@@ -85,19 +85,35 @@ Att tänka på:
 ### Godkänt
 
     Använda buffer overflow (inmatning)
+    # A buffer overflow is a type of runtime error that allows a program to write past the end of a buffer or array.
+
+    Kommentar: usePrompt använder funktion 'isBufferOverflow()' som returnerar false om input är overflow. Användare får då skriva in nytt input tills input är korrekt.
+    
+    Artiklar: 
+    https://snyk.io/blog/buffer-overflow-attacks-in-c/, 
+    https://www.thegeekstuff.com/2013/06/buffer-overflow/, 
+    https://users.cs.jmu.edu/bernstdh/web/common/lectures/summary_vulnerabilities_c_buffer-overflows.php
     - ...
 
     Använda stack overflow (flöde)
+    # If a program consumes more memory space, then stack overflow will occur as stack size is limited in computer memory.
+
+    Kommentar: malloc och realloc, static allocation och dynamic allocation. 
     - ...
 
     Dela upp i funktioner
+
+    Kommentar: Funktioner finns i filerna common, input, prompt och file.
     - ...
 
     inga globala variabler: samla "state" i struct
-    - ...
+    
+    Kommentar: FileData.h innehåller tre struct. Card, FileAppend och FileData.
+     - ...
 
     Hantera fel inmatning och inte kracha
-    - ...
+    
+    Kommentar: usePrompt() - loopar användaren svar tills input är korrekt.
 
 ## Programmet
 
