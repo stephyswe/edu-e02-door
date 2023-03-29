@@ -31,7 +31,6 @@ void createFileWithEmptyRow(char *filename)
     }
 }
 
-
 FileData useDoorFile(char *mode)
 {
     char *fileName = "door.txt";
@@ -143,7 +142,7 @@ void updateDataToFile(int rowNumber, char *newRow)
     replaceOriginalFileWithTempFile(tempFileName);
 }
 
-FileAppend readFile(char *file_path, int num_lines, int line_number, char *text)
+FileAppend readFile(char *file_path, int line_number, char *text)
 {
     FILE *file = fopen(file_path, "r");
     char **lines = malloc(sizeof(char *) * 1000);
@@ -202,9 +201,8 @@ void freeLines(FileAppend fileAppend)
 
 void addDataToFile(char *file_path, int rowLine, char *text)
 {
-    const int FILE_SIZE = 1024;
     // Read the file into struct FileAppend
-    FileAppend fileAppend = readFile(file_path, FILE_SIZE, rowLine, text);
+    FileAppend fileAppend = readFile(file_path, rowLine, text);
 
     // Write the file at the specified line
     writeFile(file_path, fileAppend, rowLine, text);
