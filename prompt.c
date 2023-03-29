@@ -77,7 +77,6 @@ int isBufferOverflow(char *buffer, size_t size, bool currentValid)
 
 int usePrompt(const char *prompt, int max)
 {
-    int number;
     char inputBuffer[100];
     const int PROMPT_MIN = 1;
 
@@ -100,9 +99,23 @@ int usePrompt(const char *prompt, int max)
     }
 }
 
-bool usePromptWithExit(const char *prompt, int max, int *value)
+bool parseLongPrompt(const char *str, long *val)
 {
-    char inputBuffer[100];
+    char *temp;
+    bool rc = true;
+    errno = 0;
+    *val = strtol(str, &temp, 0);
+
+    if (temp == str || *temp != '\0' ||
+        ((*val == LONG_MIN || *val == LONG_MAX) && errno == ERANGE))
+        rc = false;
+
+    return rc;
+}
+
+bool usePromptWithExit(const char *prompt, int max, int *input)
+{
+    char inputBuffer[255];
     const int PROMPT_MIN = 1;
     bool isExit = false;
 
@@ -118,7 +131,12 @@ bool usePromptWithExit(const char *prompt, int max, int *value)
             break;
         }
 
+        long l = LONG_MIN;
+        parseLongPrompt(inputBuffer, &l);
+        *input = l;
+
         int inputValue = atoi(inputBuffer);
+
         bool isValidInput = isInteger(inputBuffer) && isInRange(inputValue, PROMPT_MIN, max);
 
         // make a function that check if prompt is buffer overflow safe

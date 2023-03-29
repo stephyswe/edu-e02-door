@@ -12,6 +12,6 @@ int usePrompt(char *prompt, int max);
 
 // Function usePromptWithExit
 // Description: prompt with exit option
-// Parameters: char* prompt, int max, char* inputBuffer
+// Parameters: char* prompt, int max, int* input
 // Returns: int number
-int usePromptWithExit(const char *prompt, int max, int *number);
+int usePromptWithExit(const char *prompt, int max, int *input);
