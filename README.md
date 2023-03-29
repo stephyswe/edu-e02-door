@@ -35,7 +35,7 @@ Lista ALLA kortnummer och skriv om dom har access eller INTE. (1212 har access, 
 ```
 All cards in system
 1212 Access Added to system: 2019-10-19
-1213 Access Added to system: 2019-10-19
+1213 No access Added to system: 2019-10-19
 Press key to continue
 ```
 
@@ -103,21 +103,21 @@ Att tänka på:
 
 Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
 
-> ### choiceOneRemoteOpenDoor()
+> ### (1) Fjärröppna en dörr
 
-(1) - Fjärröppna en dörr startar funktionen 'choiceOneRemoteOpenDoor()'. Funktionen visar ett meddelande som indikerar att lampan är grön och pausar sedan programmet i 3 sekunder med hjälp av funktionen 'waitSeconds(seconds)'.
+Visar ett meddelande att lampan är grön och pausar programmet i 3 sekunder.
 
-> ### choiceTwoListAllCards()
+> ### (2) Visa alla kort och behörighet i systemet.
 
-(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewArrayData(arrData) och skriver ut dem i terminalen. Slutligen anropas 'pauseKeyboard()' för att pausa programmet tills användaren trycker på en tangent.
+Skriver ut alla kort med viewFileData() från filen 'door.txt' och därefter anropar 'pauseKeyboard()'.
 
 viewArrayData() - läser in data och skriver ut datan i terminalen.
 
 pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
 
-> ### choiceThreeAddRemoveAccess()
+> ### (3) Lägga till eller ta bort behörighet. 
 
-(3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToArray()' för att uppdatera kortets behörigheter. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
+Användaren får välja ett kortnummer med hjälp av funktionen 'usePromptWithExit()'. Kortinformation hämtas med 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' kontrollerar om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToArray()' för att uppdatera kortets behörigheter. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
 
 getCardInfo() - Funktionen hämtar kortinformation och skapar sedan en ny struct Card med initial data. Funktionen findCardInArray() anropas för att hitta radnumret för kortet. Om kortet hittas, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet. Slutligen returneras structen Card.
 
@@ -137,15 +137,15 @@ validateModifyInput() - Funktionen validerar användarens val mot kortets nuvara
 if (isModify)
 updateDataToArray() - Funktionen letar upp raden med det valda kortnumret i arrayen och uppdaterar dess behörighet med hjälp av strncpy() och strlen().
 
-> ### exit(EXIT_SUCCESS)
+> ### (4) Avsluta programmet
 
-(4) - Använd exit(EXIT_SUCCESS) för att avsluta programmet.
+Kör exit(EXIT_SUCCESS)
 
-> ### choiceNineFakeScanCard()
+> ### (9) Skanna ett falskt testkort. 
 
-(9) - Om användaren skannar ett falskt testkort startar 'choiceNineFakeScanCard()'. Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
+Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status från filen 'door.txt'. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
 
-- GetInputInt() - läser in kortnummer från användaren.
+- usePromptWithExit() - läser in kortnummer från användaren. Om användaren anger "X", retunerar till meny.
 - getFakeCardStatus() - letar upp raden med det valda kortnumret i arrayen och uppdaterar dess behörighet med isAccessInArray(). Funktionen returnerar cardAccess.
 
   - isAccessInArray() - returnerar en boolean som indikerar om kortet har behörighet eller inte.
@@ -160,9 +160,7 @@ main.c
 
 - void choiceNineFakeScanCard() *
 - void choiceThreeAddRemoveAccess() *
-- void choiceTwoListAllCards() *
-- void choiceOneRemoteOpenDoor() *
-- initialData()
+- initialDataWithLoop()
 - void menu() *
 - void main() *
 
