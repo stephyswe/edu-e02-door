@@ -86,6 +86,14 @@ Att tänka på:
 ### Godkänt
 
     Använda buffer overflow (inmatning)
+    # A buffer overflow is a type of runtime error that allows a program to write past the end of a buffer or array.
+
+    Kommentar: usePrompt använder funktion 'isBufferOverflow()' som returnerar false om input är overflow. Användare får då skriva in nytt input tills input är korrekt.
+    
+    Artiklar: 
+    https://snyk.io/blog/buffer-overflow-attacks-in-c/, 
+    https://www.thegeekstuff.com/2013/06/buffer-overflow/, 
+    https://users.cs.jmu.edu/bernstdh/web/common/lectures/summary_vulnerabilities_c_buffer-overflows.php
     - ...
 
     Använda stack overflow (flöde)
@@ -114,21 +122,21 @@ Att tänka på:
 
 Programmet startar i main() och visar en menu() med fyra alternativ: 1) fjärröppna en dörr, 2) visa alla kort och deras behörighet i systemet, 3) lägga till eller ta bort behörighet, 4) avsluta programmet eller 9) testa kortläsaren.
 
-> ### choiceOneRemoteOpenDoor()
+> ### (1) Fjärröppna en dörr
 
-(1) - Fjärröppna en dörr startar funktionen 'choiceOneRemoteOpenDoor()'. Funktionen visar ett meddelande som indikerar att lampan är grön och pausar sedan programmet i 3 sekunder med hjälp av funktionen 'waitSeconds(seconds)'.
+Visar ett meddelande att lampan är grön och pausar programmet i 3 sekunder.
 
-> ### choiceTwoListAllCards()
+> ### (2) Visa alla kort och behörighet i systemet.
 
-(2) - Visa alla kort och behörighet i systemet startar funktionen 'choiceTwoListAllCards()'. Funktionen läser in alla kort och behörighet med viewFileData() från filen 'door.txt' och skriver ut dem i terminalen. Slutligen anropas 'pauseKeyboard()' för att pausa programmet tills användaren trycker på en tangent.
+Skriver ut alla kort med viewFileData() från filen 'door.txt' och därefter anropar 'pauseKeyboard()'.
 
 viewFileData() - läser in data från filen 'door.txt' och skriver ut datan i terminalen.
 
 pauseKeyboard() - pausar programmet tills användaren trycker på en tangent.
 
-> ### choiceThreeAddRemoveAccess()
+> ### (3) Lägga till eller ta bort behörighet. 
 
-(3) - Om användaren väljer att lägga till eller ta bort behörighet startar funktionen 'choiceThreeAddRemoveAccess()'. Användaren får välja ett kortnummer med hjälp av funktionen 'GetInputInt()'. Kortinformation hämtas med hjälp av 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' används för att kontrollera om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToFile()' för att uppdatera kortets behörigheter i filen. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
+Användaren får välja ett kortnummer med hjälp av funktionen 'usePrompt()'. Kortinformation hämtas med 'getCardInfo()'. Kortets behörigheter skrivs ut och användaren har möjlighet att lägga till eller ta bort behörigheter med hjälp av funktionen 'usePrompt()'. Funktionen 'validateModifyInput()' kontrollerar om användarens val skiljer sig från kortets nuvarande behörigheter. Om användaren har valt annorlunda, anropas funktionen 'updateDataToFile()' för att uppdatera kortets behörigheter i filen. Om användaren har valt samma behörighet som kortets nuvarande behörighet, görs ingenting.
 
 getCardInfo() - Funktionen hämtar kortinformation från filen 'door.txt' med hjälp av useFile(). Därefter skapas en ny struct Card med initial data. Funktionen findCardInFile() anropas för att hitta radnumret för kortet i filen. Om kortet hittas i filen, läses kortets data in i structen Card. Om kortet inte finns anropas istället funktionen appendNewCard() för att lägga till det nya kortet i filen. Slutligen returneras structen Card.
 
@@ -155,15 +163,15 @@ updateDatatoFile() - Funktionen generateTempFileName() uppdaterar kortets behör
 - copyAndModifyFile() - kopierar innehåll från 'door.txt' till temporär fil och modifierar den valda raden.
 - replaceOriginalFileWithTempFile() - ersätter originalfilen med temporär fil och döper om den till 'door.txt'.
 
-> ### exit(EXIT_SUCCESS)
+> ### (4) Avsluta programmet
 
-(4) - Använd exit(EXIT_SUCCESS) för att avsluta programmet.
+Kör exit(EXIT_SUCCESS)
 
-> ### choiceNineFakeScanCard()
+> ### (9) Skanna ett falskt testkort. 
 
-(9) - Om användaren skannar ett falskt testkort startar 'choiceNineFakeScanCard()'. Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status från filen 'door.txt'. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
+Ett meddelande visas först om att lampan är släckt, och användaren ombeds sedan att ange kortnumret med hjälp av GetInputInt(). Funktionen 'getFakeCardStatus()' hämtar kortets status från filen 'door.txt'. Efter att användaren har angett ett giltigt kortnummer, visas ett meddelande som indikerar om lampan är grön eller röd beroende på om kortet har behörighet eller inte.
 
-- GetInputInt() - läser in kortnummer från användaren.
+- usePrompt() - läser in kortnummer från användaren.
 - getFakeCardStatus() - hämtar kortinformation från filen 'door.txt' och returnerar en boolean som indikerar om kortet har behörighet eller inte. Funktionen söker efter rätt rad i filen med hjälp av getCardNumber() och uppdaterar kortbehörigheten med isAccessInFile(). Funktionen returnerar cardAccess.
 
   - getCardNumber() - hämtar kortnumret från en rad i filen och returnerar det.
@@ -171,18 +179,15 @@ updateDatatoFile() - Funktionen generateTempFileName() uppdaterar kortets behör
 
 ## Filstruktur
 
-Det finns totalt 15 filer i projektet. Programmet är uppdelat i en text fil 'door.txt' och följande struktur: Define.h, FileData, common, door.txt, file, input, main & prompt.
+Det finns totalt 15 filer i projektet. 
+Programmet är uppdelat i en text fil 'door.txt' och följande struktur: 
+Define.h, FileData, common, door.txt, file, input, main & prompt.
 
 ### main
-
 door.txt
-
 main.c
-
 - void choiceNineFakeScanCard() *
 - void choiceThreeAddRemoveAccess() *
-- void choiceTwoListAllCards() *
-- void choiceOneRemoteOpenDoor() *
 - void menu() *
 - void main() *
 
@@ -233,7 +238,9 @@ main.c
 - void validateInput(char \*inputBuffer) *
 - bool isInteger(char \*input) *
 - bool isInRange(int num, int min, int max) *
+- int isBufferOverflow(char *buffer, size_t size, bool currentValid) *
 - int usePrompt(const char \*prompt, int max) *
+- int usePromptWithExit(const char *prompt, int max, int *number) *
 - bool validateModifyInput(int input, Card card, int cardNumber, char \*text)
 
 ### Define.h

@@ -61,6 +61,20 @@ bool isInRange(int num, int min, int max)
     return (num >= min && num <= max);
 }
 
+int isBufferOverflow(char *buffer, size_t size, bool currentValid)
+{
+    // Check if the last character is a newline character
+    if (buffer[strlen(buffer) - 1] != '\n')
+    {
+        // Buffer overflow occurred
+        printf("Buffer overflow. Input truncated.\n");
+        while (getchar() != '\n')
+            ; // Clear input buffer
+        return false;
+    }
+    return currentValid;
+}
+
 int usePrompt(const char *prompt, int max)
 {
     int number;
@@ -75,10 +89,46 @@ int usePrompt(const char *prompt, int max)
         int inputValue = atoi(inputBuffer);
         bool isValidInput = isInteger(inputBuffer) && isInRange(inputValue, PROMPT_MIN, max);
 
+        // make a function that check if prompt is buffer overflow safe
+        isValidInput = isBufferOverflow(inputBuffer, sizeof(inputBuffer), isValidInput);
+
         if (isValidInput)
             return inputValue;
 
         printf(isValidInput ? "" : "Felaktig %s, måste vara %d - %d, försök igen\n",
                isInteger(inputBuffer) ? "nummer" : "inmatning", PROMPT_MIN, max);
     }
+}
+
+bool usePromptWithExit(const char *prompt, int max, int *value)
+{
+    char inputBuffer[100];
+    const int PROMPT_MIN = 1;
+    bool isExit = false;
+
+    while (true)
+    {
+        printf(prompt);
+        validateInput(inputBuffer);
+
+        // check if inputBuffer is "X"
+        if (inputBuffer[0] == 'X' || inputBuffer[0] == 'x')
+        {
+            isExit = true;
+            break;
+        }
+
+        int inputValue = atoi(inputBuffer);
+        bool isValidInput = isInteger(inputBuffer) && isInRange(inputValue, PROMPT_MIN, max);
+
+        // make a function that check if prompt is buffer overflow safe
+        isValidInput = isBufferOverflow(inputBuffer, sizeof(inputBuffer), isValidInput);
+
+        if (isValidInput)
+            break;
+
+        printf(isValidInput ? "" : "Felaktig %s, måste vara %d - %d, försök igen\n",
+               isInteger(inputBuffer) ? "nummer" : "inmatning", PROMPT_MIN, max);
+    }
+    return isExit;
 }
