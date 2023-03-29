@@ -97,16 +97,24 @@ Att tänka på:
     - ...
 
     Använda stack overflow (flöde)
+    # If a program consumes more memory space, then stack overflow will occur as stack size is limited in computer memory.
+
+    Kommentar: malloc och realloc, static allocation och dynamic allocation. 
     - ...
 
     Dela upp i funktioner
+
+    Kommentar: Funktioner finns i filerna common, input, prompt och file.
     - ...
 
     inga globala variabler: samla "state" i struct
-    - ...
+    
+    Kommentar: FileData.h innehåller tre struct. Card, FileAppend och FileData.
+     - ...
 
     Hantera fel inmatning och inte kracha
-    - ...
+    
+    Kommentar: usePrompt() - loopar användaren svar tills input är korrekt.
 
 ### Väl Godkänt
 
