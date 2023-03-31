@@ -108,7 +108,7 @@ Att tänka på:
 
     inga globala variabler: samla "state" i struct
     
-    Kommentar: FileData.h innehåller tre struct. Card, FileAppend och FileData.
+    Kommentar: FileData.h innehåller tre struct. Card, ArrayData och Data.
      - ...
 
     Hantera fel inmatning och inte kracha
