@@ -38,7 +38,6 @@ bool findCardInArray(ArrayData *arrData, int cardNumber, Card *card)
 
 void appendNewCard(ArrayData *arrData, int cardNumber, Card *card)
 {
-    const char *textFormat = card->endOfFile ? "\n%d %s %s %s" : "%d %s %s %s\n";
     char *date = getCurrentDate("%Y-%m-%d");
     addDataToArray(arrData, (Data){cardNumber, concatStrings(TEXT_NO_ACCESS, TEXT_ADDED), date}, card->row);
 }
