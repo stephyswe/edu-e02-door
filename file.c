@@ -84,7 +84,7 @@ void generateTempFileName(char *tempFileName)
     const int FILE_SIZE = 1024;
     // create a temporary file name based on current time
     time_t currentTime = time(NULL);
-    snprintf(tempFileName, FILE_SIZE, "temp_%ld.txt", currentTime);
+    snprintf(tempFileName, FILE_SIZE, "temp_%lld.txt", currentTime);
 }
 
 void copyAndModifyFile(int rowNumber, char *newRow, char *tempFileName)

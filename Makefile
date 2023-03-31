@@ -1,20 +1,18 @@
-PROG = main.exe 
-TEST_PROG = test_main.exe
-SRC = main.c prompt.c common.c util.c util.h file.h file.c FileData.h input.c input.h
-TEST_SRC = test_card_reader.c test_util.c test_common.c common.c
-CFLAGS = -g
-LIBS = 
+PROG=main.exe
+CC=gcc
+CFLAGS=-g -Wall -Werror
+CFLAGS2=-O3 -Wall -Werror
+DEPS = file.h common.h FileData.h input.h prompt.h util.h
+OBJ_CODE = file.c common.c input.c prompt.c util.c
+OBJ = $(OBJ_CODE) main.o 
 
-all: $(PROG) $(TEST_PROG)
+GTEST = . #gtest-1.7.0/include
+LIBGTEST = C:\msys64\mingw64\lib\libgtest_main.a C:\msys64\mingw64\lib\libgtest.a
 
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(PROG): $(SRC)
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(SRC) $(LIBS) 
+all: $(PROG)
 
-$(TEST_PROG): $(TEST_SRC)
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(TEST_SRC) $(LIBS)
-
-clean:
-	rm -f $(PROG) $(TEST_PROG)
-
-.PHONY: all clean
+$(PROG): $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
